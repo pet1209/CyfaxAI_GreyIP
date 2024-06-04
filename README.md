@@ -22,3 +22,5 @@ $ sudo ufw enable
 $ npm i
 $ npm i sharp
 ```
+
+4. 
