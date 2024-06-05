@@ -134,26 +134,28 @@ const Results = () => {
             </tr>
           </thead>
           <tbody>
-            {data?.combolist_result.employee_credential_leak.credential_items.map(
-              (item) => (
-                <tr
-                  key={item.credential_data}
-                  className={`flex h-12 items-center justify-between border-b bg-white px-4 shadow-md last:rounded-b-[5px] last:border-b-0 lg:shadow-lg`}
-                >
-                  <th className="font-mulish text-[10px] font-normal leading-[18px] text-[#07131F] lg:text-sm lg:font-medium lg:leading-[13px]">
-                    {item.time}
-                  </th>
-                  <th className="font-mulish text-[10px] font-normal leading-[18px] text-[#07131F] lg:text-sm lg:font-medium lg:leading-[13px]">
-                    {item.credential_data}
-                  </th>
-                  <th className="font-mulish text-[10px] font-normal leading-[18px] text-[#07131F] lg:text-sm lg:font-medium lg:leading-[13px]">
-                    {item.source}
-                  </th>
-                </tr>
-              ),
-            )}
             {data?.combolist_result.employee_credential_leak.credential_items
-              .slice(0, 2)
+              .slice(0, 3)
+              .map(
+                (item) => (
+                  <tr
+                    key={item.credential_data}
+                    className={`flex h-12 items-center justify-between border-b bg-white px-4 shadow-md last:rounded-b-[5px] last:border-b-0 lg:shadow-lg`}
+                  >
+                    <th className="font-mulish text-[10px] font-normal leading-[18px] text-[#07131F] lg:text-sm lg:font-medium lg:leading-[13px]">
+                      {item.time}
+                    </th>
+                    <th className="font-mulish text-[10px] font-normal leading-[18px] text-[#07131F] lg:text-sm lg:font-medium lg:leading-[13px]">
+                      {item.credential_data}
+                    </th>
+                    <th className="font-mulish text-[10px] font-normal leading-[18px] text-[#07131F] lg:text-sm lg:font-medium lg:leading-[13px]">
+                      {item.source}
+                    </th>
+                  </tr>
+                ),
+              )}
+            {data?.combolist_result.employee_credential_leak.credential_items
+              .slice(3, 5)
               .map((item) => (
                 <tr
                   key={item.credential_data}
