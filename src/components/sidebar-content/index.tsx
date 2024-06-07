@@ -27,7 +27,10 @@ const SidebarContent = () => {
           width={123}
         ></Image>
       </ReUseSideBar>
-      <ReUseSideBar text="sideBarDescriptionText2">
+      <ReUseSideBar
+        href="https://detect.solutions"
+        text="sideBarDescriptionText2"
+      >
         <Image
           src={vartexImg2}
           className="mx-auto size-[101px] lg:size-[127px]"
@@ -37,7 +40,10 @@ const SidebarContent = () => {
           width={123}
         ></Image>
       </ReUseSideBar>
-      <ReUseSideBar text="sideBarDescriptionText3">
+      <ReUseSideBar
+        href="https://detect.solutions"
+        text="sideBarDescriptionText3"
+      >
         <Image
           src={vartexImg3}
           className="mx-auto h-[107px] w-[102px] lg:h-[127px] lg:w-[121px]"
