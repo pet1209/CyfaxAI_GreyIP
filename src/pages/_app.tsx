@@ -2,6 +2,7 @@ import Intl from "@/components/intl";
 import Layout from "@/components/layout";
 import defaultSEOConfiguration from "@/seo/defaultSEOConfiguration";
 import "@/styles/globals.css";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
@@ -40,6 +41,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <Layout>
             <DefaultSeo {...defaultSEOConfiguration} />
             <Component {...pageProps} />
+            <GoogleAnalytics gaId="G-JPQQNPQ5PG" />
           </Layout>
         </Intl>
         <ToastContainer position="top-right" />
