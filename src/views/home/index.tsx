@@ -75,7 +75,7 @@ const Home = () => {
             <Image
               src={svg1}
               className="mx-auto size-6 md:size-10 lg:size-20"
-              alt="What Does Cyfax's ® Comprehensive Security Scan Cover?"
+              alt="What Does Cyfax's  Comprehensive Security Scan Cover?"
             ></Image>
           </BodyCard>
 
