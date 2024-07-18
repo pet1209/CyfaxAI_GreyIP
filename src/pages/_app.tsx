@@ -11,7 +11,10 @@ import { useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const mulish = Mulish({ subsets: ["latin"] });
+const mulish = Mulish({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
 
 export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(

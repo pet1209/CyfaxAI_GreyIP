@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { HiMiniUser } from "react-icons/hi2";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import icon3 from "../../../public/dashboard/Vactor3.svg";
 import icon5 from "../../../public/dashboard/Vactor5.svg";
 import icon6 from "../../../public/dashboard/Vactor6.svg";
@@ -19,6 +19,7 @@ import DashboardCard from "./components/single-card";
 
 const Results = () => {
   const router = useRouter();
+  const intl = useIntl();
 
   const domain = router.query.domain as string;
 
@@ -50,17 +51,45 @@ const Results = () => {
       </div>
     );
   }
+
+  const stealerLogsCount = data?.combolist_result?.stealer_logs?.count || 0;
+  const stealerLogsForSaleCount =
+    data?.combolist_result?.stealer_logs_for_sale?.count || 0;
+  const employeeCredentialLeakCount =
+    data?.combolist_result?.employee_credential_leak?.count || 0;
+  const hackerDarkWebMentionsCount =
+    publicReportQuery.data?.data.combolist_result.hacker_dark_web_mentions
+      .count || 0;
+  const vulnscanResultCount = data?.vulnscan_result.count || 0;
+  const mxtoolboxResultCount = data?.mxtoolbox_result.count || 0;
+
+  const isZeroFindings =
+    stealerLogsCount <= 0 &&
+    stealerLogsForSaleCount <= 0 &&
+    employeeCredentialLeakCount <= 0 &&
+    hackerDarkWebMentionsCount <= 0 &&
+    vulnscanResultCount <= 0 &&
+    mxtoolboxResultCount <= 0;
+
   return (
     <div className="h-[calc(100vh-43px)] overflow-y-auto bg-white md:grow lg:h-[calc(100vh-80px)]">
       <div className="mx-auto max-w-7xl px-5 xl:px-10">
-        <h1 className="my-5 flex flex-col items-center justify-center text-center font-mulish text-base font-semibold md:text-3xl lg:my-9 lg:text-[40px] lg:font-bold lg:leading-[60px] xl:flex-row">
+        <h1 className="mt-5 flex flex-col items-center justify-center text-center font-mulish text-xl font-bold md:text-3xl lg:mt-9 lg:text-[40px] lg:font-bold lg:leading-[60px] xl:flex-row">
           <span className="text-[#000000]">
             <FormattedMessage id="resultPageHeroTitle" />
           </span>
           <span className="ml-3 text-[#93328e]">{domain}</span>
         </h1>
+        {isZeroFindings && (
+          <p
+            className="mx-auto mt-3 max-w-[700px] text-center"
+            dangerouslySetInnerHTML={{
+              __html: intl.formatMessage({ id: "zeroFindings" }),
+            }}
+          />
+        )}
 
-        <div className="mx-auto grid grid-cols-2 justify-center gap-4 py-4 md:grid-cols-3 md:py-5 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="mx-auto mt-5 grid grid-cols-2 justify-center gap-4 py-4 md:grid-cols-3 md:py-5 lg:mt-9 lg:grid-cols-3 xl:grid-cols-4">
           {/* first card */}
           <div className="mx-auto flex w-full flex-col rounded-lg border border-[#dec1dd] bg-white p-6 px-3 pt-4 text-center lg:rounded-2xl">
             <Image
@@ -83,36 +112,33 @@ const Results = () => {
           />
 
           <DashboardCard
-            date={data?.combolist_result?.stealer_logs?.count}
+            date={stealerLogsCount}
             title="resultPageCardTitle2"
             iconSrc={icon3}
           />
           <DashboardCard
-            date={data?.combolist_result?.stealer_logs_for_sale?.count}
+            date={stealerLogsForSaleCount}
             title="resultPageCardTitle3"
             iconSrc={icon4}
           />
           <DashboardCard
-            date={data?.combolist_result?.employee_credential_leak?.count}
+            date={employeeCredentialLeakCount}
             title="resultPageCardTitle4"
             iconSrc={icon5}
           />
           <DashboardCard
-            date={
-              publicReportQuery.data?.data.combolist_result
-                .hacker_dark_web_mentions.count
-            }
+            date={hackerDarkWebMentionsCount}
             title="resultPageCardTitle5"
             iconSrc={icon6}
           />
           <DashboardCard
-            date={data?.vulnscan_result.count}
+            date={vulnscanResultCount}
             title="resultPageCardTitle6"
             iconSrc={icon7}
           />
 
           <DashboardCard
-            date={data?.mxtoolbox_result.count}
+            date={mxtoolboxResultCount}
             title="resultPageCardTitle7"
             iconSrc={icon8}
           />
@@ -136,24 +162,22 @@ const Results = () => {
           <tbody>
             {data?.combolist_result.employee_credential_leak.credential_items
               .slice(0, 3)
-              .map(
-                (item) => (
-                  <tr
-                    key={item.credential_data}
-                    className={`flex h-12 items-center justify-between border-b bg-white px-4 shadow-md last:rounded-b-[5px] last:border-b-0 lg:shadow-lg`}
-                  >
-                    <th className="font-mulish text-[10px] font-normal leading-[18px] text-[#07131F] lg:text-sm lg:font-medium lg:leading-[13px]">
-                      {item.time}
-                    </th>
-                    <th className="font-mulish text-[10px] font-normal leading-[18px] text-[#07131F] lg:text-sm lg:font-medium lg:leading-[13px]">
-                      {item.credential_data}
-                    </th>
-                    <th className="font-mulish text-[10px] font-normal leading-[18px] text-[#07131F] lg:text-sm lg:font-medium lg:leading-[13px]">
-                      {item.source}
-                    </th>
-                  </tr>
-                ),
-              )}
+              .map((item) => (
+                <tr
+                  key={item.credential_data}
+                  className={`flex h-12 items-center justify-between border-b bg-white px-4 shadow-md last:rounded-b-[5px] last:border-b-0 lg:shadow-lg`}
+                >
+                  <th className="font-mulish text-[10px] font-normal leading-[18px] text-[#07131F] lg:text-sm lg:font-medium lg:leading-[13px]">
+                    {item.time}
+                  </th>
+                  <th className="font-mulish text-[10px] font-normal leading-[18px] text-[#07131F] lg:text-sm lg:font-medium lg:leading-[13px]">
+                    {item.credential_data}
+                  </th>
+                  <th className="font-mulish text-[10px] font-normal leading-[18px] text-[#07131F] lg:text-sm lg:font-medium lg:leading-[13px]">
+                    {item.source}
+                  </th>
+                </tr>
+              ))}
             {data?.combolist_result.employee_credential_leak.credential_items
               .slice(3, 5)
               .map((item) => (

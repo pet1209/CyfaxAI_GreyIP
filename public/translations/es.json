@@ -38,5 +38,6 @@
   "modalTitle": "Gracias por tu interés en la Inteligencia de Amenazas Extendida de Cyfax.",
   "modalDescription": "Por favor, añade tu dirección de correo electrónico a continuación, y uno de nuestros consultores de seguridad se pondrá en contacto para proporcionarte el informe. Debes ser un representante autorizado de la empresa que solicita el informe. Al ingresar tu información a continuación, atestiguas que tienes autorización para recibir estos datos.",
   "modalPlaceholder": "Introduce la dirección de correo electrónico de la empresa",
-  "submit": "Enviar"
+  "submit": "Enviar",
+  "zeroFindings": "<span class='font-bold text-[#93328e]'>¿Cero hallazgos?</span> ¡No se deje engañar! Nuestros bots aún no han escaneado su empresa. Para un informe preciso y completo de sus exposiciones cibernéticas, regístrese a continuación para un escaneo gratuito."
 }

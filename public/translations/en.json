@@ -38,5 +38,6 @@
   "modalTitle": "Thank you for your interest in Cyfax Extended Threat Intelligence.",
   "modalDescription": "Please add you email address below, and one of our security consultants will be in touch to provide the report to you. You must be an authorized representative of the firm requisting the report. By entering your information below, you attest that you have authorization to receive this data.",
   "modalPlaceholder": "Enter company email address",
-  "submit": "Submit"
+  "submit": "Submit",
+  "zeroFindings": "<span class='font-bold text-[#93328e]'>Zero findings?</span> Don't be misled! Our bots haven't scanned your company yet. For an accurate and comprehensive report of your cyber exposures, sign up below for a complimentary scan."
 }
