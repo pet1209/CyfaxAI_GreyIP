@@ -121,3 +121,9 @@ server {
 sudo nginx -t # check syntax errors
 sudo systemctl restart nginx
 ```
+
+7. Run website
+
+```
+pm2 start npm --name "cyfax-frontend" -- start
+```
