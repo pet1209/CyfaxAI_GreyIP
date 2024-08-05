@@ -9,7 +9,7 @@ const Sidebar = () => {
         <SheetTrigger asChild>
           <MdOutlineMenu className="text-2xl text-black md:text-3xl" />
         </SheetTrigger>
-        <SheetContent side={"left"} className="bg-[#13101c]">
+        <SheetContent side={"left"} className="w-[280px] bg-[#13101c] pt-12">
           <SidebarContent />
         </SheetContent>
       </Sheet>

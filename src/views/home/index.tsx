@@ -50,7 +50,7 @@ const Home = () => {
             router.push(routes.publicReportResults(domainOrEmail));
           }}
         >
-          <div className="mx-auto flex h-12 w-full overflow-hidden rounded-xl border border-[#93328E] bg-white md:h-16 md:rounded-lg md:border-[#93328E] lg:h-full lg:rounded-l-xl">
+          <div className="mx-auto flex h-12 w-full overflow-hidden rounded-xl border border-accent bg-white md:h-16 md:rounded-lg md:border-accent lg:h-full lg:rounded-l-xl">
             <input
               className="grow border-none bg-transparent px-5 font-mulish text-[10px] font-normal text-[#000000] outline-none placeholder:font-mulish placeholder:text-gray-700 focus:outline-none md:text-lg lg:h-[94px] lg:w-[763px] lg:text-2xl lg:font-medium"
               type="search"
@@ -59,7 +59,7 @@ const Home = () => {
             />
             <button
               type="submit"
-              className="flex flex-none flex-row items-center justify-center gap-x-2 rounded-r-xl bg-transparent md:rounded-r-[7px] md:text-white lg:h-[94px] lg:w-[258px] lg:bg-[#93328E]"
+              className="flex flex-none flex-row items-center justify-center gap-x-2 rounded-r-xl bg-transparent md:rounded-r-[7px] md:text-white lg:h-[94px] lg:w-[258px] lg:bg-accent"
             >
               <CiSearch className="mr-4 size-6 text-gray-800 lg:pr-0 lg:text-white" />
               <p className="hidden font-mulish text-sm font-medium lg:block lg:text-2xl">

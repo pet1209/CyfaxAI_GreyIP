@@ -1,13 +1,8 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
 
 const config = {
   darkMode: ["class"],
-  content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-  ],
+  content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   prefix: "",
   theme: {
     container: {
@@ -18,6 +13,9 @@ const config = {
       },
     },
     extend: {
+      colors: {
+        accent: "#93328E",
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -34,10 +32,12 @@ const config = {
       },
     },
     fontFamily: {
-      mulish: ['var(--font-mulish)', 'sans-serif']
-    }
+      mulish: ["var(--font-mulish)", "sans-serif"],
+      poppins: ["var(--font-poppins)", "sans-serif"],
+      inter: ["var(--font-inter)", "sans-serif"],
+    },
   },
   plugins: [require("tailwindcss-animate")],
-} satisfies Config
+} satisfies Config;
 
-export default config
+export default config;

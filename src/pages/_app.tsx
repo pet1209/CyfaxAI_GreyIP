@@ -6,17 +6,25 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
-import { Mulish } from "next/font/google";
+import { Inter, Mulish, Poppins } from "next/font/google";
 import { useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const mulish = Mulish({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+});
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+});
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
 });
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function MyCustomApp({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -37,6 +45,8 @@ export default function App({ Component, pageProps }: AppProps) {
       <style jsx global>{`
         :root {
           --font-mulish: ${mulish.style.fontFamily};
+          --font-poppins: ${poppins.style.fontFamily};
+          --font-inter: ${inter.style.fontFamily};
         }
       `}</style>
       <QueryClientProvider client={queryClient}>
@@ -47,7 +57,7 @@ export default function App({ Component, pageProps }: AppProps) {
             <GoogleAnalytics gaId="G-JPQQNPQ5PG" />
           </Layout>
         </Intl>
-        <ToastContainer position="top-right" />
+        <ToastContainer stacked position="top-right" />
       </QueryClientProvider>
     </>
   );

@@ -1,12 +1,5 @@
-import { getPublicReportQueryOptions } from "@/cyfax-api-client/queries";
 import Results from "@/views/results";
-import {
-  DehydratedState,
-  HydrationBoundary,
-  QueryClient,
-  dehydrate,
-} from "@tanstack/react-query";
-import { GetServerSideProps } from "next";
+import { DehydratedState } from "@tanstack/react-query";
 
 const ResultsPage = ({
   dehydratedState,
@@ -14,9 +7,9 @@ const ResultsPage = ({
   dehydratedState: DehydratedState;
 }) => {
   return (
-    <HydrationBoundary state={dehydratedState}>
-      <Results />
-    </HydrationBoundary>
+    // <HydrationBoundary state={dehydratedState}>
+    <Results />
+    // </HydrationBoundary>
   );
 };
 
