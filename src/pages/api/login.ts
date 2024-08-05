@@ -1,5 +1,6 @@
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/constants/cookies";
 import { getApiErrorMessage } from "@/lib/utils";
+import { appCache } from "@/node-cache";
 import axios from "axios";
 import cookie from "cookie";
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -21,6 +22,9 @@ export default async function handler(
 
     const accessToken = response.data.access;
     const refreshToken = response.data.refresh;
+
+    appCache.set(ACCESS_TOKEN.name, accessToken);
+    appCache.set(REFRESH_TOKEN.name, refreshToken);
 
     res.setHeader("Set-Cookie", [
       cookie.serialize(ACCESS_TOKEN.name, accessToken, ACCESS_TOKEN.options),

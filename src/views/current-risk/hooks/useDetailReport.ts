@@ -1,9 +1,8 @@
 import { getDetailReportQueryOptions } from "@/cyfax-api-client/queries";
 import useAuthUserAccount from "@/hooks/useAuthUserAccount";
-import { addColorToItems } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { atom, useAtom } from "jotai";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 
 const domainAtom = atom<null | string>();
 // diazyourman.com
@@ -23,14 +22,7 @@ const useDetailReport = () => {
 
   const queryData = getDetailReportQuery.data?.data;
 
-  const chartData = useMemo(() => {
-    const coloredData = addColorToItems(
-      queryData?.chart || [],
-      "hsl(282, 67%, 45%)",
-    );
-
-    return coloredData;
-  }, [queryData?.chart]);
+  const chartData = queryData?.chart || [];
 
   const totalSecurityIssuesFound =
     (queryData?.combolist_result.employee_credential_leak.count ?? 0) +

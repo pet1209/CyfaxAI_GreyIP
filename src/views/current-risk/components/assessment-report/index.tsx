@@ -1,7 +1,7 @@
 import IconCra from "@/components/icons/icon-cra";
 import { getDownloadPDFMutationOptions } from "@/cyfax-api-client/mutations";
 import { getPDFReportsQueryOptions } from "@/cyfax-api-client/queries";
-import { downloadPDF, getApiErrorMessage } from "@/lib/utils";
+import { cn, downloadPDF, getApiErrorMessage } from "@/lib/utils";
 import useDetailReport from "@/views/current-risk/hooks/useDetailReport";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
@@ -62,7 +62,11 @@ const AssessmentReport = () => {
                     file_path: pdfReport?.file_path,
                   });
                 }}
-                className="flex h-12 w-full items-center justify-center gap-x-2 rounded-md bg-accent px-5 text-[11px] font-medium text-white max-md:tracking-[0.3px] sm:text-base/[150%] md:gap-x-5 md:rounded-lg md:px-[34px] md:font-semibold"
+                className={cn(
+                  "flex h-12 w-full items-center justify-center gap-x-2 rounded-md bg-accent px-5 text-[11px] font-medium text-white max-md:tracking-[0.3px] sm:text-base/[150%] md:gap-x-5 md:rounded-lg md:px-[34px] md:font-semibold",
+                  !pdfReport?.file_path &&
+                    "disabled:opacity-60 cursor-not-allowed",
+                )}
               >
                 {downloadPDFMutationOptions.isPending ? (
                   <FormattedMessage id="pleaseWait" />
@@ -82,7 +86,7 @@ const AssessmentReport = () => {
             <div>
               <button
                 disabled
-                className="flex h-12 w-full items-center justify-center gap-x-2 rounded-md bg-accent px-5 disabled:opacity-60 md:gap-x-5 md:rounded-lg md:px-[34px]"
+                className="flex h-12 w-full items-center justify-center gap-x-2 rounded-md bg-accent px-5 disabled:cursor-not-allowed disabled:opacity-60 md:gap-x-5 md:rounded-lg md:px-[34px]"
               >
                 <span className="shrink-0 text-[10px] font-medium text-white max-md:tracking-[0.3px] sm:text-base/[150%] md:font-semibold">
                   <FormattedMessage id="downloadReport" />

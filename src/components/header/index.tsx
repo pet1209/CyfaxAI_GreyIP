@@ -7,18 +7,19 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ACCESS_TOKEN } from "@/constants/cookies";
 import routes from "@/constants/routes";
 import useAuthUserAccount from "@/hooks/useAuthUserAccount";
-import { appCache } from "@/node-cache";
+import { isAuthenticatedRoute } from "@/lib/utils";
 import useDetailReport from "@/views/current-risk/hooks/useDetailReport";
 import { useDebouncedCallback, useInputState } from "@mantine/hooks";
 import { ChevronDown, LogOut } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { IoMdHome } from "react-icons/io";
 import { useIntl } from "react-intl";
 const Header = () => {
+  const router = useRouter();
   const [domainValue, setDomainValue] = useInputState("");
 
   const { data, logout, isAdmin } = useAuthUserAccount();
@@ -33,6 +34,8 @@ const Header = () => {
     setDomainValue(domain);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [domain]);
+
+  const is_authneticatedRoute = isAuthenticatedRoute(router.asPath);
 
   return (
     <div className="flex items-center justify-between bg-white px-4 max-lg:py-1.5 lg:bg-[#13101c] lg:px-0">
@@ -51,7 +54,7 @@ const Header = () => {
       </div>
 
       <div className="flex grow items-center justify-end space-x-3 rounded-lg md:space-x-5 lg:mr-5">
-        {isAdmin && (
+        {isAdmin && is_authneticatedRoute && (
           <div className="relative mr-auto pl-[30px] max-lg:mx-auto max-lg:w-3/4">
             <input
               value={domainValue}
@@ -74,12 +77,7 @@ const Header = () => {
         {data && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <div
-                className="flex cursor-pointer flex-row items-center gap-x-2"
-                onClick={() => {
-                  console.log("sdsd", appCache.get(ACCESS_TOKEN.name));
-                }}
-              >
+              <div className="flex cursor-pointer flex-row items-center gap-x-2">
                 {/* <Image
                   className="hidden size-8 rounded-full object-cover lg:block"
                   src={"/avatar.png"}

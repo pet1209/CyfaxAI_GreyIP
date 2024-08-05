@@ -25,7 +25,7 @@ const CurrentRisk = () => {
     <div className="p-4 font-poppins sm:p-6">
       {isOpenDomainModal ? (
         <Dialog open>
-          <DialogContent className="w-full max-w-[550px] p-4 md:p-5">
+          <DialogContent className="w-full max-w-[550px] p-4 max-sm:max-w-[95vw] md:p-5">
             <DialogHeader>
               <DialogTitle>
                 <h2 className="text-left text-xl font-semibold">

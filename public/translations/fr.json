@@ -132,7 +132,9 @@
   "dETAILEDXTIREPORT": "RAPPORT XTI DÉTAILLÉ",
   "searchForAnOrganization": "Rechercher une organisation",
 
+  "dashboardPageUnderDevelopment": "La page du tableau de bord est en cours de développement.",
   "currentRisk": "Risque actuel",
+  "viewCurrentRisk": "Afficher le risque actuel",
   "companyExposedPortsServices": "Ports/Services exposés de l'entreprise",
   "subDomainAnalysis": "Analyse des sous-domaines",
   "domainVariations": "Variations de domaine",

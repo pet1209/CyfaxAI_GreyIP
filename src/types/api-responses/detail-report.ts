@@ -149,6 +149,7 @@ export type Data = {
   chart: {
     legend: string;
     count: number;
+    color: string;
   }[];
 };
 

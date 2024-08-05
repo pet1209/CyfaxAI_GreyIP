@@ -132,7 +132,9 @@
   "dETAILEDXTIREPORT": "INFORME DETALLADO XTI",
   "searchForAnOrganization": "Buscar una organización",
 
+  "dashboardPageUnderDevelopment": "La página del panel está en desarrollo.",
   "currentRisk": "Riesgo actual",
+  "viewCurrentRisk": "Ver el riesgo actual",
   "companyExposedPortsServices": "Puertos/Servicios expuestos de la empresa",
   "subDomainAnalysis": "Análisis de subdominio",
   "domainVariations": "Variaciones del dominio",

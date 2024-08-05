@@ -5,6 +5,7 @@ import IconLogout from "@/components/icons/icon-logout";
 import IconProfile from "@/components/icons/icon-profile";
 import routes from "@/constants/routes";
 import useAuthUserAccount from "@/hooks/useAuthUserAccount";
+import useOpenMobileSidebarMenu from "@/hooks/useOpenMobileSidebarMenu";
 import { cn, isPathEqual } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
@@ -140,6 +141,7 @@ export default AuthenticatedSidebarLinks;
 
 const MenuItem = ({ menuItem }: { menuItem: SidebarNavigationMenuItem }) => {
   const router = useRouter();
+  const { closeMenu } = useOpenMobileSidebarMenu();
 
   const hasSubMenu = menuItem.submenuItems && menuItem.submenuItems?.length > 0;
 
@@ -152,9 +154,12 @@ const MenuItem = ({ menuItem }: { menuItem: SidebarNavigationMenuItem }) => {
   }, [isActiveMenu]);
 
   return (
-    <div>
+    <div className="mt-[22px]">
       <Link
-        onClick={menuItem.onClick}
+        onClick={(e) => {
+          menuItem.onClick && menuItem.onClick(e);
+          closeMenu();
+        }}
         href={menuItem.url}
         className={cn(
           "py-3 w-full items-center rounded-md px-3 hover:bg-accent font-mulish gap-4 duration-300 flex text-white relative",
@@ -198,7 +203,10 @@ const MenuItem = ({ menuItem }: { menuItem: SidebarNavigationMenuItem }) => {
             return (
               <Link
                 title={submenuItem.label}
-                onClick={submenuItem.onClick}
+                onClick={(e) => {
+                  submenuItem.onClick && submenuItem.onClick(e);
+                  closeMenu();
+                }}
                 className={cn(
                   "flex w-full items-center gap-3 rounded-lg px-3 py-1.5 text-white/80 [&>svg]:size-[18px] [&>svg]:shrink-0 md:[&>svg]:size-3.5 relative",
                   isActiveSubMenu && "bg-white/10 text-white",

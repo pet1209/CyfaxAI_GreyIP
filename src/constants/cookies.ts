@@ -5,7 +5,7 @@ export const ACCESS_TOKEN: { name: string; options: CookieSerializeOptions } = {
   options: {
     httpOnly: true,
     secure: true,
-    maxAge: (60 * 60) / 2, // 30 minutes
+    maxAge: 60 * 60 * 24 * 60, // 60 days
     sameSite: "strict",
     path: "/",
   },

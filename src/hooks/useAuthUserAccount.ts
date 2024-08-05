@@ -1,21 +1,30 @@
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "@/constants/cookies";
 import routes from "@/constants/routes";
 import { getLogoutMutationOptions } from "@/cyfax-api-client/mutations";
-import { getAuthUserAccountQueryOptions } from "@/cyfax-api-client/queries";
-import { getApiErrorMessage, isAuthenticatedRoute } from "@/lib/utils";
+import {
+  getAuthTokensQueryOptions,
+  getAuthUserAccountQueryOptions,
+} from "@/cyfax-api-client/queries";
+import { getApiErrorMessage } from "@/lib/utils";
 import { appCache } from "@/node-cache";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { atom, useAtom } from "jotai";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { toast } from "react-toastify";
+
+const accessTokenAtom = atom<null | string>(null);
 
 const useAuthUserAccount = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const [accessToken, setAccessToken] = useAtom(accessTokenAtom);
 
   const authUserAccountQuery = useQuery({
     ...getAuthUserAccountQueryOptions(),
     retry: false,
-    enabled: !!isAuthenticatedRoute(router.asPath),
+    enabled: !!accessToken,
+    gcTime: 60 * 1000 * 2,
   });
 
   const logoutMutation = useMutation({
@@ -34,6 +43,14 @@ const useAuthUserAccount = () => {
     },
   });
 
+  const getAuthTokensQuery = useQuery({
+    ...getAuthTokensQueryOptions(),
+  });
+
+  useEffect(() => {
+    setAccessToken(getAuthTokensQuery.data?.access_token || null);
+  }, [getAuthTokensQuery.data?.access_token, setAccessToken]);
+
   const queryData = authUserAccountQuery.data?.data;
 
   return {
@@ -43,6 +60,9 @@ const useAuthUserAccount = () => {
     logout: logoutMutation.mutate,
     logoutAsync: logoutMutation.mutateAsync,
     isAdmin: !!queryData?.is_admin,
+    hasAuth: !!accessToken,
+    accessToken,
+    setAccessToken,
   };
 };
 

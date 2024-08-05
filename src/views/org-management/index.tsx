@@ -184,6 +184,7 @@ const OrgManagement = () => {
               <FormikInput
                 name="password"
                 label="password"
+                type="password"
                 placeholder={intl.formatMessage({
                   id: "inputTemporaryPasswordHere",
                 })}
@@ -306,7 +307,7 @@ const OrgManagement = () => {
                           key={permission.value}
                           value={permission.value}
                           className="px-4"
-                          onClick={(e) => {
+                          onClick={() => {
                             if (isSelected) {
                               setFieldValue(
                                 "permissions",

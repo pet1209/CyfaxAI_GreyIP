@@ -1,11 +1,35 @@
 import Header from "@/components/header";
 import Sidebar from "@/components/sidebar";
 import Spinner from "@/components/ui/spinner";
+import { ACCESS_TOKEN } from "@/constants/cookies";
 import useAuthUserAccount from "@/hooks/useAuthUserAccount";
-import { ReactNode } from "react";
+import { appCache } from "@/node-cache";
+import { ReactNode, useEffect } from "react";
 
 const Layout = ({ children }: { children: ReactNode }) => {
-  const { authUserAccountQuery } = useAuthUserAccount();
+  const { authUserAccountQuery, setAccessToken } = useAuthUserAccount();
+
+  useEffect(() => {
+    const handleOnSet = (key: string, value: string) => {
+      if (key === ACCESS_TOKEN.name) {
+        setAccessToken(value);
+      }
+    };
+    const handleOnDelete = (key: string) => {
+      if (key === ACCESS_TOKEN.name) {
+        setAccessToken(null);
+      }
+    };
+
+    appCache.on("set", handleOnSet);
+    appCache.on("del", handleOnDelete);
+
+    return () => {
+      appCache.off("set", handleOnSet);
+      appCache.off("del", handleOnDelete);
+    };
+  }, [setAccessToken]);
+
   if (
     authUserAccountQuery.isLoading &&
     authUserAccountQuery.fetchStatus !== "idle"
