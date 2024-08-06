@@ -78,14 +78,17 @@ const Modal = ({ children }: { children: ReactNode }) => {
                 const formData = new FormData(e.currentTarget);
                 const email = formData.get("email") as string;
 
-                const isValidEmail = isValidEmailForPublicReport(email, domain);
-                if (isValidEmail === "invalid-email") {
+                const { type, domain: domainExt } = isValidEmailForPublicReport(
+                  email,
+                  domain,
+                );
+                if (type === "invalid-email") {
                   setErrorMessage("Invalid email address");
                   return;
                 }
-                if (isValidEmail === "invalid-domain") {
+                if (type === "invalid-domain") {
                   setErrorMessage(
-                    `Please provide a valid email address from the domain (${domain}) of your organization`,
+                    `Please provide a valid email address from the domain (${domainExt}) of your organization`,
                   );
                   return;
                 }
@@ -103,7 +106,7 @@ const Modal = ({ children }: { children: ReactNode }) => {
                 <button
                   disabled={requestReportMutation.isPending}
                   type="submit"
-                  className="flex w-24 flex-none flex-row items-center justify-center gap-x-1 bg-[#B676AF] font-mulish text-sm font-medium text-white disabled:opacity-50 md:w-32 md:gap-x-2 lg:h-[60px] lg:w-[150px] lg:text-xl"
+                  className="flex w-24 flex-none flex-row items-center justify-center gap-x-1 bg-accent font-mulish text-sm font-medium text-white disabled:opacity-50 md:w-32 md:gap-x-2 lg:h-[60px] lg:w-[150px] lg:text-xl"
                 >
                   {requestReportMutation.isPending ? (
                     "Please wait.."

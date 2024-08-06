@@ -26,20 +26,25 @@ export function isValidDomainOrEmail(input: string): boolean {
   }
 }
 
-export function isValidEmailForPublicReport(email: string, domain: string) {
+export function isValidEmailForPublicReport(
+  email: string,
+  domainOrEmail: string,
+) {
   // Regular expression for validating email format
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+  const domain = domainOrEmail.split("@")[1] || domainOrEmail;
+
   // Check if email matches the pattern
   if (!emailPattern.test(email)) {
-    return "invalid-email";
+    return { type: "invalid-email", domain };
   }
 
   // Extract the domain part of the email
   const emailDomain = email.substring(email.lastIndexOf("@") + 1);
 
   // Compare the extracted domain with the provided domain
-  return emailDomain === domain ? "valid" : "invalid-domain";
+  return { type: emailDomain === domain ? "valid" : "invalid-domain", domain };
 }
 
 export const getApiErrorMessage = (
