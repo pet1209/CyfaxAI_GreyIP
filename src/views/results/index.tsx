@@ -72,7 +72,7 @@ const Results = () => {
     mxtoolboxResultCount <= 0;
 
   return (
-    <div className="h-[calc(100vh-43px)] overflow-y-auto bg-white md:grow lg:h-[calc(100vh-80px)]">
+    <div className="h-[calc(100vh-43px)] bg-white md:grow lg:h-[calc(100vh-80px)] lg:overflow-y-auto">
       <div className="mx-auto max-w-7xl px-5 xl:px-10">
         <h1 className="mt-5 flex flex-col items-center justify-center text-center font-mulish text-xl font-bold md:text-3xl lg:mt-9 lg:text-[40px] lg:font-bold lg:leading-[60px] xl:flex-row">
           <span className="text-[#000000]">
