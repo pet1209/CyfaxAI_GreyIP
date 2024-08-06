@@ -251,3 +251,13 @@ export const isAuthenticatedRoute = (pathname: string) => {
 export const isUnAuthenticatedRoute = (pathname: string) => {
   return !!unAuthenticatedRoutes.find((route) => route.startsWith(pathname));
 };
+
+export function fixedNumberIfNeeded(num: number): string | number {
+  // Check if the number has a decimal part
+  if (num % 1 !== 0) {
+    // Fix the number to 2 decimal places
+    return num.toFixed(2);
+  }
+  // If it's an integer, return the number as is
+  return num;
+}

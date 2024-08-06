@@ -81,13 +81,13 @@ const Login = () => {
                   icon={
                     <IconSms className="absolute left-6 top-1/2 max-w-6 -translate-y-1/2 text-black/60 max-md:hidden" />
                   }
-                  autoComplete="email"
+                  autoComplete="off"
                 />
                 <FormikInput
                   name="password"
                   type="password"
                   placeholder={intl.formatMessage({ id: "password" })}
-                  autoComplete="current-password"
+                  autoComplete="new-password"
                   icon={
                     <IconKey className="absolute left-6 top-1/2 max-w-6 -translate-y-1/2 text-black/60 max-md:hidden" />
                   }

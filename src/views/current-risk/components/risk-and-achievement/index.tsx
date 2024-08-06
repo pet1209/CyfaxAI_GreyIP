@@ -6,6 +6,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { fixedNumberIfNeeded } from "@/lib/utils";
 import useDetailReport from "@/views/current-risk/hooks/useDetailReport";
 import { CSSProperties } from "react";
 import { FormattedMessage } from "react-intl";
@@ -87,7 +88,7 @@ const RiskAndAchievement = () => {
                     } as CSSProperties
                   }
                 >
-                  {totalScore}
+                  {fixedNumberIfNeeded(totalScore)}
                 </span>
               </span>
             </div>

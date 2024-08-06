@@ -1,6 +1,5 @@
 import IconAlert from "@/components/icons/icon-alert";
 import IconDanger from "@/components/icons/icon-danger";
-import IconDashboard from "@/components/icons/icon-dashboard";
 import IconLogout from "@/components/icons/icon-logout";
 import IconProfile from "@/components/icons/icon-profile";
 import routes from "@/constants/routes";
@@ -31,15 +30,15 @@ export type SidebarNavigationMenuItem = {
 };
 
 const defaultNavLinks: SidebarNavigationMenuItem[] = [
-  {
-    icon: <IconDashboard className="w-6 shrink-0 text-white" />,
-    label: "dashboard",
-    url: routes.dashboard,
-  },
+  // {
+  //   icon: <IconDashboard className="w-6 shrink-0 text-white" />,
+  //   label: "dashboard",
+  //   url: routes.dashboard,
+  // },
   {
     icon: <IconDanger className="w-6 shrink-0 text-white" />,
     label: "currentRisk",
-    url: routes.currentRisk,
+    url: routes.dashboard,
     submenuItems: [
       {
         label: "leakedCredentials",

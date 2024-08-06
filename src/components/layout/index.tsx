@@ -3,10 +3,13 @@ import Sidebar from "@/components/sidebar";
 import Spinner from "@/components/ui/spinner";
 import { ACCESS_TOKEN } from "@/constants/cookies";
 import useAuthUserAccount from "@/hooks/useAuthUserAccount";
+import useIdleLogout from "@/hooks/useIdleLogout";
 import { appCache } from "@/node-cache";
 import { ReactNode, useEffect } from "react";
 
 const Layout = ({ children }: { children: ReactNode }) => {
+  useIdleLogout();
+
   const { authUserAccountQuery, setAccessToken } = useAuthUserAccount();
 
   useEffect(() => {

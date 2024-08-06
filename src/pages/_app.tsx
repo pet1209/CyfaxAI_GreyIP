@@ -1,5 +1,6 @@
 import Intl from "@/components/intl";
 import Layout from "@/components/layout";
+import useIdleLogout from "@/hooks/useIdleLogout";
 import defaultSEOConfiguration from "@/seo/defaultSEOConfiguration";
 import "@/styles/globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";

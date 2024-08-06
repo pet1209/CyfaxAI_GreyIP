@@ -41,7 +41,7 @@
   "submit": "Submit",
   "zeroFindings": "<span class='font-bold text-accent'>Zero findings?</span> Don't be misled! Our bots haven't scanned your company yet. For an accurate and comprehensive report of your cyber exposures, sign up below for a complimentary scan.",
 
-  "logInTitle": "Welcome to Cyfax an Extended Threat Intelligence",
+  "logInTitle": "Welcome to Cyfax External Threat Intelligence",
   "login": "Login",
   "forgotPassword": "Forgot Password?",
   "dontHaveAnAccount": "Don’t have an account?",

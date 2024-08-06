@@ -45,7 +45,7 @@ const SecurityFindings = () => {
           <p className="text-[15px] font-medium sm:text-base/[150%]">
             <FormattedMessage id="byCategory" />
           </p>
-          <IconCircleExclamationOutline className="w-5 text-[#292D32]" />
+          <IconCircleExclamationOutline className="pointer-events-none w-5 text-[#292D32] opacity-40" />
         </div>
 
         <div className="flex items-center gap-x-4 font-inter sm:gap-x-[78px]">
@@ -66,7 +66,10 @@ const SecurityFindings = () => {
         </div>
 
         <p className="mt-7 text-center text-xs/[150%]">
-          <a href="#" className="text-accent underline underline-offset-2">
+          <a
+            href="#"
+            className="pointer-events-none text-accent underline underline-offset-2 opacity-40"
+          >
             <FormattedMessage id="clickHere" />
           </a>{" "}
           <FormattedMessage id="toLearnMoreAboutSecurityFindingsCategories" />

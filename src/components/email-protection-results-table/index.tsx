@@ -43,7 +43,7 @@ const EmailProtectionResultsTable = ({ data }: { data: MXToolboxCategory }) => {
           </tr>
         </thead>
         <tbody>
-          {rows?.map((row, i) => {
+          {rows?.slice(0, 3)?.map((row, i) => {
             return (
               <tr
                 key={i}
