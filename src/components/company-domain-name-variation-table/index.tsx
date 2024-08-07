@@ -60,19 +60,25 @@ const CompanyDomainNameVariationTable = ({
             key={i}
             className="rounded-lg p-3 shadow-[0_0_12px_rgba(0,0,0,0.12)]"
           >
-            <div className="flex justify-between">
+            <div className="grid grid-cols-[1fr,1px,1fr] items-center gap-5">
               <div>
                 <p className="text-[13px] font-semibold tracking-[-0.2px]">
                   <FormattedMessage id="fuzzerType" />
                 </p>
                 <span className="mt-2.5 text-xs">{row?.fuzzer}</span>
               </div>
+              <span className="h-3.5 border-r border-black/20"></span>
               <div>
                 <p className="text-[13px] font-semibold tracking-[-0.2px]">
                   <FormattedMessage id="domainVariation" />
                 </p>
                 <span className="mt-2.5 text-xs">{row?.domain}</span>
               </div>
+            </div>
+
+            <hr className="my-2.5 border-t border-black/20" />
+
+            <div className="grid grid-cols-[1fr,1px,1fr] items-center gap-5">
               <div>
                 <p className="text-[13px] font-semibold tracking-[-0.2px]">
                   <FormattedMessage id="dNSNameserver" />
@@ -81,6 +87,7 @@ const CompanyDomainNameVariationTable = ({
                   {row?.dns_ns?.join(", ")}
                 </span>
               </div>
+              <span className="h-3.5 border-r border-black/20"></span>
               <div>
                 <p className="text-[13px] font-semibold tracking-[-0.2px]">
                   <FormattedMessage id="iPAddress" />
@@ -88,25 +95,27 @@ const CompanyDomainNameVariationTable = ({
                 <span className="mt-2.5 text-xs">{row?.dns_a?.join(", ")}</span>
               </div>
             </div>
-
             <hr className="my-2.5 border-t border-black/20" />
 
-            <div className="flex items-center justify-between">
-              <div className="text-center">
+            <div className="grid grid-cols-[1fr,1px,1fr] items-center gap-5">
+              <div>
                 <p className="text-[13px] font-semibold tracking-[-0.2px]">
                   <FormattedMessage id="webTechnology" />
                 </p>
                 <span className="mt-2.5 text-xs">{row?.tech?.join(", ")}</span>
               </div>
               <span className="h-3.5 border-r border-black/20"></span>
-              <div className="text-center">
+              <div>
                 <p className="text-[13px] font-semibold tracking-[-0.2px]">
                   <FormattedMessage id="uRLScheme" />
                 </p>
                 <span className="mt-2.5 text-xs capitalize">{row?.scheme}</span>
               </div>
-              <span className="h-3.5 border-r border-black/20"></span>
-              <div className="text-center">
+            </div>
+            <hr className="my-2.5 border-t border-black/20" />
+
+            <div className="grid grid-cols-1 items-center gap-5">
+              <div>
                 <p className="text-[13px] font-semibold tracking-[-0.2px]">
                   <FormattedMessage id="titleAndContentDescription" />
                 </p>
