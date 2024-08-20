@@ -18,6 +18,12 @@ import { FormattedMessage } from "react-intl";
 import {useState} from "react";
 import routes from "@/constants/routes";
 
+
+function isRouteFunction(route: any): route is (arg: string) => string {  
+  return typeof route === "function";  
+} 
+
+
 const AttackSurface = () => {
   const { data } = useDetailReport();
   const [selectedTab, setSelectedTab] = useState<keyof typeof routes>("company_exploitable_services"); 
@@ -120,6 +126,12 @@ const AttackSurface = () => {
     setSelectedTab
   ]);
 
+  const routeValue = routes[selectedTab];  
+
+  const routePath = isRouteFunction(routeValue)  
+  ? routeValue("company-exploitable-services") // Call with your desired argument  
+  : routeValue;
+
   return (
     <>
       <div className="mt-6 rounded-lg p-3 shadow-[0_0_12px_rgba(0,0,0,0.12)] sm:rounded-xl sm:p-5">
@@ -159,9 +171,7 @@ const AttackSurface = () => {
                   <h3 className="text-sm font-semibold lg:text-xl lg:font-medium">
                     <FormattedMessage id={tab.title} />
                   </h3>
-                  <Link href={ typeof routes[selectedTab] === "function" ? 
-                    routes[selectedTab]("company-exploitable-services") : routes[selectedTab]
-                  } passHref>
+                  <Link href={routePath} passHref>
                     <button className="text-sm font-medium text-accent duration-300 hover:opacity-90 lg:text-xl lg:font-medium">
                       <FormattedMessage id="seeAll" />
                     </button>
