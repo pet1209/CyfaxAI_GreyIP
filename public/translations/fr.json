@@ -43,6 +43,13 @@
 
   "logInTitle": "Bienvenue sur Cyfax, une Intelligence de Menace Étendue",
   "login": "Connexion",
+  "confirm": "Confirmer",
+  "changePassword": "Changer le mot de passe",
+  "oldPassword": "Ancien mot de passe",
+  "newPassword": "Nouveau mot de passe",
+  "verifyPassword": "Vérifier le nouveau mot de passe",
+  "loginTitle": "Bienvenue à ",
+  "siteName": "CYFAX",
   "forgotPassword": "Mot de passe oublié ?",
   "dontHaveAnAccount": "Vous n'avez pas de compte ?",
   "signUp": "S'inscrire",
@@ -50,8 +57,9 @@
   "email": "Email",
   "password": "Mot de passe",
 
-  "resetPasswordTitle": "Veuillez entrer votre adresse email et nous vous enverrons un lien pour réinitialiser votre mot de passe",
-  "goBack": "Retourner",
+  "resetPasswordTitle": "Mot de passe oublié ?",
+  "resetPasswordDescription": "Ne vous inquiétez pas, nous vous enverrons des instructions de réinitialisation.",
+  "goBack": "Retour à la connexion",
   "sendALink": "Envoyer un lien",
 
   "setupEmailForAlerts": "Configurer l'email pour les alertes",
@@ -86,7 +94,7 @@
   "riskAndAchievementScore": "Score de Risque et de Réalisation",
   "acceptable": "Acceptable",
   "good": "Bon",
-  "currentRiskLevel": "Niveau de risque actuel",
+  "currentRiskLevel": "Niveau de risque actuel ",
   "high": "Élevé (<40)",
   "medium": "Moyen (40-70)",
   "low": "Faible (>/70)",
@@ -99,9 +107,13 @@
   "toLearnMoreAboutSecurityFindingsCategories": "pour en savoir plus sur les catégories de résultats de sécurité",
   "attackSurface": "Surface d'attaque",
   "companyExploitableServices": "Services exploitables de l'entreprise",
+  "companyExploitableServicesTableTitle": "Ports et services exposés par l'entreprise",
   "subDomainExploitableServices": "Services exploitables du sous-domaine",
+  "subDomainExploitableServicesTableTitle": "Analyse des sous-domaines",
   "domainNameVariations": "Variations de nom de domaine",
+  "domainNameVariationsTableTitle": "Variations de noms de domaine",
   "emailWeaknesses": "Faiblesses de l'email",
+  "emailWeaknessesTableTitle": "Résultats de la protection des e-mails",
   "seeAll": "Voir tout",
   "port": "Port",
   "protocol": "Protocole",
@@ -121,6 +133,7 @@
   "webTechnology": "Technologie Web",
   "uRLScheme": "Schéma URL",
   "titleAndContentDescription": "Titre et Description du contenu",
+  "takedownRequest": "Demande de retrait",
 
   "securityAspect": "Aspect de sécurité",
   "explanation": "Explication",
@@ -147,11 +160,32 @@
   "alertManagement": "Gestion des alertes",
   "logOut": "Se déconnecter",
   "loggingOut": "Déconnecter...",
+  "resetPassword": "Réinitialiser le mot de passe",
 
   "riskAndAchievmentModalText": "Les scores de risque varient de 0 (risque élevé) à 100 (risque faible) et indiquent la probabilité qu'une organisation subisse une cyberattaque ou une autre menace de sécurité en ligne. Le score de risque est principalement basé sur des facteurs tels que le nombre et la gravité de vos résultats de sécurité actifs. Votre score de risque peut changer au fil du temps à mesure que de nouveaux résultats de sécurité sont découverts et que les anciens risques sont corrigés. Avec Cyfax, un remplissage plus élevé de la barre de réalisation représente un risque plus faible et une meilleure posture de sécurité, offrant une visualisation claire de l'hygiène cybernétique de votre organisation.",
   "securityFindingModalText": "Les résultats de sécurité sont des vulnérabilités sur votre surface externe, telles que des mots de passe divulgués et des faiblesses au niveau de la périphérie du réseau, qui pourraient être exploitées par un hacker pour obtenir un accès non autorisé. Identifier et traiter ces résultats de sécurité critiques aide à réduire le risque de cyberattaques pour votre organisation.",
   "attactSrufaceModalText": "La Surface d'Attaque se compose des parties de vos actifs numériques, tels que les ordinateurs, les réseaux et les données, qui peuvent être ciblées par des acteurs malveillants. Cyfax fournit une vue d'ensemble des actifs externes de votre entreprise et met en évidence les vulnérabilités pour vous aider à réduire votre risque de cyberattaques.",
 
   "dialogTitle": "Veuillez entrer votre domaine",
-  "enterDomain": "Entrer domaine"
+  "enterDomain": "Entrer domaine",
+
+  "filterTitle": "filtres de recherche",
+  "filter1": "Recherche de titre",
+  "filter2": "Recherche de lieu",
+
+  "vulnerabilitiesServicesTitle": "Vulnérabilités et services exploitables au fil du temps",
+
+  "leakedPasswords": "Mot de passe divulgué au fil du temps (total: ",
+
+  "alertTypeTitle": "E-mail de l'utilisateur: ",
+  "alertTypeSmallTitle": "Configurez la manière dont vous souhaitez être informé de l'activité de ",
+  "notificationPreferences": "Préférences de notification",
+
+  "alertOption1": "Nouveau mot de passe divulgué",
+  "alertOption2": "Nouvelle mention sur le Dark Web",
+  "alertOption3": "Nouveaux journaux de voleurs",
+  "alertOption4": "Bûches Stealer neuves à vendre",
+  "alertOption5": "De nouvelles vulnérabilités ont été détectées",
+
+  "pageShowCount": "Montrer:"
 }

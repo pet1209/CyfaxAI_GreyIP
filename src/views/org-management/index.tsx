@@ -344,16 +344,21 @@ const OrgManagement = () => {
               </div>
             </div>
             <div className="mt-8 flex justify-end">
-              <button
-                type="submit"
-                className="h-14 rounded-lg bg-accent px-11 font-semibold text-white duration-300 hover:opacity-90 md:text-lg lg:text-xl/[120%]"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  <FormattedMessage id="pleaseWait" />
-                ) : (
-                  <FormattedMessage id="submit" />
-                )}
+              <button  
+                className="mr-5 h-14 w-48 rounded-lg bg-accent px-8 text-base font-semibold text-white duration-300 hover:opacity-90 md:text-lg lg:text-xl"  
+              >  
+                <FormattedMessage id="viewUsersButton" />  
+              </button>  
+              <button  
+                type="submit"  
+                className="h-14 w-48 rounded-lg bg-accent px-8 text-base font-semibold text-white duration-300 hover:opacity-90 md:text-lg lg:text-xl"  
+                disabled={isSubmitting}  
+              >  
+                {isSubmitting ? (  
+                  <FormattedMessage id="pleaseWait" />  
+                ) : (  
+                  <FormattedMessage id="submit" />  
+                )}  
               </button>
             </div>
           </form>

@@ -48,9 +48,12 @@ const Login = () => {
         <FormattedMessage id="logInTitle" />
       </h1>
       <div className="mt-6 w-full max-w-[643px] font-inter sm:mt-20 lg:mt-[104px]">
-        <h2 className="text-center text-2xl font-bold sm:text-[36px]">
-          <FormattedMessage id="login" />
-        </h2>
+        
+        <div className='mb-8 flex flex-col items-center justify-center space-y-1 text-center'>  
+          <h2 className="text-[40px] font-medium leading-[150%]"> 
+            <FormattedMessage id="login" />
+          </h2>
+        </div>
 
         <Formik
           initialValues={{
@@ -95,7 +98,7 @@ const Login = () => {
                 />
               </div>
               <Link
-                href={routes.resetPassword}
+                href={routes.forgotPassword}
                 className="mb-8 mt-4 flex justify-end text-sm text-accent underline-offset-4 duration-300 hover:opacity-90 max-md:font-medium md:underline"
               >
                 <FormattedMessage id="forgotPassword" />

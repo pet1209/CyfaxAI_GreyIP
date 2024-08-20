@@ -52,22 +52,22 @@ const defaultNavLinks: SidebarNavigationMenuItem[] = [
       },
       {
         label: "exploitableServices",
-        url: `${routes.currentRisk}/exploitable-services`,
+        url: `${routes.currentRisk}/company-exploitable-services`,
         disabled: true,
       },
       {
         label: "subDomainAnalysis",
-        url: `${routes.currentRisk}/sub-domain-analysis`,
+        url: `${routes.currentRisk}/sub-domain-exploitable-services`,
         disabled: true,
       },
       {
         label: "domainVariations",
-        url: `${routes.currentRisk}/domain-variations`,
+        url: `${routes.currentRisk}/domain-name-variations`,
         disabled: true,
       },
       {
         label: "emailProtection",
-        url: `${routes.currentRisk}/email-protection`,
+        url: `${routes.currentRisk}/email-weaknesses`,
         disabled: true,
       },
       {
@@ -106,23 +106,51 @@ const defaultNavLinks: SidebarNavigationMenuItem[] = [
   },
 ];
 
-const AuthenticatedSidebarLinks = () => {
-  const { isAdmin, logout, logoutMutation } = useAuthUserAccount();
+const AuthenticatedSidebarLinks = () => {  
+  const { isAdmin, logout, logoutMutation } = useAuthUserAccount();  
+  const router = useRouter(); // Use useRouter hook to access the current route.  
 
-  const navLinks = useMemo(() => {
-    return [
-      ...defaultNavLinks,
-      {
-        icon: <IconLogout className="w-6 shrink-0 text-white" />,
-        label: logoutMutation.isPending ? "loggingOut" : "logOut",
-        url: "#",
-        onClick(e) {
-          e.preventDefault();
-          logout();
-        },
-      },
-    ];
-  }, [logout, logoutMutation.isPending]);
+  const navLinks = useMemo(() => {  
+    const pathMap: Record<string, string> = {  
+      emailProtection: 'email-weaknesses',  
+      domainVariations: 'domain-name-variations',  
+      subDomainAnalysis: 'sub-domain-exploitable-services',  
+      exploitableServices: 'company-exploitable-services',  
+    };  
+    
+    // Dynamically adjust submenu items, e.g., `emailProtection` based on current path.  
+    const updatedNavLinks = defaultNavLinks.map((link) => {  
+      if (link.label === 'currentRisk' && link.submenuItems) {  
+        return {  
+          ...link,  
+          submenuItems: link.submenuItems.map((submenuItem) => {  
+            // Use type assertion here to inform TypeScript that submenuItem.label is a key of pathMap  
+            const pathKey = submenuItem.label as keyof typeof pathMap;  
+            submenuItem = {  
+              ...submenuItem,  
+              // Now TypeScript knows pathKey exists in pathMap, resolving the earlier error  
+              disabled: !(pathKey in pathMap && router.asPath.includes(pathMap[pathKey])),  
+            };  
+            return submenuItem;  
+          }),  
+        };  
+      }  
+      return link;  
+    });
+
+    return [  
+      ...updatedNavLinks,  
+      {  
+        icon: <IconLogout className="w-6 shrink-0 text-white" />,  
+        label: logoutMutation.isPending ? 'loggingOut' : 'logOut',  
+        url: '#',  
+        onClick(e) {  
+          e.preventDefault();  
+          logout();  
+        },  
+      },  
+    ];  
+  }, [logout, logoutMutation.isPending, router.asPath]); // Add router.asPath dependency to re-compute on route change.
 
   return (
     <div className="space-y-5">
@@ -151,6 +179,14 @@ const MenuItem = ({ menuItem }: { menuItem: SidebarNavigationMenuItem }) => {
   useEffect(() => {
     setIsSubmenuOpen(isActiveMenu);
   }, [isActiveMenu]);
+
+  const isCurrentRouteInSubmenu = useMemo(() => menuItem.submenuItems?.some(submenuItem => router.asPath.includes(submenuItem.url)), [menuItem.submenuItems, router.asPath]);  
+
+  useEffect(() => {  
+    if (isCurrentRouteInSubmenu) {  
+      setIsSubmenuOpen(true);  
+    }  
+  }, [isCurrentRouteInSubmenu]); 
 
   return (
     <div className="mt-[22px]">

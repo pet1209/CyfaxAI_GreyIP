@@ -1,6 +1,8 @@
 import IconArrowCircleDown from "@/components/icons/icon-arrow-circle-down";
 import IconTrash from "@/components/icons/icon-trash";
 import { FormattedMessage } from "react-intl";
+import Link from "next/link";
+import routes from "@/constants/routes";
 
 const AlertManagement = () => {
   return (
@@ -51,9 +53,12 @@ const AlertManagement = () => {
                       </div>
                     </div>
                   </div>
-                  <button className="flex h-11 items-center rounded-lg bg-accent px-4 font-mulish font-semibold text-white max-xl:mt-4 xl:h-[53px] xl:text-xl">
-                    <FormattedMessage id="alertType" />
-                  </button>
+                  <Link href={routes.alertType} passHref>
+                    <button className="flex h-11 items-center rounded-lg bg-accent px-4 font-mulish font-semibold text-white max-xl:mt-4 xl:h-[53px] xl:text-xl">
+                      <FormattedMessage id="alertType" />
+                    </button>
+                  </Link>
+                  
                 </div>
                 {/* Single Row End */}
 
@@ -80,9 +85,11 @@ const AlertManagement = () => {
                       </div>
                     </div>
                   </div>
-                  <button className="flex h-11 items-center rounded-lg bg-accent px-4 font-mulish font-semibold text-white max-xl:mt-4 xl:h-[53px] xl:text-xl">
-                    <FormattedMessage id="alertType" />
-                  </button>
+                  <Link href={routes.alertType} passHref>
+                    <button className="flex h-11 items-center rounded-lg bg-accent px-4 font-mulish font-semibold text-white max-xl:mt-4 xl:h-[53px] xl:text-xl">
+                      <FormattedMessage id="alertType" />
+                    </button>
+                  </Link>
                 </div>
                 {/* Single Row End */}
 

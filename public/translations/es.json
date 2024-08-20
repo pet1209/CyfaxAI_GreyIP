@@ -43,6 +43,13 @@
 
   "logInTitle": "Bienvenido a Cyfax, una Inteligencia de Amenazas Ampliada",
   "login": "Iniciar sesión",
+  "confirm": "Confirmar",
+  "changePassword": "Cambiar la contraseña",
+  "oldPassword": "Contraseña anterior",
+  "newPassword": "Nueva contraseña",
+  "verifyPassword": "Verificar nueva contraseña",
+  "loginTitle": "Bienvenido a ",
+  "siteName": "CYFAX",
   "forgotPassword": "¿Olvidaste tu contraseña?",
   "dontHaveAnAccount": "¿No tienes una cuenta?",
   "signUp": "Regístrate",
@@ -50,8 +57,9 @@
   "email": "Correo electrónico",
   "password": "Contraseña",
 
-  "resetPasswordTitle": "Por favor ingresa tu dirección de correo electrónico y te enviaremos un enlace para restablecer tu contraseña",
-  "goBack": "Regresar",
+  "resetPasswordTitle": "¿Olvidaste tu contraseña?",
+  "resetPasswordDescription": "No se preocupe, le enviaremos instrucciones de reinicio.",  
+  "goBack": "Volver a Iniciar sesión",
   "sendALink": "Enviar un enlace",
 
   "setupEmailForAlerts": "Configurar correo electrónico para alertas",
@@ -86,7 +94,7 @@
   "riskAndAchievementScore": "Puntuación de Riesgo y Logro",
   "acceptable": "Aceptable",
   "good": "Bueno",
-  "currentRiskLevel": "Nivel de riesgo actual",
+  "currentRiskLevel": "Nivel de riesgo actual ",
   "high": "Alto (<40)",
   "medium": "Medio (40-70)",
   "low": "Bajo (>/70)",
@@ -99,9 +107,13 @@
   "toLearnMoreAboutSecurityFindingsCategories": "para saber más sobre las categorías de hallazgos de seguridad",
   "attackSurface": "Superficie de ataque",
   "companyExploitableServices": "Servicios explotables de la empresa",
+  "companyExploitableServicesTableTitle": "Puertos y servicios expuestos por la empresa",
   "subDomainExploitableServices": "Servicios explotables del subdominio",
+  "subDomainExploitableServicesTableTitle": "Análisis de subdominios",
   "domainNameVariations": "Variaciones del nombre de dominio",
+  "domainNameVariationsTableTitle": "Variaciones de nombres de dominio",
   "emailWeaknesses": "Debilidades del correo electrónico",
+  "emailWeaknessesTableTitle": "Resultados de la protección del correo electrónico",
   "seeAll": "Ver todo",
   "port": "Puerto",
   "protocol": "Protocolo",
@@ -121,6 +133,7 @@
   "webTechnology": "Tecnología web",
   "uRLScheme": "Esquema URL",
   "titleAndContentDescription": "Título y descripción del contenido",
+  "takedownRequest": "Solicitud de eliminación",
 
   "securityAspect": "Aspecto de seguridad",
   "explanation": "Explicación",
@@ -147,11 +160,32 @@
   "alertManagement": "Gestión de Alertas",
   "logOut": "Cerrar sesión",
   "loggingOut": "Saliendo de tu cuenta...",
+  "resetPassword": "Restablecer contraseña",
 
   "riskAndAchievmentModalText": "Las puntuaciones de riesgo varían de 0 (mayor riesgo) a 100 (menor riesgo) e indican cuán probable es que una organización experimente un ciberataque u otra amenaza de seguridad en línea. La puntuación de riesgo se basa principalmente en factores como el conteo y la gravedad de sus hallazgos de seguridad activos. Su puntuación de riesgo puede cambiar con el tiempo a medida que se descubren nuevos hallazgos de seguridad y se remedian los riesgos más antiguos. Con Cyfax, un mayor logro en la barra representa un menor riesgo y una mejor postura de seguridad, proporcionando una visualización clara de la higiene cibernética de su organización.",
   "securityFindingModalText": "Los hallazgos de seguridad son vulnerabilidades en su superficie externa, como contraseñas filtradas y debilidades en el borde de la red, que podrían ser explotadas por un hacker para obtener acceso no autorizado. Identificar y abordar estos hallazgos de seguridad críticos ayuda a reducir el riesgo de ciberataques de su organización.",
   "attactSrufaceModalText": "La Superficie de Ataque consiste en las partes de sus activos digitales, como computadoras, redes y datos, que pueden ser objetivos de actores maliciosos. Cyfax proporciona una visión general de los activos externos de su empresa y resalta vulnerabilidades para ayudarlo a reducir su riesgo de ciberataques.",
 
   "dialogTitle": "Por favor ingresa tu dominio",
-  "enterDomain": "Ingresar dominio"
+  "enterDomain": "Ingresar dominio",
+
+  "filterTitle": "filtros de búsqueda",
+  "filter1": "Búsqueda de título",
+  "filter2": "Búsqueda de ubicación",
+
+  "vulnerabilitiesServicesTitle": "Vulnerabilidades frente a servicios explotables a lo largo del tiempo",
+
+  "leakedPasswords": "Contraseña filtrada a lo largo del tiempo (Total: ",
+
+  "alertTypeTitle": "Correo electrónico del usuario: ",
+  "alertTypeSmallTitle": "Configura cómo quieres que te notifiquemos sobre la actividad de ",
+  "notificationPreferences": "Preferencias de notificaciones",
+
+  "alertOption1": "Nueva contraseña filtrada",
+  "alertOption2": "Nueva mención de la Dark Web",
+  "alertOption3": "Nuevos registros de ladrones",
+  "alertOption4": "Nuevos registros de Stealer a la venta",
+  "alertOption5": "Nuevas vulnerabilidades detectadas",
+
+  "pageShowCount": "Espectáculo:"
 }

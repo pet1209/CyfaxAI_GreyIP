@@ -137,6 +137,11 @@ export type DetailScore = {
   vip_score: number;
 };
 
+export interface VulnerabilityChartItem {  
+  total: number;  
+  exploitable: number;  
+} 
+
 export type Data = {
   combolist_result: ComboListResult;
   dnstwist_result: DNSTwistResult;
@@ -146,11 +151,16 @@ export type Data = {
   timestamp: number;
   severity: string;
   detail_score: DetailScore;
-  chart: {
+  security_finding_chart: {
     legend: string;
     count: number;
     color: string;
   }[];
+  combolist_chart: {
+    legend: string;
+    count: number;
+  }[];
+  vuln_chart?: Record<string, VulnerabilityChartItem | null>
 };
 
 export type DetailReportAPIResponse = {

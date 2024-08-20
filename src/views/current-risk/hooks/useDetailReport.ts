@@ -7,6 +7,7 @@ import { useEffect } from "react";
 const domainAtom = atom<null | string>();
 // diazyourman.com
 
+
 const useDetailReport = () => {
   const [domain, setDomain] = useAtom(domainAtom);
   const { data, isAdmin } = useAuthUserAccount();
@@ -21,9 +22,10 @@ const useDetailReport = () => {
   const isOpenDomainModal = isAdmin && !domain;
 
   const queryData = getDetailReportQuery.data?.data;
+  const combolist_chart = queryData?.combolist_chart || [];
+  const vuln_chart=queryData?.vuln_chart;
 
-  const chartData = queryData?.chart || [];
-
+  const chartData = queryData?.security_finding_chart || [];
   const totalSecurityIssuesFound =
     (queryData?.combolist_result.employee_credential_leak.count ?? 0) +
     (queryData?.combolist_result.stealer_logs_for_sale.count ?? 0) +
@@ -52,6 +54,8 @@ const useDetailReport = () => {
     domain,
     chartData,
     totalSecurityIssuesFound,
+    combolist_chart,
+    vuln_chart,
   };
 };
 

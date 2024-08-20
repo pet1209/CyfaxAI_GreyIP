@@ -10,6 +10,8 @@ import AssessmentReport from "@/views/current-risk/components/assessment-report"
 import AttackSurface from "@/views/current-risk/components/attack-surface";
 import RiskAndAchievement from "@/views/current-risk/components/risk-and-achievement";
 import SecurityFindings from "@/views/current-risk/components/security-findings";
+import LeakedPasswords from "@/views/current-risk/components/leaked-passwords";
+import VulnerabilitiesServices from "@/views/current-risk/components/vulnerabilities-services";
 import useDetailReport from "@/views/current-risk/hooks/useDetailReport";
 import { useInputState } from "@mantine/hooks";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -77,6 +79,12 @@ const CurrentRisk = () => {
             <RiskAndAchievement />
             <SecurityFindings />
           </div>
+          <div className="mt-6"></div>
+          <div className="grid grid-cols-1 gap-x-10 gap-y-4 xl:grid-cols-[60fr_40fr]">  
+            <VulnerabilitiesServices />  
+            <LeakedPasswords />  
+          </div>
+          <div className="mt-6"></div>
           <AttackSurface />
           <AssessmentReport />
         </>

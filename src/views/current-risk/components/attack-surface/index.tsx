@@ -11,20 +11,25 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 import useDetailReport from "@/views/current-risk/hooks/useDetailReport";
 import { ComponentProps, forwardRef, useMemo } from "react";
 import { FormattedMessage } from "react-intl";
+import {useState} from "react";
+import routes from "@/constants/routes";
 
 const AttackSurface = () => {
   const { data } = useDetailReport();
-
+  const [selectedTab, setSelectedTab] = useState<keyof typeof routes>("company_exploitable_services"); 
+  
   const tabs = useMemo(() => {
     return [
       {
-        value: "company-exploitable-services",
+        value: "company_exploitable_services",
         trigger: (
           <TriggerBox
             title="companyExploitableServices"
+            onClick={()=>setSelectedTab("company_exploitable_services")}
             value={data?.vulnscan_result.org_domain.count}
           />
         ),
@@ -37,10 +42,11 @@ const AttackSurface = () => {
         seeAllLink: "#",
       },
       {
-        value: "sub-domain-exploitable-services",
+        value: "sub_domain_exploitable_services",
         trigger: (
           <TriggerBox
             title="subDomainExploitableServices"
+            onClick={()=>setSelectedTab("sub_domain_exploitable_services")}
             value={
               (data?.vulnscan_result.count || 0) -
               (data?.vulnscan_result.org_domain.count || 0)
@@ -60,10 +66,11 @@ const AttackSurface = () => {
         seeAllLink: "#",
       },
       {
-        value: "domain-name-variations",
+        value: "domain_name_variations",
         trigger: (
           <TriggerBox
             title="domainNameVariations"
+            onClick={()=>setSelectedTab("domain_name_variations")}
             value={data?.dnstwist_result.count}
           />
         ),
@@ -80,10 +87,11 @@ const AttackSurface = () => {
         seeAllLink: "#",
       },
       {
-        value: "email-weaknesses",
+        value: "email_weaknesses",
         trigger: (
           <TriggerBox
             title={"emailWeaknesses"}
+            onClick={()=>setSelectedTab("email_weaknesses")}
             value={data?.mxtoolbox_result.count}
           />
         ),
@@ -109,6 +117,7 @@ const AttackSurface = () => {
     data?.vulnscan_result.org_domain.count,
     data?.vulnscan_result.org_domain.ports,
     data?.vulnscan_result.sub_domain,
+    setSelectedTab
   ]);
 
   return (
@@ -150,9 +159,14 @@ const AttackSurface = () => {
                   <h3 className="text-sm font-semibold lg:text-xl lg:font-medium">
                     <FormattedMessage id={tab.title} />
                   </h3>
-                  <button className="text-sm font-medium text-accent duration-300 hover:opacity-90 lg:text-xl lg:font-medium">
-                    <FormattedMessage id="seeAll" />
-                  </button>
+                  <Link href={ typeof routes[selectedTab] === "function" ? 
+                    routes[selectedTab]("company-exploitable-services") : routes[selectedTab]
+                  } passHref>
+                    <button className="text-sm font-medium text-accent duration-300 hover:opacity-90 lg:text-xl lg:font-medium">
+                      <FormattedMessage id="seeAll" />
+                    </button>
+                  </Link>
+                  
                 </div>
 
                 <div className="mt-3 lg:mt-5">

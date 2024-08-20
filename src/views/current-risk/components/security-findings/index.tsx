@@ -20,6 +20,7 @@ const Chart = dynamic(
 
 const SecurityFindings = () => {
   const { chartData } = useDetailReport();
+  const bgColor = ["#390039", "#720072", "#ab00ab", "#e400e4", "#ff47fe", "#ff78fe", "#ffa9ff"]
   return (
     <div className="rounded-lg p-3 shadow-[0_0_12px_rgba(0,0,0,0.12)] sm:rounded-xl sm:p-5">
       <div className="flex items-center gap-x-3">
@@ -50,11 +51,11 @@ const SecurityFindings = () => {
 
         <div className="flex items-center gap-x-4 font-inter sm:gap-x-[78px]">
           <div className="mt-4 space-y-2.5">
-            {chartData.map((item) => (
+            {chartData.map((item, index) => (
               <div key={item.legend} className="flex items-center gap-x-2.5">
                 <div
                   className="size-2.5 rounded-sm"
-                  style={{ background: item.color }}
+                  style={{ background: bgColor[index % bgColor.length] }}
                 ></div>
                 <p className="text-xs">{item.legend}</p>
               </div>

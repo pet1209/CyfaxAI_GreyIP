@@ -8,7 +8,6 @@ const CompanyDomainNameVariationTable = ({
 }) => {
   return (
     <>
-    <div className="overflow-x-auto">
       <table className="w-full max-lg:hidden">
         <thead>
           <tr className="bg-[#60605B]/[.07] [&>th]:py-3.5 [&>th]:pl-6 [&>th]:text-left [&>th]:font-mulish [&>th]:font-semibold">
@@ -39,7 +38,7 @@ const CompanyDomainNameVariationTable = ({
           </tr>
         </thead>
         <tbody>
-          {(rows || []).slice(0, 3)?.map((row, i) => {
+          {rows.map((row, i) => {
             return (
               <tr
                 key={i}
@@ -53,9 +52,9 @@ const CompanyDomainNameVariationTable = ({
                 <td>{row?.scheme}</td>
                 <td>{row?.title || "-"}</td>
                 <td>  
-                  <button type="button" className="mt-4 rounded border border-gray-300 px-4 py-2 text-sm leading-none text-gray-800 hover:border-transparent hover:bg-[#720072] hover:text-white lg:mt-0">  
-                    Request  
-                  </button>
+                    <button type="button" className="mt-4 rounded border border-gray-300 px-4 py-2 text-sm leading-none text-gray-800 hover:border-transparent hover:bg-[#720072] hover:text-white lg:mt-0">  
+                        Request  
+                    </button>
                 </td>  
               </tr>
             );
@@ -137,14 +136,13 @@ const CompanyDomainNameVariationTable = ({
                 <p className="text-[13px] font-semibold tracking-[-0.2px]">
                   <FormattedMessage id="takedownRequest" />
                 </p>
-                <button type="button" className="mt-4 rounded border border-gray-300 px-4 py-2 text-sm leading-none text-gray-800 hover:border-transparent hover:bg-[#720072] hover:text-white lg:mt-0">  
+                <button type="button" className="mt-4 rounded border border-gray-300 px-4 py-2 text-sm leading-none text-gray-800 hover:border-transparent hover:bg-blue-500 hover:text-white lg:mt-0">  
                     Request  
                 </button>
               </div>
             </div>
           </div>
         ))}
-      </div>
       </div>
     </>
   );

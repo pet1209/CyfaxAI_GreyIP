@@ -1,4 +1,3 @@
-import IconSearch from "@/components/icons/icon-search";
 import LanguageDropDown from "@/components/language-dropdown";
 import Sidebar from "@/components/mobile-sidebar";
 import {
@@ -8,16 +7,18 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import routes from "@/constants/routes";
+import { FormattedMessage, useIntl } from "react-intl";
 import useAuthUserAccount from "@/hooks/useAuthUserAccount";
 import { isAuthenticatedRoute } from "@/lib/utils";
 import useDetailReport from "@/views/current-risk/hooks/useDetailReport";
 import { useDebouncedCallback, useInputState } from "@mantine/hooks";
-import { ChevronDown, LogOut } from "lucide-react";
+import { ChevronDown, LogOut, Search, ListRestart } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { IoMdHome } from "react-icons/io";
-import { useIntl } from "react-intl";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import Image from "next/image";
+import { getAuthTokenOnClient } from "@/lib/utils";
 const Header = () => {
   const router = useRouter();
   const [domainValue, setDomainValue] = useInputState("");
@@ -26,9 +27,42 @@ const Header = () => {
   const { setDomain, domain } = useDetailReport();
   const intl = useIntl();
 
+  const [loading, setLoading] = useState(false); 
+
+
+  const resetPassword = async () => {  
+    setLoading(true);  
+    try {  
+      const tokens = await getAuthTokenOnClient();
+      const response = await fetch(`${process.env.NEXT_PUBLIC_CYFAX_API_BASE_URL}/reset_password/`, {  
+        method: 'POST',  
+        headers: {  
+          'Content-Type': 'application/json',  
+          'Authorization': `Bearer ${tokens.accessToken}`,
+        }
+      });  
+      console.log(response)
+      
+      if (response.ok) {  
+        toast.success('Please check your email to reset your password.'); // Success notification  
+      } else {  
+        throw new Error('Failed to send reset password email.');  
+      }  
+    } catch (error) {  
+      console.error('Reset password error:', error);  
+      toast.error('Failed to reset password. Please try again.'); // Error notification  
+    } finally {  
+      setLoading(false);  
+    }  
+  };
+
   const handleChange = useDebouncedCallback((value: string) => {
     setDomain(value);
   }, 500);
+
+  const handleFilterClick = () => {
+    setDomain("")
+  }
 
   useEffect(() => {
     setDomainValue(domain);
@@ -41,15 +75,7 @@ const Header = () => {
     <div className="flex items-center justify-between bg-white px-4 max-lg:py-1.5 lg:bg-[#13101c] lg:px-0">
       <div className="flex h-[43px] items-center justify-center lg:h-20 lg:w-[280px]">
         <Link href={routes.home}>
-          {/* <Image
-            className="h-[43px] w-[35px] md:h-12 md:w-10 lg:h-[59px] lg:w-[47px]"
-            src={logo}
-            height={200}
-            width={200}
-            alt="logo"
-            placeholder="blur"
-          /> */}
-          <IoMdHome className="size-6 text-accent lg:size-9" />
+          <Image src="/site-logo.png" width="50" height="50" alt="Microsoft Teams Icon"/>  
         </Link>
       </div>
 
@@ -68,8 +94,15 @@ const Header = () => {
               })}
               className="h-10 w-full rounded-lg pl-3 pr-8 text-xs outline-none placeholder:text-xs max-lg:border md:pr-10 md:text-base md:placeholder:text-base lg:h-12 lg:w-[517px] lg:pl-5 lg:pr-14"
             />
-            <IconSearch className="pointer-events-none absolute right-3 top-1/2 w-4 -translate-y-1/2 text-accent md:w-5 lg:right-5 lg:w-6" />
+            <button
+              onClick={handleFilterClick}
+              className="pointer-events-auto absolute right-3 top-1/2 -translate-y-1/2 md:right-5"
+            >
+              <Search className="w-4 text-accent md:w-5 lg:w-6" />
+            </button>
+            
           </div>
+          
         )}
         <div className="hidden lg:block">
           <LanguageDropDown />
@@ -78,13 +111,6 @@ const Header = () => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <div className="flex cursor-pointer flex-row items-center gap-x-2">
-                {/* <Image
-                  className="hidden size-8 rounded-full object-cover lg:block"
-                  src={"/avatar.png"}
-                  alt="Avatar"
-                  width={100}
-                  height={100}
-                /> */}
                 <h3 className="hidden font-mulish text-base font-normal leading-5 text-gray-200 lg:block">
                   {data?.full_name || data?.email}
                 </h3>
@@ -98,7 +124,10 @@ const Header = () => {
               className="min-w-[200px]"
             >
               <DropdownMenuItem onClick={() => logout()}>
-                <LogOut className="size-4" /> Logout
+                <LogOut className="size-4" /> <FormattedMessage id="logOut" /> 
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => !loading && resetPassword()}>
+                <ListRestart className="size-4" /> <FormattedMessage id="resetPassword" />
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
