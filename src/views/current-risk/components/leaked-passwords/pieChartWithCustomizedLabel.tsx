@@ -1,5 +1,5 @@
 import React from 'react';  
-import { PieChart, Pie, Cell, ResponsiveContainer, Layer, Line, Text } from 'recharts';  
+import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';  
 import useDetailReport from "@/views/current-risk/hooks/useDetailReport";  
 
 const COLORS = ["#390039", "#720072", "#ab00ab"];  
@@ -11,26 +11,18 @@ interface CustomLabelProps {
   midAngle: number;  
   outerRadius: number;  
   percent: number;  
-  index: number;  
   value: number;  
   color: string;  
 }  
 
 const sliceBorderWidth = 3;
 
-const renderCustomizedLabel = ({   
-  cx,   
-  cy,   
-  midAngle,   
-  outerRadius,   
-  value,   
-  index,   
-  color   
-}: CustomLabelProps) => {  
+const renderCustomizedLabel = ({ cx, cy, midAngle, outerRadius, value, color }: CustomLabelProps) => {  
+  // Use a smaller multiplier for line length to make the connecting line shorter  
   const radius = outerRadius - sliceBorderWidth / 2;  
-  const lineLength = 20; // Extend the line outward from the slice edge  
+  const lineLength = radius * 0.2; // Reduced line length compared to previous example  
   const totalRadius = radius + lineLength;  
-  const radian = RADIAN; // Use the RADIAN constant already defined  
+  const radian = RADIAN;  
   const sin = Math.sin(-midAngle * radian);  
   const cos = Math.cos(-midAngle * radian);  
 
@@ -40,9 +32,13 @@ const renderCustomizedLabel = ({
   const lineEndX = cx + totalRadius * cos;  
   const lineEndY = cy + totalRadius * sin;  
 
-  const textOffset = 12;   
+  // Increase the textOffset to account for the bigger font size  
+  const textOffset = radius / 8; // Adjusting to make more room for larger text  
   const textX = lineEndX + (cos >= 0 ? 1 : -1) * textOffset;  
   const textAnchor = cos >= 0 ? 'start' : 'end';  
+  
+  // Make font size larger than in the previous example  
+  const fontSize = radius / 8; // Increase the division denominator to get a larger font size  
 
   return (  
     <g>  
@@ -55,12 +51,13 @@ const renderCustomizedLabel = ({
         x={textX} y={lineEndY}  
         textAnchor={textAnchor}  
         fill={color}  
+        fontSize={`${fontSize}px`} // Applying adjusted (larger) font size  
         dominantBaseline="central">  
           {`${value}`}  
       </text>  
     </g>  
   );  
-};  
+};
 
 const LeakedPieChart = () => {  
   const { combolist_chart } = useDetailReport();  
@@ -95,6 +92,7 @@ const LeakedPieChart = () => {
         </Pie>  
       </PieChart>  
     </ResponsiveContainer>  
+    
   );  
 };  
 

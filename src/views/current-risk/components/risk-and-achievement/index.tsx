@@ -6,15 +6,13 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { fixedNumberIfNeeded } from "@/lib/utils";
 import useDetailReport from "@/views/current-risk/hooks/useDetailReport";
-import { CSSProperties } from "react";
 import { FormattedMessage } from "react-intl";
 import useMeasure from "react-use-measure";
 
 const RiskAndAchievement = () => {
   const { data } = useDetailReport();
-  const [ref, bounds] = useMeasure();
+  const [ref] = useMeasure();
 
   const totalScore = data?.detail_score.total_score ?? 0;
 

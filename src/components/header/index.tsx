@@ -123,11 +123,11 @@ const Header = () => {
               sideOffset={10}
               className="min-w-[200px]"
             >
-              <DropdownMenuItem onClick={() => logout()}>
-                <LogOut className="size-4" /> <FormattedMessage id="logOut" /> 
-              </DropdownMenuItem>
               <DropdownMenuItem onClick={() => !loading && resetPassword()}>
                 <ListRestart className="size-4" /> <FormattedMessage id="resetPassword" />
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => logout()}>
+                <LogOut className="size-4" /> <FormattedMessage id="logOut" /> 
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

@@ -1,9 +1,4 @@
-import IconArrowCircleDown from "@/components/icons/icon-arrow-circle-down";  
-import IconTrash from "@/components/icons/icon-trash";  
 import { FormattedMessage } from "react-intl";  
-import { Mail, Slack,  } from 'lucide-react';
-import Link from "next/link";  
-import routes from "@/constants/routes";  
 import useAuthUserAccount from "@/hooks/useAuthUserAccount";  
 import Image from "next/image";
 

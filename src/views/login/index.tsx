@@ -4,13 +4,14 @@ import routes from "@/constants/routes";
 import { getLoginMutationOptions } from "@/cyfax-api-client/mutations";
 import { cn, getApiErrorMessage } from "@/lib/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Formik, useField, useFormikContext } from "formik";
+import { Formik, useField, Field, useFormikContext } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { ComponentProps, forwardRef, ReactNode } from "react";
+import { ComponentProps, forwardRef, ReactNode, useState, useEffect } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { toast } from "react-toastify";
 import { z } from "zod";
+import { Eye, EyeOff } from 'lucide-react'; 
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
 const validationSchema = z.object({
@@ -41,6 +42,22 @@ const Login = () => {
       toast.success(intl.formatMessage({ id: "logInSuccessMessage" }));
     },
   });
+  const [initialValues, setInitialValues] = useState({  
+    email: '',  
+    password: '',  
+    rememberMe: false,  
+  });  
+  useEffect(() => {  
+    // Safely access localStorage within useEffect  
+    const storedEmail = localStorage.getItem('email');  
+    const storedPassword = localStorage.getItem('password');  
+    
+    setInitialValues({  
+      email: storedEmail ? storedEmail : "",  
+      password: storedPassword ? storedPassword : "",  
+      rememberMe: !!storedEmail && !!storedPassword // Coerce to boolean  
+    });  
+  }, []);
 
   return (
     <div className="flex flex-col items-center px-5 pb-20 lg:pb-[148px]">
@@ -56,18 +73,23 @@ const Login = () => {
         </div>
 
         <Formik
-          initialValues={{
-            email: "",
-            password: "",
-          }}
+          initialValues={initialValues}
           onSubmit={async (values, actions) => {
             try {
+              if (values.rememberMe) {  
+                localStorage.setItem('email', values.email);  
+                localStorage.setItem('password', values.password);  
+              } else {  
+                localStorage.removeItem('email');  
+                localStorage.removeItem('password');  
+              }
               await loginMutation.mutateAsync(values);
             } catch (error) {
               actions.setSubmitting(false);
             }
           }}
           validationSchema={toFormikValidationSchema(validationSchema)}
+          enableReinitialize={true}
         >
           {({ submitForm, isSubmitting }) => (
             <form
@@ -97,12 +119,18 @@ const Login = () => {
                   }
                 />
               </div>
-              <Link
-                href={routes.forgotPassword}
-                className="mb-8 mt-4 flex justify-end text-sm text-accent underline-offset-4 duration-300 hover:opacity-90 max-md:font-medium md:underline"
-              >
-                <FormattedMessage id="forgotPassword" />
-              </Link>
+              <div className="flex items-center justify-between mb-8 mt-4 w-full">  
+                <label className="flex items-center space-x-2 cursor-pointer min-w-[120px]">  
+                  <Field type="checkbox" name="rememberMe" className="w-4 h-4"/>  
+                  <span className="text-sm text-gray-700"><FormattedMessage id="rememberMe" /></span>  
+                </label>  
+                <Link  
+                  href={routes.forgotPassword}  
+                  className="text-sm text-accent underline-offset-4 duration-300 hover:opacity-90 md:underline min-w-[120px] flex justify-end"  
+                >  
+                  <FormattedMessage id="forgotPassword" />  
+                </Link>  
+              </div> 
               <button
                 type="submit"
                 className="h-[56px] w-full rounded-[10px] bg-accent text-center font-semibold text-white duration-300 hover:opacity-90 md:h-[75px] md:rounded-[15px] md:text-xl"
@@ -140,8 +168,19 @@ const FormikInput = forwardRef<HTMLInputElement, FormikInputProps>(
   ({ icon, name, showError = true, ...props }, ref) => {
     const { getFieldProps } = useFormikContext();
     const [, meta] = useField(name);
+    const [showPassword, setShowPassword] = useState(false);
+
+    const togglePasswordVisibility = () => setShowPassword(!showPassword);  
+    const inputType = name === "password" && showPassword ? "text" : props.type
 
     const hasError = meta.error && meta.touched;
+    const endIcon = name === "password" ? (  
+      showPassword ? (  
+        <EyeOff onClick={togglePasswordVisibility} className="absolute right-6 top-1/2 -translate-y-1/2 cursor-pointer" />  
+      ) : (  
+        <Eye onClick={togglePasswordVisibility} className="absolute right-6 top-1/2 -translate-y-1/2 cursor-pointer" />  
+      )  
+    ) : null;  
 
     return (
       <div>
@@ -150,6 +189,7 @@ const FormikInput = forwardRef<HTMLInputElement, FormikInputProps>(
             ref={ref}
             {...props}
             {...getFieldProps(name)}
+            type={inputType}
             className={cn(
               "h-12 w-full rounded-[10px] bg-black/10 px-5 outline-none backdrop-blur-xl placeholder:font-medium placeholder:text-black/80 placeholder:opacity-100 max-md:text-sm max-md:placeholder:text-sm md:h-[66px] md:rounded-xl md:pl-[60px]",
               hasError && "ring-1 ring-red-500",
@@ -157,6 +197,7 @@ const FormikInput = forwardRef<HTMLInputElement, FormikInputProps>(
             )}
           />
           {icon}
+          {endIcon}
         </div>
         {showError && hasError && (
           <p className="mt-2 text-xs text-red-500">{meta.error}</p>

@@ -1,15 +1,13 @@
 'use client';
 import IconKey from "@/components/icons/icon-key";
-import IconSms from "@/components/icons/icon-sms";
 import routes from "@/constants/routes";
-import { ArrowLeft } from 'lucide-react';  
-import { getLoginMutationOptions } from "@/cyfax-api-client/mutations";
-import { cn, getApiErrorMessage } from "@/lib/utils";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { ArrowLeft, Eye, EyeOff } from 'lucide-react';  
+import { cn } from "@/lib/utils";
 import { Formik, useField, useFormikContext } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { ComponentProps, forwardRef, ReactNode } from "react";
+import useAuthUserAccount from "@/hooks/useAuthUserAccount";
+import { ComponentProps, forwardRef, ReactNode, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { toast } from "react-toastify";
 import { z } from "zod";
@@ -34,6 +32,7 @@ const ResetPassword = () => {
   const router = useRouter();
   const keys = router.query.slug;
   const intl = useIntl();
+  const { logout } = useAuthUserAccount();
 
   const handleSubmit = async (values: FormValues) => {  
     if (!keys || keys.length < 2) {  
@@ -57,11 +56,12 @@ const ResetPassword = () => {
       const response = await fetch(url, { method: "POST", headers, body });  
       if (response.ok) {  
         toast.success("Password successfully changed.");  
-        router.push("/login"); // Adjust this to your actual login route  
+        logout()
       } else {  
         // Handle non-2xx responses here  
-        const error = await response.json();  
-        toast.error(`Failed to change password: ${error.message}`);  
+        const error = await response.json(); 
+        console.log(error) 
+        toast.error(`Failed to change password: ${error.data}`);  
       }  
     } catch (error) {  
       // Handle network errors here  
@@ -74,12 +74,12 @@ const ResetPassword = () => {
       <div className="mt-6 w-full max-w-[643px] font-inter sm:mt-20 lg:mt-[104px]">
         <Link  
           href={routes.login}  
-          className="mt-4 flex justify-end text-sm text-accent underline-offset-4 duration-300 hover:opacity-90 max-md:font-medium md:underline"  
+          className="mt-4 flex justify-start text-sm text-accent underline-offset-4 duration-300 hover:opacity-90 max-md:font-medium md:underline"  
         >  
           <ArrowLeft className='mr-2 size-5' />  
           <FormattedMessage id="goBack" />  
         </Link> 
-        <div className='mb-8 flex flex-col justify-center space-y-1 text-left'>  
+        <div className='mt-4 flex flex-col justify-center space-y-1 text-left'>  
           <h2 className="text-[30px] font-bold leading-[150%]"> 
             <FormattedMessage id="changePassword" />
           </h2>
@@ -150,14 +150,19 @@ type FormikInputProps = Omit<ComponentProps<"input">, "name"> & {
   icon: ReactNode;
   name: string;
   showError?: boolean;
+  type?: string;
 };
 
 const FormikInput = forwardRef<HTMLInputElement, FormikInputProps>(
-  ({ icon, name, showError = true, ...props }, ref) => {
+  ({ icon, name, showError = true, type= "text", ...props }, ref) => {
+    const [showPassword, setShowPassword] = useState(false);  
     const { getFieldProps } = useFormikContext();
     const [, meta] = useField(name);
 
     const hasError = meta.error && meta.touched;
+    const isPasswordType = type === "password";  
+    const inputType = showPassword && isPasswordType ? "text" : type;
+    const togglePasswordVisibility = () => setShowPassword(!showPassword);  
 
     return (
       <div>
@@ -166,13 +171,23 @@ const FormikInput = forwardRef<HTMLInputElement, FormikInputProps>(
             ref={ref}
             {...props}
             {...getFieldProps(name)}
+            type={inputType}  
             className={cn(
               "h-12 w-full rounded-[10px] bg-black/10 px-5 outline-none backdrop-blur-xl placeholder:font-medium placeholder:text-black/80 placeholder:opacity-100 max-md:text-sm max-md:placeholder:text-sm md:h-[66px] md:rounded-xl md:pl-[60px]",
               hasError && "ring-1 ring-red-500",
               props.className,
             )}
           />
-          {icon}
+            {isPasswordType && (  
+                <button  
+                type="button" // Ensure this is a button to avoid form submission  
+                className="absolute inset-y-0 right-0 flex items-center pr-3"  
+                onClick={togglePasswordVisibility}  
+                >  
+                {showPassword ? <EyeOff /> : <Eye />}  
+                </button>  
+            )}  
+            {icon}
         </div>
         {showError && hasError && (
           <p className="mt-2 text-xs text-red-500">{meta.error}</p>

@@ -1,14 +1,5 @@
-import IconCircleExclamation from "@/components/icons/icon-circle-exclamation";
-import IconCircleExclamationOutline from "@/components/icons/icon-circle-exclamation-outline";
 import LeakedPieChart from "./pieChartWithCustomizedLabel"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import useDetailReport from "@/views/current-risk/hooks/useDetailReport";
-import dynamic from "next/dynamic";
 import { FormattedMessage } from "react-intl";
 
 const SecurityFindings = () => {

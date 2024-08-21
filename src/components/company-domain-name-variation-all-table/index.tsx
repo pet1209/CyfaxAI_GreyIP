@@ -136,7 +136,7 @@ const CompanyDomainNameVariationTable = ({
                 <p className="text-[13px] font-semibold tracking-[-0.2px]">
                   <FormattedMessage id="takedownRequest" />
                 </p>
-                <button type="button" className="mt-4 rounded border border-gray-300 px-4 py-2 text-sm leading-none text-gray-800 hover:border-transparent hover:bg-blue-500 hover:text-white lg:mt-0">  
+                <button type="button" className="mt-4 rounded border border-gray-300 px-4 py-2 text-sm leading-none text-gray-800 hover:border-transparent hover:bg-[#720072] hover:text-white lg:mt-0">  
                     Request  
                 </button>
               </div>

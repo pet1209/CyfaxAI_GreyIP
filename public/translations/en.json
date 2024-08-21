@@ -44,6 +44,7 @@
 
   "logInTitle": "Welcome to Cyfax External Threat Intelligence",
   "login": "Login",
+  "rememberMe": "Remember Me",
   "confirm": "Confirm",
   "changePassword": "Change password",
   "oldPassword": "Old password",

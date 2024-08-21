@@ -1,11 +1,6 @@
 import Results from "@/views/results";
-import { DehydratedState } from "@tanstack/react-query";
 
-const ResultsPage = ({
-  dehydratedState,
-}: {
-  dehydratedState: DehydratedState;
-}) => {
+const ResultsPage = () => {
   return (
     // <HydrationBoundary state={dehydratedState}>
     <Results />
