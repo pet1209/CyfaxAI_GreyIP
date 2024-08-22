@@ -229,12 +229,6 @@ const MenuItem = ({ menuItem }: { menuItem: SidebarNavigationMenuItem }) => {
             
             const isActiveSubMenu = router.asPath.startsWith(submenuItem.url);  
 
-            const labelClassNames = cn(  
-              "inline-block",  
-              { "text-red-500": isActiveSubMenu }, // Make font color red if submenu is active  
-              { "text-white/80": !isActiveSubMenu } // Keep the default style if submenu is not active  
-            );  
-
             return (
               <Link
                 title={submenuItem.label}
@@ -249,7 +243,10 @@ const MenuItem = ({ menuItem }: { menuItem: SidebarNavigationMenuItem }) => {
                 <span className="pointer-events-none absolute right-[calc(100%+8px)] top-1/2 block h-0.5 w-3 -translate-y-1/2 bg-white/35" />
                 {submenuItem.icon}
 
-                <span className={labelClassNames}>  
+                <span  
+                  className={`inline-block ${isActiveSubMenu ? '': 'text-white/80'}`}  
+                  style={{ color: isActiveSubMenu ? '#FF0DFF' : '' }}  
+                >  
                   <FormattedMessage id={submenuItem.label} />  
                 </span>
               </Link>
