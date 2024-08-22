@@ -392,6 +392,7 @@ const FormikInput = forwardRef<HTMLInputElement, FormikInputProps>(
     const { getFieldProps } = useFormikContext();
     const [, meta] = useField(name);
     const [showPassword, setShowPassword] = useState(false);
+    const intl = useIntl();
 
     const togglePasswordVisibility = () => setShowPassword(!showPassword);  
     const inputType = name === "password" && showPassword ? "text" : props.type
@@ -408,7 +409,7 @@ const FormikInput = forwardRef<HTMLInputElement, FormikInputProps>(
     return (
       <div>
         {label && (  
-          <label className="mb-4 inline-block text-sm font-medium md:text-base lg:text-xl">{label}</label>  
+          <label className="mb-4 inline-block text-sm font-medium md:text-base lg:text-xl">{intl.formatMessage({id: label})}</label>  
         )} 
         <div className="relative">
           <input
