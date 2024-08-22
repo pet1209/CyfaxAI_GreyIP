@@ -71,6 +71,15 @@ export type MXToolboxDNSItem = {
   host: string;
   result: string;
 };
+export type TableData = CredentialItem[];  
+
+export type StealerTableData = StealerLogsForSaleItem[];
+
+export type MachineTableData = StealerLogsItem[];
+
+export type DarkTableData = DarkWebMentionsItem[];
+
+export type HackerTableData = HackerMentionsItem[];
 
 export type MXToolboxCategory = Record<string, MXToolboxDNSItem[]>;
 

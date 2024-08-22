@@ -4,6 +4,11 @@ type Permission = {
   code_name: string;
 };
 
+type Roles={
+  id: string;
+  role_name: string;
+}
+
 type Pagination = {
   page: number;
   per_page: number;
@@ -15,3 +20,7 @@ type PermissionsAPIResponse = {
   data: Permission[];
   pagination: Pagination;
 };
+
+type RolesAPIResponse = {
+  data: Roles[];
+}

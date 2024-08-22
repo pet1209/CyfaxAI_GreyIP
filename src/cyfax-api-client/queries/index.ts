@@ -47,6 +47,16 @@ export const getPermissionsQueryOptions = () => {
   };
 };
 
+export const getRolesQueryOptions = () => {
+  return {
+    queryKey: ["get-roles"],
+    queryFn: () =>
+      cyfaxApiClient
+        .get<RolesAPIResponse>("/roles/")
+        .then((res) => res.data),
+  };
+}
+
 export const getDetailReportQueryOptions = ({
   domain,
 }: { domain?: string } = {}) => {

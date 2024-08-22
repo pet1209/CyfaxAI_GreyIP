@@ -1,6 +1,8 @@
 import IconChekboxChecked from "@/components/icons/icon-chekbox-checked";
 import IconChekboxUnChecked from "@/components/icons/icon-chekbox-unchecked";
 import Input, { FormikInput } from "@/components/ui/input";
+import { Eye, EyeOff } from 'lucide-react';
+import routes from "@/constants/routes";
 import {
   FormikSelect,
   Select,
@@ -9,7 +11,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { getPermissionsQueryOptions } from "@/cyfax-api-client/queries";
+import Link from "next/link";
+import { getPermissionsQueryOptions, getRolesQueryOptions } from "@/cyfax-api-client/queries";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { ErrorMessage, Formik } from "formik";
 import { useMemo, useState } from "react";
@@ -20,6 +23,8 @@ import { cn, getApiErrorMessage } from "@/lib/utils";
 import { FormattedMessage, useIntl } from "react-intl";
 import { toast } from "react-toastify";
 import { z } from "zod";
+import useAuthUserAccount from "@/hooks/useAuthUserAccount";
+
 
 const validationSchema = z.object({
   permissions: z.array(z.string()).min(1, "Permissions are required"),
@@ -57,9 +62,15 @@ const OrgManagement = () => {
   const [isOpenPermissionsSelect, setIsOpenPermissionsSelect] = useState(false);
 
   const intl = useIntl();
+  const { data } = useAuthUserAccount();
+
 
   const permissionsQuery = useQuery({
     ...getPermissionsQueryOptions(),
+  });
+
+  const roles = useQuery({
+    ...getRolesQueryOptions(),
   });
 
   const createUserManagementMutation = useMutation({
@@ -115,10 +126,32 @@ const OrgManagement = () => {
       initialValues={initialValues}
       onSubmit={async (values, actions) => {
         try {
+          const rolesData = roles.data?.data;
+
+          if (!rolesData) {  
+            console.error("Role data is undefined.");  
+            return;  
+          }  
+          const clientAdminRole = rolesData.find(role => role.role_name === 'client_admin');  
+          const partnerAdminRole = rolesData.find(role => role.role_name === 'partner_admin');  
+
+          let selectedRoleId;  
+          if (values.group_kind === 'client') {  
+            selectedRoleId = clientAdminRole?.id; 
+          } else if (values.group_kind === 'partner') {  
+            selectedRoleId = partnerAdminRole?.id;  
+          }  
+
+          if (!selectedRoleId) {  
+            console.error('Selected role ID not found.');  
+            return;
+          } 
+          console.log(selectedRoleId)
           await createUserManagementMutation.mutateAsync({
             email: values.email,
             password: values.password,
             full_name: values.full_name,
+            role: selectedRoleId,
           });
           const res = await createGroupsMutation.mutateAsync({
             name: values.name,
@@ -199,7 +232,7 @@ const OrgManagement = () => {
                 />
               </div>
 
-              <div>
+              <div className="relative lg:col-span-2">
                 <FormikSelect
                   name="group_kind"
                   label="isThisOrganizationAClientOrPartner"
@@ -216,35 +249,6 @@ const OrgManagement = () => {
                   ]}
                 />
               </div>
-              <div className="pointer-events-none opacity-50">
-                <label className="mb-4 inline-block text-sm font-medium md:text-base lg:text-xl">
-                  <FormattedMessage id="createAdditionalUser" />
-                </label>
-                <Select>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="option_1">Option 1</SelectItem>
-                    <SelectItem value="option_2">Option 2</SelectItem>
-                    <SelectItem value="option_3">Option 3</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <Input
-                wrapper={{ className: "pointer-events-none opacity-50" }}
-                label="additionalUser"
-                placeholder={intl.formatMessage({
-                  id: "inputFullNameOfAdditionalUser",
-                })}
-              />
-              <Input
-                wrapper={{ className: "pointer-events-none opacity-50" }}
-                label="emailAddress"
-                placeholder={intl.formatMessage({
-                  id: "inputAdditionalUserEmailHere",
-                })}
-              />
               <div className="relative lg:col-span-2">
                 {/* <FormikSelect
                 name="permissions"
@@ -344,11 +348,14 @@ const OrgManagement = () => {
               </div>
             </div>
             <div className="mt-8 flex justify-end">
-              <button  
-                className="mr-5 h-14 w-48 rounded-lg bg-accent px-8 text-base font-semibold text-white duration-300 hover:opacity-90 md:text-lg lg:text-xl"  
-              >  
-                <FormattedMessage id="viewUsersButton" />  
-              </button>  
+              <Link href={routes.userManagement} passHref>
+                <button  
+                  className="mr-5 h-14 w-48 rounded-lg bg-accent px-8 text-base font-semibold text-white duration-300 hover:opacity-90 md:text-lg lg:text-xl"  
+                >  
+                  <FormattedMessage id="viewUsersButton" />  
+                </button>  
+              </Link>
+              
               <button  
                 type="submit"  
                 className="h-14 w-48 rounded-lg bg-accent px-8 text-base font-semibold text-white duration-300 hover:opacity-90 md:text-lg lg:text-xl"  

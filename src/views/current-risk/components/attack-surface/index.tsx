@@ -26,16 +26,16 @@ function isRouteFunction(route: any): route is (arg: string) => string {
 
 const AttackSurface = () => {
   const { data } = useDetailReport();
-  const [selectedTab, setSelectedTab] = useState<keyof typeof routes>("company_exploitable_services"); 
+  const [selectedTab, setSelectedTab] = useState<keyof typeof routes>("company_exposed_ports"); 
   
   const tabs = useMemo(() => {
     return [
       {
-        value: "company_exploitable_services",
+        value: "company_exposed_ports",
         trigger: (
           <TriggerBox
             title="companyExploitableServices"
-            onClick={()=>setSelectedTab("company_exploitable_services")}
+            onClick={()=>setSelectedTab("company_exposed_ports")}
             value={data?.vulnscan_result.org_domain.count}
           />
         ),
@@ -129,7 +129,7 @@ const AttackSurface = () => {
   const routeValue = routes[selectedTab];  
 
   const routePath = isRouteFunction(routeValue)  
-  ? routeValue("company-exploitable-services") // Call with your desired argument  
+  ? routeValue("company-exposed-ports") // Call with your desired argument  
   : routeValue;
 
   return (

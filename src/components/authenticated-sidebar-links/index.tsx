@@ -30,11 +30,6 @@ export type SidebarNavigationMenuItem = {
 };
 
 const defaultNavLinks: SidebarNavigationMenuItem[] = [
-  // {
-  //   icon: <IconDashboard className="w-6 shrink-0 text-white" />,
-  //   label: "dashboard",
-  //   url: routes.dashboard,
-  // },
   {
     icon: <IconDanger className="w-6 shrink-0 text-white" />,
     label: "currentRisk",
@@ -47,12 +42,7 @@ const defaultNavLinks: SidebarNavigationMenuItem[] = [
       },
       {
         label: "companyExposedPortsServices",
-        url: `${routes.currentRisk}/company-exposed-ports-services`,
-        disabled: true,
-      },
-      {
-        label: "exploitableServices",
-        url: `${routes.currentRisk}/company-exploitable-services`,
+        url: `${routes.currentRisk}/company-exposed-ports`,
         disabled: true,
       },
       {
@@ -115,7 +105,7 @@ const AuthenticatedSidebarLinks = () => {
       emailProtection: 'email-weaknesses',  
       domainVariations: 'domain-name-variations',  
       subDomainAnalysis: 'sub-domain-exploitable-services',  
-      exploitableServices: 'company-exploitable-services',  
+      companyExposedPortsServices: 'company-exposed-ports',  
     };  
     
     // Dynamically adjust submenu items, e.g., `emailProtection` based on current path.  
@@ -229,11 +219,21 @@ const MenuItem = ({ menuItem }: { menuItem: SidebarNavigationMenuItem }) => {
       {hasSubMenu && isSubmenuOpen && (
         <div className="my-2 ml-[18px] space-y-1 border-l-2 border-white/35 pl-5">
           {menuItem.submenuItems?.map((submenuItem) => {
-            const isActiveSubMenu =
-              (submenuItem.url === "/" &&
-                isPathEqual(router.asPath, submenuItem.url)) ||
-              (submenuItem.url !== "/" &&
-                router.asPath.startsWith(submenuItem.url));
+            const pathMap: Record<string, string> = {  
+              emailProtection: 'email-weaknesses',  
+              domainVariations: 'domain-name-variations',  
+              subDomainAnalysis: 'sub-domain-exploitable-services',  
+              companyExposedPortsServices: 'company-exposed-ports',  
+            };  
+          
+            
+            const isActiveSubMenu = router.asPath.startsWith(submenuItem.url);  
+
+            const labelClassNames = cn(  
+              "inline-block",  
+              { "text-red-500": isActiveSubMenu }, // Make font color red if submenu is active  
+              { "text-white/80": !isActiveSubMenu } // Keep the default style if submenu is not active  
+            );  
 
             return (
               <Link
@@ -242,21 +242,15 @@ const MenuItem = ({ menuItem }: { menuItem: SidebarNavigationMenuItem }) => {
                   submenuItem.onClick && submenuItem.onClick(e);
                   closeMenu();
                 }}
-                className={cn(
-                  "flex w-full items-center gap-3 rounded-lg px-3 py-1.5 text-white/80 [&>svg]:size-[18px] [&>svg]:shrink-0 md:[&>svg]:size-3.5 relative",
-                  isActiveSubMenu && "bg-white/10 text-white",
-                  submenuItem.disabled
-                    ? "opacity-40 pointer-events-none"
-                    : "hover:text-white hover:bg-white/5 transition-all hover:text-primary",
-                )}
+                className="flex w-full items-center gap-3 rounded-lg px-3 py-1.5 [&>svg]:size-[18px] [&>svg]:shrink-0 md:[&>svg]:size-3.5 relative hover:text-white hover:bg-white/5 transition-all"  
                 key={submenuItem.url}
                 href={submenuItem.url}
               >
                 <span className="pointer-events-none absolute right-[calc(100%+8px)] top-1/2 block h-0.5 w-3 -translate-y-1/2 bg-white/35" />
                 {submenuItem.icon}
 
-                <span className="inline-block">
-                  <FormattedMessage id={submenuItem.label} />
+                <span className={labelClassNames}>  
+                  <FormattedMessage id={submenuItem.label} />  
                 </span>
               </Link>
             );
