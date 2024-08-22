@@ -1,6 +1,6 @@
 import IconChekboxChecked from "@/components/icons/icon-chekbox-checked";
 import IconChekboxUnChecked from "@/components/icons/icon-chekbox-unchecked";
-import Input, { FormikInput } from "@/components/ui/input";
+// import Input, { FormikInput } from "@/components/ui/input";
 import { Eye, EyeOff } from 'lucide-react';
 import routes from "@/constants/routes";
 import {
@@ -14,8 +14,13 @@ import {
 import Link from "next/link";
 import { getPermissionsQueryOptions, getRolesQueryOptions } from "@/cyfax-api-client/queries";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { ErrorMessage, Formik } from "formik";
-import { useMemo, useState } from "react";
+import { ErrorMessage, Formik, useField, useFormikContext } from "formik";
+import {
+  useMemo,
+  forwardRef,
+  useState,
+  ComponentProps,
+} from "react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
 import cyfaxApiClient from "@/cyfax-api-client";
@@ -218,9 +223,8 @@ const OrgManagement = () => {
                 name="password"
                 label="password"
                 type="password"
-                placeholder={intl.formatMessage({
-                  id: "inputTemporaryPasswordHere",
-                })}
+                placeholder={intl.formatMessage({ id: "inputTemporaryPasswordHere" })}
+                autoComplete="new-password"
               />
               <div className="lg:col-span-2">
                 <FormikInput
@@ -376,3 +380,55 @@ const OrgManagement = () => {
 };
 
 export default OrgManagement;
+
+type FormikInputProps = Omit<ComponentProps<"input">, "name"> & {
+  name: string;
+  showError?: boolean;
+  label?: string;
+};
+
+const FormikInput = forwardRef<HTMLInputElement, FormikInputProps>(
+  ({ name, showError = true, label, ...props }, ref) => {
+    const { getFieldProps } = useFormikContext();
+    const [, meta] = useField(name);
+    const [showPassword, setShowPassword] = useState(false);
+
+    const togglePasswordVisibility = () => setShowPassword(!showPassword);  
+    const inputType = name === "password" && showPassword ? "text" : props.type
+
+    const hasError = meta.error && meta.touched;
+    const endIcon = name === "password" ? (  
+      showPassword ? (  
+        <EyeOff onClick={togglePasswordVisibility} className="absolute right-6 top-1/2 -translate-y-1/2 cursor-pointer" />  
+      ) : (  
+        <Eye onClick={togglePasswordVisibility} className="absolute right-6 top-1/2 -translate-y-1/2 cursor-pointer" />  
+      )  
+    ) : null;  
+
+    return (
+      <div>
+        {label && (  
+          <label className="mb-4 inline-block text-sm font-medium md:text-base lg:text-xl">{label}</label>  
+        )} 
+        <div className="relative">
+          <input
+            ref={ref}
+            {...props}
+            {...getFieldProps(name)}
+            type={inputType}
+            className={cn(
+              "h-12 w-full rounded-[10px] bg-black/10 px-5 outline-none backdrop-blur-xl placeholder:font-medium placeholder:text-black/80 placeholder:opacity-100 max-md:text-sm max-md:placeholder:text-sm md:h-[66px] md:rounded-xl",
+              hasError && "ring-1 ring-red-500",
+              props.className,
+            )}
+          />
+          {endIcon}
+        </div>
+        {showError && hasError && (
+          <p className="mt-2 text-xs text-red-500">{meta.error}</p>
+        )}
+      </div>
+    );
+  },
+);
+FormikInput.displayName = "FormikInput";
