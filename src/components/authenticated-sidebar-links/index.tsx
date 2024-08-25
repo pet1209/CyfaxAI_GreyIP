@@ -4,6 +4,7 @@ import IconLogout from "@/components/icons/icon-logout";
 import IconProfile from "@/components/icons/icon-profile";
 import routes from "@/constants/routes";
 import useAuthUserAccount from "@/hooks/useAuthUserAccount";
+import useDetailReport from "@/views/current-risk/hooks/useDetailReport";
 import useOpenMobileSidebarMenu from "@/hooks/useOpenMobileSidebarMenu";
 import { cn, isPathEqual } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
@@ -84,9 +85,21 @@ const defaultNavLinks: SidebarNavigationMenuItem[] = [
   },
   {
     icon: <IconProfile className="w-6 shrink-0 text-white" />,
-    label: "orgManagement",
-    url: routes.orgManagement,
+    label: "management",
+    url: routes.management,
     isAdmin: true,
+    submenuItems: [
+      {
+        label: "orgManagement",
+        url: `${routes.management}/org-management`,
+        disabled: true,
+      },
+      {
+        label: "userManagementTitle",
+        url: `${routes.management}/user-management`,
+        disabled: true,
+      },
+    ],
   },
   {
     icon: <IconAlert className="w-6 shrink-0 text-white" />,
@@ -97,61 +110,57 @@ const defaultNavLinks: SidebarNavigationMenuItem[] = [
 ];
 
 const AuthenticatedSidebarLinks = () => {  
-  const { isAdmin, logout, logoutMutation } = useAuthUserAccount();  
-  const router = useRouter(); // Use useRouter hook to access the current route.  
+  const { isAdmin, logout, logoutMutation, data } = useAuthUserAccount();  
+  const {roleNameToIdMap} = useDetailReport()
+  const role=data?.role;
 
   const navLinks = useMemo(() => {  
-    const pathMap: Record<string, string> = {  
-      emailProtection: 'email-weaknesses',  
-      domainVariations: 'domain-name-variations',  
-      subDomainAnalysis: 'sub-domain-exploitable-services',  
-      companyExposedPortsServices: 'company-exposed-ports',  
-    };  
-    
-    // Dynamically adjust submenu items, e.g., `emailProtection` based on current path.  
-    const updatedNavLinks = defaultNavLinks.map((link) => {  
-      if (link.label === 'currentRisk' && link.submenuItems) {  
-        return {  
-          ...link,  
-          submenuItems: link.submenuItems.map((submenuItem) => {  
-            // Use type assertion here to inform TypeScript that submenuItem.label is a key of pathMap  
-            const pathKey = submenuItem.label as keyof typeof pathMap;  
-            submenuItem = {  
-              ...submenuItem,  
-              // Now TypeScript knows pathKey exists in pathMap, resolving the earlier error  
-              disabled: !(pathKey in pathMap && router.asPath.includes(pathMap[pathKey])),  
-            };  
-            return submenuItem;  
-          }),  
-        };  
+    let filteredNavLinks = [...defaultNavLinks];  
+    const roleString = data?.role ? roleNameToIdMap[data.role] : undefined;
+     
+    if (roleString) {  
+      switch (roleString) {  
+        case 'client_admin':   
+          filteredNavLinks = filteredNavLinks.map(link => {  
+            if (link.label === 'management' && link.submenuItems) {  
+              return {  
+                ...link,  
+                submenuItems: link.submenuItems.filter(subItem => subItem.label === 'userManagementTitle'),  
+              };  
+            }  
+            return link;  
+          }); 
+          break;  
+        case 'client_user':  
+        case 'partner_user':   
+          filteredNavLinks = filteredNavLinks.filter(link => link.label !== 'management');  
+          break;  
       }  
-      return link;  
-    });
+    } 
 
-    return [  
-      ...updatedNavLinks,  
-      {  
-        icon: <IconLogout className="w-6 shrink-0 text-white" />,  
-        label: logoutMutation.isPending ? 'loggingOut' : 'logOut',  
-        url: '#',  
-        onClick(e) {  
-          e.preventDefault();  
-          logout();  
-        },  
+    filteredNavLinks.push({  
+      icon: <IconLogout className="w-6 shrink-0 text-white" />,  
+      label: logoutMutation.isPending ? 'loggingOut' : 'logOut',  
+      url: '#',  
+      onClick(e) {  
+        e.preventDefault();  
+        logout();  
       },  
-    ];  
-  }, [logout, logoutMutation.isPending, router.asPath]); // Add router.asPath dependency to re-compute on route change.
+    });  
+  
+    return filteredNavLinks;  
+  }, [logout, logoutMutation.isPending, role, roleNameToIdMap]);// Add router.asPath dependency to re-compute on route change.
 
-  return (
-    <div className="space-y-5">
-      {navLinks.map((item) => {
-        if (!isAdmin && item.isAdmin) {
-          return <Fragment key={item.url} />;
-        }
-        return <MenuItem menuItem={item} key={item.url} />;
-      })}
-    </div>
-  );
+  return (  
+    <div className="space-y-5">  
+      {navLinks.map((item) => {  
+        if (!isAdmin && item.isAdmin) {  
+          return <Fragment key={item.url} />;  
+        }  
+        return <MenuItem menuItem={item} key={item.url} />;  
+      })}  
+    </div>  
+  ); 
 };
 
 export default AuthenticatedSidebarLinks;

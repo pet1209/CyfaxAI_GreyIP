@@ -85,6 +85,7 @@
   "writeAdministratorFullNameHere": "Write administrator full name here...",
   "inputTheAuthorizedAdministratorEmailHere": "Input the authorized administrator email here...",
   "inputTemporaryPasswordHere": "Input temporary password here...",
+  "inputConfirmPasswordHere": "Input confirm password here...",
   "inputTheDomainNameOfTheOrganization": "Input the domain name of the organization",
   "inputFullNameOfAdditionalUser": "Input full name of additional user...",
   "inputAdditionalUserEmailHere": "Input additional user email here...",
@@ -171,6 +172,7 @@
   "orgManagement": "Org Management",
   "alertManagement": "Alert Management",
   "userManagementTitle": "User Management",
+  "management": "Management",
   "#": "#",
   "user": "User",
   "userName": "Username",
@@ -210,5 +212,21 @@
 
   "profileTitle": "Profile",
   "firstName": "First Name",
-  "updateProfile": "Update Profile"
+  "lastName": "Last Name",
+  "updateProfile": "Update Profile",
+  "changePasswordTitle": "Change Password",
+  "deleteProfileTitle": "Enter your password to delete",
+  "newPasswordLabel": "New Password",
+  "verifyPasswordLabel": "Verify New Password",
+  "enterPasswordLabel": "Enter Password",
+  "confirmDeletion": "Confirm Deletion",
+  "ok": "OK",
+  "deletionLabel": "The user has been deleted successfully",
+
+  "adminEmail": "Admin Email",
+  "org": "ORG",
+  "createNewOrgButton": "Create New Org",
+  "edit": "Edit",
+  "delete": "Delete",
+  "confirmPassword": "Confirm Password"
 }

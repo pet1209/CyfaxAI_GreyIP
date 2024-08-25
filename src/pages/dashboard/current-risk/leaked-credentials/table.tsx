@@ -14,7 +14,7 @@ const EmailProtectionResultsAllTable = ({ data }: { data: TableData }) => {
     // Render a message or an empty set if data is undefined  
     (<tr><td colSpan={3}>No data available</td></tr>); 
   return (  
-    <div className="w-full overflow-x-auto"> {/* Ensure the container takes full width */}  
+    // <div className="w-full overflow-x-auto"> {/* Ensure the container takes full width */}  
       <table className="min-w-full sm:min-w-[600px] w-full"> {/* Adjusted for mobile and provided a minimum width for larger screens */}  
         <thead>  
           <tr className="bg-[#60605B]/[.07] [&>th]:py-3.5 [&>th]:pl-6 [&>th]:first:pl-[16px] sm:[&>th]:first:pl-6 [&>th]:text-left [&>th]:font-mulish [&>th]:font-semibold">  
@@ -33,7 +33,7 @@ const EmailProtectionResultsAllTable = ({ data }: { data: TableData }) => {
           {tableBody}
         </tbody>  
       </table>  
-    </div>  
+    // </div>  
   );  
 };  
 

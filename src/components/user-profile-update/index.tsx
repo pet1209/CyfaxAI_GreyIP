@@ -42,8 +42,53 @@ import {
                 <input  
                     id="firstName"  
                     type="text"  
-                    className="h-11 w-full rounded-lg border px-3 text-sm outline-none placeholder:text-sm md:text-base md:placeholder:text-base lg:h-12 lg:px-4"  
+                    className="h-11 w-full rounded-lg mb-2 border px-3 text-sm outline-none placeholder:text-sm md:text-base md:placeholder:text-base lg:h-12 lg:px-4"  
                     placeholder="first name"  
+                />  
+                <label htmlFor="lastName" style={{ fontSize: '15px' }} className="block mb-2 font-semibold text-gray-900">  
+                    <FormattedMessage id="lastName"/>  
+                </label>
+                <input  
+                    id="lastName"  
+                    type="text"  
+                    className="h-11 w-full rounded-lg mb-2 border px-3 text-sm outline-none placeholder:text-sm md:text-base md:placeholder:text-base lg:h-12 lg:px-4"  
+                    placeholder="last name"  
+                />  
+                <label htmlFor="companyName" style={{ fontSize: '15px' }} className="block mb-2 font-semibold text-gray-900">  
+                    <FormattedMessage id="companyName"/>  
+                </label>
+                <input  
+                    id="companyName"  
+                    type="text"  
+                    className="h-11 w-full rounded-lg mb-2 border px-3 text-sm outline-none placeholder:text-sm md:text-base md:placeholder:text-base lg:h-12 lg:px-4"  
+                    placeholder="company name"  
+                />  
+                <label htmlFor="email" style={{ fontSize: '15px' }} className="block mb-2 font-semibold text-gray-900">  
+                    <FormattedMessage id="email"/>  
+                </label>
+                <input  
+                    id="email"  
+                    type="text"  
+                    className="h-11 w-full rounded-lg mb-2 border px-3 text-sm outline-none placeholder:text-sm md:text-base md:placeholder:text-base lg:h-12 lg:px-4"  
+                    placeholder="email"  
+                />  
+                <label htmlFor="userName" style={{ fontSize: '15px' }} className="block mb-2 font-semibold text-gray-900">  
+                    <FormattedMessage id="userName"/>  
+                </label>
+                <input  
+                    id="userName"  
+                    type="text"  
+                    className="h-11 w-full rounded-lg mb-2 border px-3 text-sm outline-none placeholder:text-sm md:text-base md:placeholder:text-base lg:h-12 lg:px-4"  
+                    placeholder="user name"  
+                />  
+                <label htmlFor="role" style={{ fontSize: '15px' }} className="block mb-2 font-semibold text-gray-900">  
+                    <FormattedMessage id="role"/>  
+                </label>
+                <input  
+                    id="role"  
+                    type="text"  
+                    className="h-11 w-full rounded-lg mb-2 border px-3 text-sm outline-none placeholder:text-sm md:text-base md:placeholder:text-base lg:h-12 lg:px-4"  
+                    placeholder="role"  
                 />  
                 <div className="mt-3.5 flex justify-end">  
                     <button  

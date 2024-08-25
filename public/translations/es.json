@@ -84,6 +84,7 @@
   "writeAdministratorFullNameHere": "Escribe el nombre completo del administrador aquí...",
   "inputTheAuthorizedAdministratorEmailHere": "Ingresa el correo electrónico del administrador autorizado aquí...",
   "inputTemporaryPasswordHere": "Ingresa la contraseña temporal aquí...",
+  "inputConfirmPasswordHere": "Ingrese la contraseña de confirmación aquí...",
   "inputTheDomainNameOfTheOrganization": "Ingresa el nombre del dominio de la organización",
   "inputFullNameOfAdditionalUser": "Ingresa el nombre completo del usuario adicional...",
   "inputAdditionalUserEmailHere": "Ingresa el correo electrónico del usuario adicional aquí...",
@@ -209,5 +210,21 @@
 
   "profileTitle": "Perfil",
   "firstName": "Nombre de pila",
-  "updateProfile": "Actualizar perfil"
+  "lastName": "Apellido",
+  "updateProfile": "Actualizar perfil",
+  "changePasswordTitle": "Cambiar la contraseña",
+  "deleteProfileTitle": "Introduce tu contraseña para eliminarla",
+  "newPasswordLabel": "Nueva contraseña",
+  "verifyPasswordLabel": "Verificar nueva contraseña",
+  "enterPasswordLabel": "Introducir contraseña",
+  "confirmDeletion": "Confirmar eliminación",
+  "ok": "DE ACUERDO",
+  "deletionLabel": "La usuario ha sido eliminada con éxito.",
+
+  "adminEmail": "Correo electrónico del administrador",
+  "org": "ORG",
+  "createNewOrgButton": "Crear nueva ORG",
+  "edit": "Editar",
+  "delete": "Borrar",
+  "confirmPassword": "confirmar Contraseña"
 }

@@ -31,7 +31,7 @@ export function PaginationComponent({
         {prev && (
           <PaginationPrevious
             onClick={() => gotoPage(prev)}
-            className='cursor-pointer'
+            className='cursor-pointer rounded-full'
           />
         )}
 
@@ -40,7 +40,7 @@ export function PaginationComponent({
             <PaginationLink
               key={item}
               onClick={() => gotoPage(item)}
-              className='cursor-pointer'
+              className='cursor-pointer rounded-full'
               isActive={current === item}
             >
               {item}
@@ -55,7 +55,7 @@ export function PaginationComponent({
         {next && (
           <PaginationNext
             onClick={() => gotoPage(next)}
-            className='cursor-pointer'
+            className='cursor-pointer rounded-full'
           />
         )}
       </PaginationContent>

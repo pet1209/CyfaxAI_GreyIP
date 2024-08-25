@@ -56,39 +56,38 @@ const LeakedCredentials = () => {
 
         <Tabs defaultValue={tab.value}>
             <TabsContent value={tab.value} key={tab.value} asChild>
-                <>  
-                    <div className="overflow-hidden rounded shadow-[0_4px_14px_2px_rgba(0,0,0,0.06)]">
-                        {tab.content}
-                    </div>
-                    <div className="flex w-full justify-center py-4">  
-                        <div className="flex items-center justify-center space-x-8">  
-                            <div className="flex w-full justify-center py-4">  
-                                <div className="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-8 w-full">  
-                                    {/* Items per page selection */}  
-                                    <div className="flex flex-row items-center justify-center md:justify-start">  
-                                        <label htmlFor="itemsPerPage" className="mr-2">  
-                                            <FormattedMessage id="pageShowCount" />  
-                                        </label>  
-                                        <select value={itemsPerPage} onChange={handleItemsPerPageChange} className="text-center md:text-left">  
-                                            <option value="10">10</option>  
-                                            <option value="20">20</option>  
-                                            <option value="50">50</option>  
-                                        </select>  
-                                    </div>  
-
-                                    {/* Pagination component - center on mobile */}  
-                                    <div className="w-full flex justify-center md:justify-start">  
-                                        <PaginationComponent  
-                                            currentPage={currentPage}  
-                                            maxPage={maxPage}  
-                                            gotoPage={gotoPage}  
-                                        />   
-                                    </div>  
+              <div className="overflow-hidden rounded shadow-[0_4px_14px_2px_rgba(0,0,0,0.06)]">
+                  {tab.content}
+              
+                <div className="flex w-full justify-center py-4">  
+                    <div className="flex items-center justify-center space-x-8">  
+                        <div className="flex w-full justify-center py-4">  
+                            <div className="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-8 w-full">  
+                                {/* Items per page selection */}  
+                                <div className="flex flex-row items-center justify-center md:justify-start">  
+                                    <label htmlFor="itemsPerPage" className="mr-2">  
+                                        <FormattedMessage id="pageShowCount" />  
+                                    </label>  
+                                    <select value={itemsPerPage} onChange={handleItemsPerPageChange} className="text-center md:text-left">  
+                                        <option value="10">10</option>  
+                                        <option value="20">20</option>  
+                                        <option value="50">50</option>  
+                                    </select>  
                                 </div>  
-                            </div>
-                        </div>  
-                    </div>    
-                </>
+
+                                {/* Pagination component - center on mobile */}  
+                                <div className="w-full flex justify-center md:justify-start">  
+                                    <PaginationComponent  
+                                        currentPage={currentPage}  
+                                        maxPage={maxPage}  
+                                        gotoPage={gotoPage}  
+                                    />   
+                                </div>  
+                            </div>  
+                        </div>
+                    </div>  
+                </div>  
+              </div>  
             </TabsContent>
         </Tabs>
       </div>

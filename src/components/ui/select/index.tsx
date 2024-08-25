@@ -85,15 +85,16 @@ const SelectContent = React.forwardRef<
       sideOffset={0}
       {...props}
     >
-      <SelectScrollUpButton />
-      <SelectPrimitive.Viewport
-        className={cn(
-          "p-1",
-          position === "popper" &&
-            "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]",
-        )}
-      >
-        {children}
+      <SelectScrollUpButton />  
+      <SelectPrimitive.Viewport  
+        className={cn(  
+          "p-1 overflow-y-auto", // Apply overflow-y-auto here for the scroll, and a padding for visual spacing  
+          "max-h-60", // This controls the maximum height before scrolling; adjust as needed  
+          position === "popper" &&  
+            "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]",  
+        )}  
+      >  
+        {children} 
       </SelectPrimitive.Viewport>
       <SelectScrollDownButton />
     </SelectPrimitive.Content>
@@ -153,6 +154,7 @@ type FormikSelectProps = {
   selectTrigger?: React.ComponentPropsWithoutRef<
     typeof SelectPrimitive.Trigger
   >;
+  onChange?: (value: string) => void;
 };
 
 const FormikSelect = ({
@@ -161,6 +163,7 @@ const FormikSelect = ({
   label,
   placeholder,
   selectTrigger,
+  onChange,
 }: FormikSelectProps) => {
   const { values, errors, touched, setFieldTouched, setFieldValue } =
     useFormikContext<any>();
@@ -182,6 +185,7 @@ const FormikSelect = ({
           value={values[name] || ""}
           onValueChange={(value) => {
             setFieldValue(name, value);
+            onChange?.(value);
           }}
         >
           <SelectTrigger

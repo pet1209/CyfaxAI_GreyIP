@@ -6,6 +6,7 @@ export type AuthUserAccount = {
   date_joined: string;
   full_name: string;
   phone: string;
+  role:string;
   is_active: boolean;
   groups: [];
   permissions: [];

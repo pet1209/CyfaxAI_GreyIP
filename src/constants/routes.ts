@@ -3,7 +3,7 @@ const routes = {
   publicReportResults: (domain: string) => `/results/${domain}`,
   dashboard: "/dashboard",
   currentRisk: "/dashboard/current-risk",
-  orgManagement: "/dashboard/org-management",
+  management: "/dashboard/management",
   alertManagement: "/dashboard/alert-management",
   alertType: "/dashboard/alert-management/alert-type",
   login: "/login",
@@ -19,7 +19,9 @@ const routes = {
   logs_infected_machine: "/dashboard/current-risk/logs-infected-machine",
   dark_web_mentions: "/dashboard/current-risk/dark-web-mentions",
   hacker_channel_mention: "/dashboard/current-risk/hacker-channel-mention",
-  userManagement: "/dashboard/org-management/user-management",
+  userManagement: "/dashboard/management/user-management",
+  orgManagement: "/dashboard/management/org-management",
+  createOrgManagement: "/dashboard/management/org-management/create-organization"
 };
 
 export default routes;
@@ -27,7 +29,7 @@ export default routes;
 export const authenticatedRoutes = [
   routes.dashboard,
   routes.currentRisk,
-  routes.orgManagement,
+  routes.management,
   routes.alertManagement,
   routes.alertType,
   routes.company_exposed_ports,
@@ -41,6 +43,8 @@ export const authenticatedRoutes = [
   routes.dark_web_mentions,
   routes.hacker_channel_mention,
   routes.userManagement,
+  routes.orgManagement,
+  routes.createOrgManagement
 ];
 
 export const unAuthenticatedRoutes = [
