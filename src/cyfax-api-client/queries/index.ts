@@ -37,14 +37,29 @@ export const getAuthTokensQueryOptions = () => {
   };
 };
 
-export const getPermissionsQueryOptions = () => {
-  return {
-    queryKey: ["get-permissions"],
-    queryFn: () =>
-      cyfaxApiClient
-        .get<PermissionsAPIResponse>("/permissions/")
-        .then((res) => res.data),
-  };
+export const getPermissionsQueryOptions = () => {  
+  return {  
+      queryKey: ["get-permissions"],  
+      queryFn: () => fetchAllPermissions(),  
+  };  
+};  
+
+const fetchAllPermissions = async (): Promise<Permission[]> => {  
+  let allPermissions: Permission[] = [];
+  let page = 1;  
+  const response = await cyfaxApiClient.get<PermissionsAPIResponse>("/permissions/", { params: { page } });  
+  const totalPages = response.data.pagination.num_pages;  
+
+  allPermissions = allPermissions.concat(response.data.data);  
+
+  while (page < totalPages) {  
+      page++;  
+      const nextPageData = await cyfaxApiClient.get<PermissionsAPIResponse>("/permissions/", { params: { page } });  
+      allPermissions = allPermissions.concat(nextPageData.data.data);  
+      console.log('asfsd', allPermissions)
+  }  
+
+  return allPermissions;  
 };
 
 export const getRolesQueryOptions = () => {

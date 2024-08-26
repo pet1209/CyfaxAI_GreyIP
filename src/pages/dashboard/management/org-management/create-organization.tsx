@@ -118,7 +118,8 @@ const OrgManagement = () => {
   });
 
 
-  const permissionValues = permissionsQuery?.data?.data;
+  const permissionValues = permissionsQuery?.data;
+  console.log("sdfgsdfg", permissionValues)
 
   const roles = useQuery({
     ...getRolesQueryOptions(),
@@ -191,6 +192,7 @@ const OrgManagement = () => {
     
   setPermissionOptions(filteredAndMappedPermissions);
   }, [currentGroupKind, clientAdminPermissions, partnerAdminPermissions, permissionValues]);
+  
 
   return (
     <Formik
@@ -275,7 +277,10 @@ const OrgManagement = () => {
                 label="isThisOrganizationAClientOrPartner"  
                 placeholder="Select"  
                 options={groupKindOptions}  
-                onChange={value => setCurrentGroupKind(value)}
+                onChange={value => {
+                  setCurrentGroupKind(value);
+                  setFieldValue("permissions", [])
+                }}
               /> 
               <FormikInput
                 name="full_name"
