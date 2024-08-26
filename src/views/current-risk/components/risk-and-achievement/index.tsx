@@ -88,7 +88,7 @@ const RiskAndAchievement = () => {
             >
               <span className="text-center text-xs font-medium sm:text-xl/[150%]">
                 <FormattedMessage id="currentRiskLevel" />
-                <span style={{color: scoreColor(totalScore), fontSize: '22px'}}>{totalScore}</span>  
+                <span style={{color: scoreColor(totalScore), fontSize: '22px'}}>{Math.round(totalScore)}</span>  
               </span>
             </div>
           </div>

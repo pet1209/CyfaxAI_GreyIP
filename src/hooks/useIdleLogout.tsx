@@ -1,59 +1,83 @@
-import useAuthUserAccount from "@/hooks/useAuthUserAccount";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from 'react';  
+import useAuthUserAccount from '@/hooks/useAuthUserAccount';  
 
-const useIdleLogout = (timeout: number = 300000) => {
-  const { logoutMutation, hasAuth } = useAuthUserAccount();
-  // 300000ms = 5 minutes
+const useIdleLogout = (inactivityPeriod = 300000) => {  
+  const { logoutMutation, hasAuth } = useAuthUserAccount();  
+  // inactivityPeriod = 60000 is equivalent to 5 minutes  
+  
+  const isClient = typeof window !== 'undefined';  
 
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const getSavedTimestamp = () => {  
+    if (!isClient) {  
+      return Date.now() + inactivityPeriod; 
+    }  
+    const savedTimestamp = localStorage.getItem('logoutTimestamp');  
+    if (savedTimestamp) {  
+      return Number(savedTimestamp);  
+    } else {  
+      const futureTimestamp = Date.now() + inactivityPeriod;  
+      localStorage.setItem('logoutTimestamp', futureTimestamp.toString());  
+      return futureTimestamp;  
+    }  
+  } 
 
-  const logout = useCallback(() => {
-    if (hasAuth) {
-      logoutMutation.mutate();
-    }
-  }, [logoutMutation, hasAuth]);
+  const activityTimestampRef = useRef<number>(getSavedTimestamp());  
 
-  const resetTimer = useCallback(() => {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-    }
-    timerRef.current = setTimeout(() => {
-      logout();
-    }, timeout);
-  }, [logout, timeout]);
+  const refreshActivityTimestamp = useCallback(() => {  
+    if (!isClient) return; 
+    const newTimestamp = Date.now() + inactivityPeriod;  
+    activityTimestampRef.current = newTimestamp;  
+    localStorage.setItem('logoutTimestamp', newTimestamp.toString());  
+  }, [inactivityPeriod]);
 
-  useEffect(() => {
-    if (!hasAuth) return;
-    // Events to listen to for user activity
-    const events = [
-      "mousemove",
-      "mousedown",
-      "keypress",
-      "touchstart",
-      "click",
-      "scroll",
-    ];
+  const checkActivityTimeout = useCallback(() => {  
+    if (!isClient) return; 
+    if (Date.now() > activityTimestampRef.current && hasAuth) {  
+      logoutMutation.mutate();  
+      localStorage.removeItem('logoutTimestamp'); 
+    }  
+  }, [logoutMutation, hasAuth]); 
 
-    // Reset the timer on any of the above events
-    events.forEach((event) => {
-      window.addEventListener(event, resetTimer);
-    });
+  useEffect(() => {  
+    if(!isClient || !hasAuth) return;
+    const checkInitialTimeout = () => {  
+      const savedTimestamp = Number(localStorage.getItem('logoutTimestamp'));  
+      if (Date.now() > savedTimestamp && hasAuth) {  
+        logoutMutation.mutate();  
+        localStorage.removeItem('logoutTimestamp'); 
+      }  
+    };  
 
-    // Initialize the timer when component mounts
-    resetTimer();
+    if (!hasAuth) return;  
 
-    return () => {
-      // Cleanup listeners and timer on component unmount
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-      }
-      events.forEach((event) => {
-        window.removeEventListener(event, resetTimer);
-      });
-    };
-  }, [hasAuth, resetTimer]);
+    checkInitialTimeout();
+  
+    refreshActivityTimestamp();
 
-  return { logout }; // You might want to return this if you need it elsewhere
-};
+    const interval = setInterval(checkActivityTimeout, 10000);  
+
+    const events = [  
+      'mousemove',  
+      'mousedown',  
+      'keypress',  
+      'touchstart',  
+      'click',  
+      'scroll',  
+    ];  
+
+    events.forEach(event => {  
+      window.addEventListener(event, refreshActivityTimestamp);  
+    });  
+
+    return () => {  
+      clearInterval(interval);  
+      events.forEach(event => {  
+        window.removeEventListener(event, refreshActivityTimestamp);  
+      });  
+    };  
+  }, [checkActivityTimeout, refreshActivityTimestamp, hasAuth, logoutMutation]);  
+
+  return { logout: logoutMutation.mutate };  
+};  
 
 export default useIdleLogout;
