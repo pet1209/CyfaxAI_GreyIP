@@ -9,6 +9,17 @@ type Roles={
   role_name: string;
 }
 
+type Groups = {
+  id: string;
+  name: string;
+  authorized_domains: string[];
+  group_kind: string;
+  permissions: string[];
+  created_at: string;
+  admin_user: string;
+  created_by: string;
+}
+
 type Pagination = {
   page: number;
   per_page: number;
@@ -23,4 +34,9 @@ type PermissionsAPIResponse = {
 
 type RolesAPIResponse = {
   data: Roles[];
+}
+
+type GroupsAPIResponse = {
+  data: Groups[];
+  pagination: Pagination;
 }

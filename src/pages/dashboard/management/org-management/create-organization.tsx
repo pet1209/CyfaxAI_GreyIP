@@ -1,6 +1,5 @@
 import IconChekboxChecked from "@/components/icons/icon-chekbox-checked";
 import IconChekboxUnChecked from "@/components/icons/icon-chekbox-unchecked";
-// import Input, { FormikInput } from "@/components/ui/input";
 import { Eye, EyeOff } from 'lucide-react';
 import {
   FormikSelect,
@@ -8,6 +7,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
+  FormikDomainInput,
 } from "@/components/ui/select";
 import { getPermissionsQueryOptions, getRolesQueryOptions } from "@/cyfax-api-client/queries";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -40,25 +40,32 @@ const validationSchema = z.object({
   password: z.string({
     message: "Password is required",
   }),
+  confirmPassword: z.string({  
+    message: "Confirm Password is required",  
+  }), 
   full_name: z.string({
     message: "Full name is required",
   }),
   name: z.string({
     message: "Name is required",
   }),
-  domain_name: z.string({
+  authorized_domains: z.string({
     message: "Domain name is required",
   }),
   group_kind: z.string({ message: "Group kind is required" }),
-});
+}).refine((data) => data.password === data.confirmPassword, {  
+  message: "Passwords do not match",  
+  path: ["confirmPassword"],
+});  
 
 const initialValues = {
   permissions: null,
   email: "",
   password: "",
+  confirmPassword: "",
   full_name: "",
   name: "",
-  domain_name: "",
+  authorized_domains: [],
   group_kind: "",
 };
 
@@ -80,7 +87,7 @@ const OrgManagement = () => {
       return [];
     }   
     const partnerAdmin = rolesData.find(role => role.role_name === "partner_admin");  
-    return partnerAdmin?.authorized_permissions || []; // Use || [] to ensure fallback  
+    return partnerAdmin?.authorized_permissions || []; 
   }  
   
   const getClientAdminPermissions = () => {  
@@ -89,7 +96,7 @@ const OrgManagement = () => {
       return []; 
     }   
     const clientAdmin = rolesData.find(role => role.role_name === "client_admin");  
-    return clientAdmin?.authorized_permissions || []; // Use || [] to ensure fallback  
+    return clientAdmin?.authorized_permissions || []; 
   }
   const partnerAdminPermissions = getPartnerAdminPermissions();
   const clientAdminPermissions = getClientAdminPermissions(); 
@@ -150,7 +157,7 @@ const OrgManagement = () => {
         data: {
           id: string;
           name: string;
-          domain_name: string;
+          authorized_domains: string[];
           group_kind: string;
           admin_email: string;
           permissions: string[];
@@ -191,6 +198,7 @@ const OrgManagement = () => {
     .filter((permission): permission is PermissionOption => Boolean(permission));  
     
   setPermissionOptions(filteredAndMappedPermissions);
+  console.log("3412341234", filteredAndMappedPermissions)
   }, [currentGroupKind, clientAdminPermissions, partnerAdminPermissions, permissionValues]);
   
 
@@ -227,7 +235,7 @@ const OrgManagement = () => {
           });
           const res = await createGroupsMutation.mutateAsync({
             name: values.name,
-            domain_name: values.domain_name,
+            authorized_domains: values.authorized_domains,
             group_kind: values.group_kind,
             admin_email: values.email,
           });
@@ -280,6 +288,7 @@ const OrgManagement = () => {
                 onChange={value => {
                   setCurrentGroupKind(value);
                   setFieldValue("permissions", [])
+                  setFieldValue("authorized_domains", [])
                 }}
               /> 
               <FormikInput
@@ -310,14 +319,13 @@ const OrgManagement = () => {
                 placeholder={intl.formatMessage({ id: "inputConfirmPasswordHere" })}
                 autoComplete="confirm-password"
               />
-              <div className="lg:col-span-2">
-                <FormikInput
-                  name="domain_name"
-                  label="authorizedOrganizationalDomain"
-                  placeholder={intl.formatMessage({
-                    id: "inputTheDomainNameOfTheOrganization",
-                  })}
-                />
+              <div className="lg:col-span-2">  
+              <FormikDomainInput  
+                name="authorized_domains"  
+                groupKind={values.group_kind} // Ensure this is based on your form state  
+                label="authorizedOrganizationalDomain"  
+                placeholder={intl.formatMessage({ id: "inputTheDomainNameOfTheOrganization" })}
+              />
               </div>
               <div className="relative lg:col-span-2">
 
@@ -400,7 +408,7 @@ const OrgManagement = () => {
             <div className="mt-8 flex justify-end">
               <button  
                   type="submit"  
-                  className="h-14 w-40 sm:w-48 rounded-lg bg-accent px-8 text-base font-semibold text-white duration-300 hover:opacity-90 md:text-lg lg:text-xl"  
+                  className="h-14 w-40 rounded-lg bg-accent px-8 text-base font-semibold text-white duration-300 hover:opacity-90 sm:w-48 md:text-lg lg:text-xl"  
                   disabled={isSubmitting}  
               >  
                   {isSubmitting ? (  
@@ -471,3 +479,5 @@ const FormikInput = forwardRef<HTMLInputElement, FormikInputProps>(
   },
 );
 FormikInput.displayName = "FormikInput";
+
+

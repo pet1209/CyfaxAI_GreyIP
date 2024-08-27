@@ -86,7 +86,7 @@
   "inputTheAuthorizedAdministratorEmailHere": "Input the authorized administrator email here...",
   "inputTemporaryPasswordHere": "Input temporary password here...",
   "inputConfirmPasswordHere": "Input confirm password here...",
-  "inputTheDomainNameOfTheOrganization": "Input the domain name of the organization",
+  "inputTheDomainNameOfTheOrganization": "Input the domain name of the organization and press Enter",
   "inputFullNameOfAdditionalUser": "Input full name of additional user...",
   "inputAdditionalUserEmailHere": "Input additional user email here...",
 
@@ -177,7 +177,8 @@
   "user": "User",
   "userName": "Username",
   "createdAt": "Created at",
-  "companyName": "Company Name",
+  "companyName": "ORG Name",
+  "authorizedDomains": "Authorized Domains",
   "role": "Role", 
   "actions": "Actions",
   "logOut": "Log out",
@@ -228,5 +229,11 @@
   "createNewOrgButton": "Create New Org",
   "edit": "Edit",
   "delete": "Delete",
-  "confirmPassword": "Confirm Password"
+  "confirmPassword": "Confirm Password",
+
+  "editOrgTitle": "Edit Organization",
+  "orgName": "ORG name",
+  "updateOrg": "Update ORG",
+  "phoneNumber": "Phone number"
+
 }

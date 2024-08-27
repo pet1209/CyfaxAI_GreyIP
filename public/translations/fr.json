@@ -85,7 +85,7 @@
   "inputTheAuthorizedAdministratorEmailHere": "Saisissez l'email de l'administrateur autorisé ici...",
   "inputTemporaryPasswordHere": "Saisissez le mot de passe temporaire ici...",
   "inputConfirmPasswordHere": "Saisissez le mot de passe de confirmation ici...",
-  "inputTheDomainNameOfTheOrganization": "Saisissez le nom de domaine de l'organisation",
+  "inputTheDomainNameOfTheOrganization": "Saisissez le nom de domaine de l'organisation et appuyez sur Entrée",
   "inputFullNameOfAdditionalUser": "Saisissez le nom complet de l'utilisateur supplémentaire ici...",
   "inputAdditionalUserEmailHere": "Saisissez l'email de l'utilisateur supplémentaire ici...",
 
@@ -174,7 +174,8 @@
   "user": "Utilisatrice",
   "userName": "Nom d'utilisateur",
   "createdAt": "Créé à",
-  "companyName": "Nom de l'entreprise",
+  "companyName": "Nom de l'organisation",
+  "authorizedDomains": "Domaines autorisés",
   "role": "Rôle", 
   "actions": "Actes",
   "logOut": "Se déconnecter",
@@ -226,5 +227,10 @@
   "createNewOrgButton": "Créer une nouvelle ORG",
   "edit": "Modifier",
   "delete": "Supprimer",
-  "confirmPassword": "Confirmez le mot de passe"
+  "confirmPassword": "Confirmez le mot de passe",
+
+  "editOrgTitle": "Modifier l'organisation",
+  "orgName": "Nom de l'organisation",
+  "updateOrg": "Mise à jour de l'ORG",
+  "phoneNumber": "Numéro de téléphone"
 }

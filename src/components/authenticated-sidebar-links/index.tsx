@@ -23,7 +23,6 @@ export type SidebarNavigationMenuItem = {
   icon?: JSX.Element;
   label: string;
   url: string;
-  // eslint-disable-next-line no-unused-vars
   onClick?: MouseEventHandler<HTMLAnchorElement> | undefined;
   disabled?: boolean;
   isAdmin?: boolean;
@@ -87,7 +86,7 @@ const defaultNavLinks: SidebarNavigationMenuItem[] = [
     icon: <IconProfile className="w-6 shrink-0 text-white" />,
     label: "management",
     url: routes.management,
-    isAdmin: true,
+    isAdmin: false,
     submenuItems: [
       {
         label: "orgManagement",
@@ -112,32 +111,37 @@ const defaultNavLinks: SidebarNavigationMenuItem[] = [
 const AuthenticatedSidebarLinks = () => {  
   const { isAdmin, logout, logoutMutation, data } = useAuthUserAccount();  
   const {roleNameToIdMap} = useDetailReport()
-  const role=data?.role;
-
+  const roleString = data?.role ? roleNameToIdMap[data.role] : undefined;
+  console.log("role", roleString)
   const navLinks = useMemo(() => {  
-    let filteredNavLinks = [...defaultNavLinks];  
-    const roleString = data?.role ? roleNameToIdMap[data.role] : undefined;
-     
-    if (roleString) {  
-      switch (roleString) {  
-        case 'client_admin':   
-          filteredNavLinks = filteredNavLinks.map(link => {  
-            if (link.label === 'management' && link.submenuItems) {  
-              return {  
-                ...link,  
-                submenuItems: link.submenuItems.filter(subItem => subItem.label === 'userManagementTitle'),  
-              };  
-            }  
-            return link;  
-          }); 
-          break;  
-        case 'client_user':  
-        case 'partner_user':   
-          filteredNavLinks = filteredNavLinks.filter(link => link.label !== 'management');  
-          break;  
-      }  
-    } 
-
+    let filteredNavLinks = [...defaultNavLinks].map(link => ({  
+      ...link,  
+      submenuItems: link.submenuItems ? [...link.submenuItems] : undefined,  
+    }));  
+  
+    switch (roleString) {  
+      case 'super_admin':  
+      case 'partner_admin':  
+        break;  
+      case 'client_admin':  
+        filteredNavLinks = filteredNavLinks.map(link => {  
+          if (link.label === 'management' && link.submenuItems) {  
+            return {  
+              ...link,  
+              submenuItems: link.submenuItems.filter(subItem => subItem.label === 'userManagementTitle'),  
+            };  
+          }  
+          return link;  
+        });  
+        break;  
+      case 'client_user':  
+      case 'partner_user':  
+        filteredNavLinks = filteredNavLinks.filter(link => link.label !== 'management');  
+        break;  
+      default:  
+        break;  
+    }  
+  
     filteredNavLinks.push({  
       icon: <IconLogout className="w-6 shrink-0 text-white" />,  
       label: logoutMutation.isPending ? 'loggingOut' : 'logOut',  
@@ -146,10 +150,11 @@ const AuthenticatedSidebarLinks = () => {
         e.preventDefault();  
         logout();  
       },  
-    });  
+      submenuItems: undefined, 
+    });
   
     return filteredNavLinks;  
-  }, [logout, logoutMutation.isPending, role, roleNameToIdMap]);// Add router.asPath dependency to re-compute on route change.
+  }, [logout, logoutMutation.isPending, roleString]);
 
   return (  
     <div className="space-y-5">  
@@ -228,14 +233,7 @@ const MenuItem = ({ menuItem }: { menuItem: SidebarNavigationMenuItem }) => {
       {hasSubMenu && isSubmenuOpen && (
         <div className="my-2 ml-[18px] space-y-1 border-l-2 border-white/35 pl-5">
           {menuItem.submenuItems?.map((submenuItem) => {
-            const pathMap: Record<string, string> = {  
-              emailProtection: 'email-weaknesses',  
-              domainVariations: 'domain-name-variations',  
-              subDomainAnalysis: 'sub-domain-exploitable-services',  
-              companyExposedPortsServices: 'company-exposed-ports',  
-            };  
           
-            
             const isActiveSubMenu = router.asPath.startsWith(submenuItem.url);  
 
             return (
@@ -245,7 +243,7 @@ const MenuItem = ({ menuItem }: { menuItem: SidebarNavigationMenuItem }) => {
                   submenuItem.onClick && submenuItem.onClick(e);
                   closeMenu();
                 }}
-                className="flex w-full items-center gap-3 rounded-lg px-3 py-1.5 [&>svg]:size-[18px] [&>svg]:shrink-0 md:[&>svg]:size-3.5 relative hover:text-white hover:bg-white/5 transition-all"  
+                className="relative flex w-full items-center gap-3 rounded-lg px-3 py-1.5 transition-all hover:bg-white/5 hover:text-white [&>svg]:size-[18px] [&>svg]:shrink-0 md:[&>svg]:size-3.5"  
                 key={submenuItem.url}
                 href={submenuItem.url}
               >

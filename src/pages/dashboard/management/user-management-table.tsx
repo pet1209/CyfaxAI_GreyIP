@@ -1,15 +1,34 @@
 import { FormattedMessage } from "react-intl";  
-import Image from "next/image";
 import UpdateProfile from "@/components/user-profile-update";
 import ChangePassword from "@/components/user-password-change";
 import DeleteProfile from "@/components/user-profile-delete";
 import {useState} from "react";
-import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import EditIcon from '@mui/icons-material/Edit';
 
-const UserManagementTable = () => {  
+interface User {  
+  id: string;  
+  email: string;  
+  last_login: string;  
+  created_at: string;  
+  full_name: string;  
+  phone: string;  
+  is_active: boolean;  
+  role_name: string;  
+  group_name: string | null;  
+}
+
+interface UserManagementTableProps{
+  users: any[];
+}
+
+const capitalizeWords = (s: string) => s.replace(/_/g, ' ')  
+  .split(' ')  
+  .map(word => word.charAt(0).toUpperCase() + word.slice(1))  
+  .join(' ');
+
+const UserManagementTable: React.FC<UserManagementTableProps> = ({users}) => {  
 
   const [isUpdateProfileVisible, setIsUpdateProfileVisible] = useState(false);  
   const [isChangePasswordVisible, setIsChangePasswordVisible] = useState(false);  
@@ -35,6 +54,11 @@ const UserManagementTable = () => {
     setIsDeleteVisible(false);  
   }; 
 
+  const displayFullNameOrEmailPart = (user: User) => user.full_name || user.email.split('@')[0];  
+  const displayRoleName = (roleName: string) => capitalizeWords(roleName);  
+  const displayGroupName = (groupName: string | null) => groupName ? capitalizeWords(groupName) : 'N/A';  
+
+
   return (  
     <>
       <div>  
@@ -48,13 +72,13 @@ const UserManagementTable = () => {
                 <FormattedMessage id="user" />  
               </th>  
               <th>  
-                <FormattedMessage id="userName" />  
+                <FormattedMessage id="phoneNumber" />  
               </th>  
               <th>  
                 <FormattedMessage id="createdAt" />  
               </th>  
               <th>  
-                <FormattedMessage id="companyName" />  
+                <FormattedMessage id="orgName" />  
               </th>  
               <th>  
                 <FormattedMessage id="role" />  
@@ -65,48 +89,53 @@ const UserManagementTable = () => {
             </tr>  
           </thead>  
           <tbody>  
-            <tr  
-                className="border-b py-4 pl-6 font-mulish text-sm h-20"  
+          {users.map((user, index) => (
+            <tr 
+              key={user.id} 
+                className="h-20 border-b py-4 pl-6 font-mulish text-sm"  
             >  
-                <td className="text-center">1</td>  
+                <td className="text-center">{index+1}</td>  
                 <td className="text-center">  
-                  <div className="flex items-center justify-center">  
+                  <div className="flex items-start justify-start">  
                     <div   
                       style={{backgroundColor: "RGB(236, 229, 253)", color: "RGB(133, 91, 243)"}}   
-                      className="font-extrabold bold-text py-2 px-2 rounded-md"  
+                      className="rounded-md p-2 font-extrabold"  
                     >  
-                      A  
+                      {user.full_name ? user.full_name.charAt(0).toUpperCase() : user.email.charAt(0).toUpperCase()}  
                     </div>  
-                    <div className="flex flex-col text-left ml-2"> 
-                      <span style={{fontWeight: "bold"}}>AA</span>  
-                      <span>danish.hex+1@gmail.com</span>  
+                    <div className="ml-2 flex flex-col text-left"> 
+                      <span style={{fontWeight: "bold"}}>{displayFullNameOrEmailPart(user)}</span>  
+                      <span>{user.email}</span>  
                     </div>  
                   </div> 
                 </td>
-                <td className="text-center">Apple</td>  
-                <td className="text-center">Jun 7,2022</td>  
-                <td className="text-center">Apple</td>  
-                <td className="text-center rounded-lg">  
-                  <div style={{backgroundColor: "RGB(248, 228, 229)", color: "RGB(220, 111, 144)"}} className="font-bold mx-auto py-2 rounded-md">  
-                    PARTNER  
+                <td className="text-center">{user.phone}</td>  
+                <td className="text-center">{new Date(user.created_at).toLocaleDateString()}</td>  
+                <td className="text-center">{displayGroupName(user.group_name)}</td>  
+                <td className="rounded-lg text-center">  
+                  <div style={{backgroundColor: "RGB(248, 228, 229)", color: "RGB(220, 111, 144)"}} className="mx-auto rounded-md py-2 font-bold">  
+                    {displayRoleName(user.role_name)}  
                   </div>  
                 </td>
                 <td className="text-center">  
-                  <div className="p-2 bg-blue-50 rounded-lg inline-block mr-2">  
-                    <EditIcon className="text-sky-600 h-5 w-5" onClick={handleEditClick}/>  
+                  <div className="mr-2 inline-block rounded-lg bg-blue-50 p-2">  
+                    <EditIcon className="size-5 text-sky-600" onClick={handleEditClick}/>  
                   </div> 
-                  <div className="p-2 bg-blue-50 rounded-lg inline-block mr-2">  
-                    <RefreshIcon className="text-orange-400 h-5 w-5" onClick={handleChangeClick}/>  
+                  <div className="mr-2 inline-block rounded-lg bg-blue-50 p-2">  
+                    <RefreshIcon className="size-5 text-orange-400" onClick={handleChangeClick}/>  
                   </div> 
-                  <div className="p-2 bg-blue-50 rounded-lg inline-block">  
-                    <DeleteIcon className="text-orange-700 h-5 w-5" onClick={handleDeleteClick}/>  
+                  <div className="inline-block rounded-lg bg-blue-50 p-2">  
+                    <DeleteIcon className="size-5 text-orange-700" onClick={handleDeleteClick}/>  
                   </div>  
                 </td>
             </tr>  
+          ))}
           </tbody>
         </table>  
         <div className="grid grid-cols-1 gap-3 font-mulish md:grid-cols-2 lg:hidden">
+          {users.map((user, index) => (
           <div
+            key={user.id} 
               className="rounded-lg p-3 shadow-[0_0_12px_rgba(0,0,0,0.12)]"
           >
             <div className="grid grid-cols-[repeat(4,auto)] items-center gap-5">  
@@ -114,7 +143,7 @@ const UserManagementTable = () => {
                 <p className="text-[13px] font-semibold tracking-[-0.2px]">  
                   <FormattedMessage id="#" />  
                 </p>  
-                <span className="mt-2.5 text-xs">1</span>  
+                <span className="mt-2.5 text-xs">{index+1}</span>  
               </div>  
               <div>  
                 <p className="text-[13px] font-semibold tracking-[-0.2px]">  
@@ -123,13 +152,13 @@ const UserManagementTable = () => {
                 <div className="flex items-center justify-center">  
                     <div   
                       style={{backgroundColor: "RGB(236, 229, 253)", color: "RGB(133, 91, 243)"}}   
-                      className="py-1 px-2 rounded-md"  
+                      className="rounded-md px-2 py-1"  
                     >  
-                      A  
+                      {user.full_name ? user.full_name.charAt(0).toUpperCase() : user.email.charAt(0).toUpperCase()}   
                     </div>  
-                    <div className="text-xs flex flex-col text-left ml-2"> 
-                      <span>AA</span>  
-                      <span>danish.hex+1@gmail.com</span>  
+                    <div className="ml-2 flex flex-col text-left text-xs"> 
+                      <span>{displayFullNameOrEmailPart(user)}</span>  
+                      <span>{user.email}</span>  
                     </div>  
                   </div> 
               </div>  
@@ -137,13 +166,13 @@ const UserManagementTable = () => {
                 <p className="text-[11px] font-semibold tracking-[-0.2px]">  
                   <FormattedMessage id="userName" />  
                 </p>  
-                <span className="mt-2.5 text-xs">Apple</span>  
+                <span className="mt-2.5 text-xs">{user.phone}</span>  
               </div>  
               <div>  
                 <p className="text-[11px] font-semibold tracking-[-0.2px]">  
                   <FormattedMessage id="createdAt" />  
                 </p>  
-                <span className="mt-2.5 text-xs">Jun 7, 2022</span>  
+                <span className="mt-2.5 text-xs">{new Date(user.created_at).toLocaleDateString()}</span>  
               </div>  
             </div>
 
@@ -154,8 +183,8 @@ const UserManagementTable = () => {
                 <p className="text-center text-[13px] font-semibold tracking-[-0.2px]">
                     <FormattedMessage id="companyName" />
                 </p>
-                <span className="text-center mt-2.5 block max-w-[150px] truncate text-xs">
-                    Apple
+                <span className="mt-2.5 block max-w-[150px] truncate text-center text-xs">
+                  {displayGroupName(user.group_name)}
                 </span>
               </div>
               <span className="h-3.5 border-r border-black/20"></span>
@@ -163,8 +192,8 @@ const UserManagementTable = () => {
                 <p className="text-center text-[13px] font-semibold tracking-[-0.2px]">
                     <FormattedMessage id="role" />
                 </p>
-                <div style={{fontSize: "14px", width: "100px", backgroundColor: "RGB(248, 228, 229)", color: "RGB(220, 111, 144)"}} className="text-center font-bold mx-auto py-2 rounded-md">  
-                  PARTNER  
+                <div style={{fontSize: "14px", width: "100px", backgroundColor: "RGB(248, 228, 229)", color: "RGB(220, 111, 144)"}} className="mx-auto rounded-md py-2 text-center font-bold">  
+                  {displayRoleName(user.role_name)}  
                 </div>  
               </div>
             </div>
@@ -176,18 +205,19 @@ const UserManagementTable = () => {
                 <FormattedMessage id="actions" />  
               </p>  
               <div className="flex items-center">  
-                <div className="p-2 bg-blue-50 rounded-lg inline-block mr-2">  
-                  <EditIcon className="text-sky-600 h-5 w-5" onClick={handleEditClick}/>  
+                <div className="mr-2 inline-block rounded-lg bg-blue-50 p-2">  
+                  <EditIcon className="size-5 text-sky-600" onClick={handleEditClick}/>  
                 </div> 
-                <div className="p-2 bg-blue-50 rounded-lg inline-block mr-2">  
-                  <RefreshIcon className="text-orange-400 h-5 w-5" onClick={handleChangeClick}/>  
+                <div className="mr-2 inline-block rounded-lg bg-blue-50 p-2">  
+                  <RefreshIcon className="size-5 text-orange-400" onClick={handleChangeClick}/>  
                 </div> 
-                <div className="p-2 bg-blue-50 rounded-lg inline-block">  
-                  <DeleteIcon className="text-orange-700 h-5 w-5" onClick={handleDeleteClick}/>  
+                <div className="inline-block rounded-lg bg-blue-50 p-2">  
+                  <DeleteIcon className="size-5 text-orange-700" onClick={handleDeleteClick}/>  
                 </div> 
               </div>  
             </div>
           </div>
+          ))}
         </div>
       </div>
       {isUpdateProfileVisible && <UpdateProfile onClose={handleUpdateClose} />} 

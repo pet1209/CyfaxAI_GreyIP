@@ -2,16 +2,16 @@ import React, { useState, useEffect } from 'react';
 import OrgManagementTable from "./org-management-table";  
 import { Tabs, TabsContent } from "@/components/ui/tabs";  
 import { PaginationComponent } from '@/components/common/pagination';  
-import useDetailReport from "@/views/current-risk/hooks/useDetailReport";  
 import { FormattedMessage } from "react-intl";  
 import Link from "next/link";
 import routes from "@/constants/routes";
+import { getGroupsQueryOptions } from "@/cyfax-api-client/queries";
+import { useQuery } from "@tanstack/react-query";
 
-const AttackSurface = () => {  
-  const { data } = useDetailReport();  
+const OrgGroups = () => {  
   const [currentPage, setCurrentPage] = useState(1);  
   const [itemsPerPage, setItemsPerPage] = useState(10);  
-  const [maxPage, setMaxPage] = useState(0); // Define maxPage and its setter  
+  const [maxPage, setMaxPage] = useState(0); 
   
   const gotoPage = (page: number) => {  
     setCurrentPage(page);  
@@ -19,13 +19,26 @@ const AttackSurface = () => {
 
   const handleItemsPerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {  
     setItemsPerPage(Number(event.target.value));  
-    setCurrentPage(1); // Reset to first page as the items per page changes  
+    setCurrentPage(1); 
   };  
 
+  const groups = useQuery({
+    ...getGroupsQueryOptions(),
+  });
+  const orgGroups = groups?.data
+
+  useEffect(() => {  
+    const totalCount = orgGroups?.length || 0;  
+    setMaxPage(Math.ceil(totalCount / itemsPerPage));  
+  }, [orgGroups?.length, itemsPerPage]);
+  const paginatedGroups = orgGroups?.slice(  
+    (currentPage - 1) * itemsPerPage,  
+    currentPage * itemsPerPage  
+); 
 
   return (  
     <>  
-        <div className="p-4 font-mulish xl:p-5 flex justify-between items-center">   
+        <div className="flex items-center justify-between p-4 font-mulish xl:p-5">   
             <h2 className="text-sm font-semibold sm:text-2xl/[120%]">   
                 <FormattedMessage id="organizationalManagement" />   
             </h2>   
@@ -42,13 +55,13 @@ const AttackSurface = () => {
         <Tabs defaultValue="sub_domain_exploitable_services">  
           <TabsContent value="sub_domain_exploitable_services" key="sub_domain_exploitable_services" asChild>  
             <div className="overflow-hidden rounded shadow-[0_4px_14px_2px_rgba(0,0,0,0.06)]">  
-              <OrgManagementTable  />  
+              <OrgManagementTable orgGroups={paginatedGroups || []} />
 
               
               <div className="flex w-full justify-center py-4">  
                         <div className="flex items-center justify-center space-x-8">  
                             <div className="flex w-full justify-center py-4">  
-                                <div className="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-8 w-full">  
+                                <div className="flex w-full flex-col items-center justify-center space-y-4 md:flex-row md:space-x-8 md:space-y-0">  
                                     {/* Items per page selection */}  
                                     <div className="flex flex-row items-center justify-center md:justify-start">  
                                         <label htmlFor="itemsPerPage" className="mr-2">  
@@ -62,7 +75,7 @@ const AttackSurface = () => {
                                     </div>  
 
                                     {/* Pagination component - center on mobile */}  
-                                    <div className="w-full flex justify-center md:justify-start">  
+                                    <div className="flex w-full justify-center md:justify-start">  
                                         <PaginationComponent  
                                             currentPage={currentPage}  
                                             maxPage={maxPage}  
@@ -81,4 +94,4 @@ const AttackSurface = () => {
   );  
 };  
 
-export default AttackSurface;
+export default OrgGroups;

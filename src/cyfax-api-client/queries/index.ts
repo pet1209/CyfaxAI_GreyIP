@@ -71,6 +71,62 @@ export const getRolesQueryOptions = () => {
         .then((res) => res.data),
   };
 }
+ 
+export const deleteGroup = async (groupId: string) => {  
+  return cyfaxApiClient.delete(`/group/${groupId}`).then((res) => res.data);  
+};
+
+export const getGroupsQueryOptions = () => {  
+  return {  
+      queryKey: ["get-groups"],  
+      queryFn: () => fetchAllGroups(),  
+  };  
+};  
+
+const fetchAllGroups = async (): Promise<Groups[]> => {  
+  let allGroups: Groups[] = [];
+  let page = 1;  
+  const response = await cyfaxApiClient.get<GroupsAPIResponse>("/groups/", { params: { page } });  
+  const totalPages = response.data.pagination.num_pages;  
+
+  allGroups = allGroups.concat(response.data.data);  
+
+  while (page < totalPages) {  
+      page++;  
+      const nextPageData = await cyfaxApiClient.get<GroupsAPIResponse>("/groups/", { params: { page } });  
+      allGroups = allGroups.concat(nextPageData.data.data);  
+      console.log('asfsd', allGroups)
+  }  
+
+  return allGroups;  
+};
+
+export const getUsersQueryOptions = () => {  
+  return {  
+      queryKey: ["get-users"],  
+      queryFn: () => fetchAllUsers(),  
+  };  
+};  
+
+const fetchAllUsers = async (): Promise<Groups[]> => {  
+  let allUsers: Groups[] = [];
+  let page = 1;  
+  const response = await cyfaxApiClient.get<GroupsAPIResponse>("/user_management/", { params: { page } });  
+  const totalPages = response.data.pagination.num_pages;  
+
+  allUsers = allUsers.concat(response.data.data);  
+
+  while (page < totalPages) {  
+      page++;  
+      const nextPageData = await cyfaxApiClient.get<GroupsAPIResponse>("/user_management/", { params: { page } });  
+      allUsers = allUsers.concat(nextPageData.data.data);  
+      console.log('asfsd', allUsers)
+  }  
+
+  return allUsers;  
+};
+
+
 
 export const getDetailReportQueryOptions = ({
   domain,

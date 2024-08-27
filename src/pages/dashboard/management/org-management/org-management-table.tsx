@@ -1,37 +1,50 @@
 import { FormattedMessage } from "react-intl";  
-import Image from "next/image";
-import UpdateProfile from "@/components/user-profile-update";
+import EditOrg from "@/components/edit-organization";
 import ChangePassword from "@/components/user-password-change";
-import DeleteProfile from "@/components/user-profile-delete";
+import DeleteGroup from "@/components/group-delete";
 import {useState} from "react";
-import Button from '@mui/material/Button';
-import DeleteIcon from '@mui/icons-material/Delete';
-import RefreshIcon from '@mui/icons-material/Refresh';
-import EditIcon from '@mui/icons-material/Edit';
 
-const OrgManagementTable = () => {  
+interface OrgManagementTableProps {  
+  orgGroups: any[];  // Using any for simplicity, consider defining a more precise type  
+}
 
-  const [isUpdateProfileVisible, setIsUpdateProfileVisible] = useState(false);  
+interface Group {  
+  id: string;
+  name: string;  
+  authorized_domains: string[];  
+  admin_user: string;  
+  group_kind: 'client' | 'partner';
+} 
+
+const OrgManagementTable: React.FC<OrgManagementTableProps> = ({orgGroups}) => {  
+  
+  const formatDate = (dateString: string) => {  
+    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };  
+    return new Date(dateString).toLocaleDateString(undefined, options);  
+  }; 
+
+  const [isEditOrgVisible, setIsEditOrgVisible] = useState(false);  
   const [isChangePasswordVisible, setIsChangePasswordVisible] = useState(false);  
   const [isDeleteVisible, setIsDeleteVisible] = useState(false);  
+  const [selectedGroup, setSelectedGroup] = useState<Group | null>(null);  
 
-  const handleEditClick = () => {  
-    setIsUpdateProfileVisible(true);  
-  };  
-  const handleChangeClick = () => {
-    setIsChangePasswordVisible(true);
-  }
-  const handleDeleteClick = () => {
-    setIsDeleteVisible(true);
-  }
+  const handleEditClick = (group: Group) => (event: React.MouseEvent<HTMLButtonElement>) => {  
+    event.preventDefault();  
+    setSelectedGroup(group);  
+    setIsEditOrgVisible(true);  
+  };
 
-  const handleUpdateClose = () => {  
-    setIsUpdateProfileVisible(false);  
+  const handleEditClose = () => {  
+    setIsEditOrgVisible(false);  
   }; 
   const handleChangeClose = () => {  
     setIsChangePasswordVisible(false);  
   }; 
-  const handleDeleteClose = () => {  
+  const groupDeleteClick = (groupId: string) => {  
+    setSelectedGroup(orgGroups.find(group => group.id === groupId) || null);
+    setIsDeleteVisible(true);  
+  }; 
+  const groupDeleteClose = () => {  
     setIsDeleteVisible(false);  
   }; 
 
@@ -42,10 +55,13 @@ const OrgManagementTable = () => {
           <thead>  
             <tr className="bg-[#60605B]/[.07] [&>th]:py-3.5 [&>th]:pl-6 [&>th]:text-center [&>th]:font-mulish [&>th]:font-semibold">  
               <th>  
-                <FormattedMessage id="org" />  
+                <FormattedMessage id="#" />  
               </th>  
               <th>  
                 <FormattedMessage id="companyName" />  
+              </th>  
+              <th>  
+                <FormattedMessage id="authorizedDomains" />  
               </th>  
               <th>  
                 <FormattedMessage id="createdAt" />  
@@ -62,107 +78,127 @@ const OrgManagementTable = () => {
             </tr>  
           </thead>  
           <tbody>  
-            <tr  
-                className="border-b py-4 pl-6 font-mulish text-sm h-20"  
-            >  
-                <td className="text-center">1</td>  
-                <td className="text-center">Apple</td>  
-                <td className="text-center">Jun 7,2022</td>  
-                <td className="text-center">Apple</td>  
-                <td className="text-center rounded-lg">  
-                  <div style={{backgroundColor: "RGB(248, 228, 229)", height:"2.2rem", color: "RGB(220, 111, 144)"}} className="font-bold mx-auto py-2 rounded-md">  
-                    PARTNER  
+          {orgGroups.map((group, index) => (  
+              <tr className="h-20 border-b py-4 pl-6 font-mulish text-sm" key={group.id}>  
+                <td className="text-center">{index + 1}</td>  
+                <td className="text-center">{group.name}</td>  
+                <td className="text-center">{group.authorized_domains.join(' | ')}</td>  
+                <td className="text-center">{formatDate(group.created_at)}</td>  
+                <td className="text-center">{group.admin_user}</td>  
+                <td className="rounded-lg text-center">  
+                  <div   
+                    style={{ fontSize: '12px', backgroundColor: "RGB(248, 228, 229)", height:"2rem", color: "RGB(220, 111, 144)" }}   
+                    className="mx-auto rounded-md py-1.5 font-bold"  
+                  >  
+                    {group.group_kind.toUpperCase()}  
                   </div>  
-                </td>
+                </td>  
                 <td className="text-center">  
                     <button   
                         style={{fontSize: '12px', width: '55px', height: '2rem', paddingLeft: '4px', paddingRight: '4px'}}   
                         className="rounded-lg bg-accent text-white duration-300 hover:opacity-90"   
+                        onClick={handleEditClick(group)}
                     >   
                         <FormattedMessage id="edit" />   
                     </button>  
                     <button   
                         style={{fontSize: '12px', width: '55px', height: '2rem', paddingLeft: '4px', paddingRight: '4px'}}   
                         className="ml-2 rounded-lg bg-accent text-white duration-300 hover:opacity-90"   
+                        onClick={() => groupDeleteClick(group.id)}
                     >   
                         <FormattedMessage id="delete" />   
                     </button>  
                 </td>
             </tr>  
+          ))}
           </tbody>
         </table>  
         <div className="grid grid-cols-1 gap-3 font-mulish md:grid-cols-2 lg:hidden">
+          {orgGroups.map((group, index) => ( 
           <div
               className="rounded-lg p-3 shadow-[0_0_12px_rgba(0,0,0,0.12)]"
+              key={group.id}
           >
             <div className="grid grid-cols-[repeat(3,auto)] items-center gap-5">  
               <div>  
                 <p className="text-[11px] font-semibold tracking-[-0.2px]">  
-                  <FormattedMessage id="org" />  
+                  <FormattedMessage id="#" />  
                 </p>  
-                <span className="mt-2.5 text-xs">1</span>  
+                <span className="mt-2.5 text-xs">{index + 1}</span>  
               </div>   
               <div>  
                 <p className="text-[11px] font-semibold tracking-[-0.2px]">  
                   <FormattedMessage id="companyName" />  
                 </p>  
-                <span className="mt-2.5 text-xs">Apple</span>  
+                <span className="mt-2.5 text-xs">{group.name}</span>  
               </div>  
               <div>  
                 <p className="text-[11px] font-semibold tracking-[-0.2px]">  
-                  <FormattedMessage id="createdAt" />  
+                  <FormattedMessage id="authorizedDomains" />  
                 </p>  
-                <span className="mt-2.5 text-xs">Jun 7, 2022</span>  
-              </div>  
+                <span className="mt-2.5 text-xs">{group.authorized_domains.join(' | ')}</span>  
+              </div> 
             </div>
 
             <hr className="my-2.5 border-t border-black/20" />
 
             <div className="grid grid-cols-3 items-center gap-5">
-              <div className="grid col-span-1">
+              <div>  
+                <p className="text-[11px] font-semibold tracking-[-0.2px]">  
+                  <FormattedMessage id="createdAt" />  
+                </p>  
+                <span className="mt-2.5 text-xs">{formatDate(group.created_at)}</span>  
+              </div> 
+              <div className="col-span-1 grid">
                 <p className="text-center  text-[11px] tracking-[-0.2px]">
                     <FormattedMessage id="adminEmail" />
                 </p>
-                <span className="text-center mt-2.5 text-xs">
-                    Apple
+                <span className="mt-2.5 text-center text-xs">
+                  {group.admin_user}
                 </span>
               </div>
-              <div className="grid col-span-1">
+              <div className="col-span-1 grid">
                 <p className="text-center text-[11px] tracking-[-0.2px]">
                     <FormattedMessage id="role" />
                 </p>
-                <div style={{fontSize: "12px", width: "80px", height: '1.5rem', backgroundColor: "RGB(248, 228, 229)", color: "RGB(220, 111, 144)"}} className="text-center font-bold mx-auto py-1 rounded-md">  
-                  PARTNER  
-                </div>  
-              </div>
-              <div className="grid col-span-1">  
-                <p className="text-center text-[11px] tracking-[-0.2px]">  
-                    <FormattedMessage id="actions" />  
-                </p>  
-                
-                <div className="flex items-center">  
-                    <button   
-                        style={{fontSize: '8px', width: '45px', height: '1.5rem', paddingLeft: '4px', paddingRight: '4px'}}   
-                        className="rounded-lg bg-accent text-white duration-300 hover:opacity-90"   
-                    >   
-                        <FormattedMessage id="edit" />   
-                    </button>  
-                    <button   
-                        style={{fontSize: '8px', width: '45px', height: '1.5rem', paddingLeft: '4px', paddingRight: '4px'}}   
-                        className="ml-2 rounded-lg bg-accent text-white duration-300 hover:opacity-90"   
-                    >   
-                        <FormattedMessage id="delete" />   
-                    </button>  
+                <div style={{fontSize: "8px", width: "45px", height: '1.5rem', backgroundColor: "RGB(248, 228, 229)", color: "RGB(220, 111, 144)"}} className="mx-auto rounded-md py-1.5 text-center font-bold">  
+                  {group.group_kind.toUpperCase()}  
                 </div>  
               </div>
             </div>
+            <hr className="my-2.5 border-t border-black/20" />
+            <div className="flex w-full items-center justify-between gap-5">  
+              <p className="text-center text-[11px] tracking-[-0.2px]">  
+                  <FormattedMessage id="actions" />  
+              </p>  
+
+              <div className="flex items-center">  
+                  <button   
+                      style={{fontSize: '8px', width: '45px', height: '1.5rem', paddingLeft: '4px', paddingRight: '4px'}}   
+                      className="rounded-lg bg-accent text-white duration-300 hover:opacity-90"   
+                      onClick={handleEditClick(group)}
+                  >   
+                      <FormattedMessage id="edit" />   
+                  </button>  
+                  <button   
+                      style={{fontSize: '8px', width: '45px', height: '1.5rem', paddingLeft: '4px', paddingRight: '4px'}}   
+                      className="ml-2 rounded-lg bg-accent text-white duration-300 hover:opacity-90"   
+                      onClick={()=>groupDeleteClick(group.id)}
+                  >   
+                      <FormattedMessage id="delete" />   
+                  </button>  
+              </div>  
+            </div>
             
           </div>
+          ))}
         </div>
       </div>
-      {isUpdateProfileVisible && <UpdateProfile onClose={handleUpdateClose} />} 
+      {isEditOrgVisible && selectedGroup && <EditOrg onClose={handleEditClose} group={selectedGroup} role={selectedGroup.group_kind.toUpperCase() as 'CLIENT' | 'PARTNER'} groupId={selectedGroup.id}/>} 
       {isChangePasswordVisible && <ChangePassword onClose={handleChangeClose} />} 
-      {isDeleteVisible && <DeleteProfile onClose={handleDeleteClose} />} 
+      {isDeleteVisible && selectedGroup && (  
+        <DeleteGroup onClose={groupDeleteClose} groupId={selectedGroup.id} />  
+      )} 
     </>
   );
 };

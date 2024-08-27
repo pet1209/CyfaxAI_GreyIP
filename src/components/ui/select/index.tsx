@@ -1,11 +1,12 @@
 import * as SelectPrimitive from "@radix-ui/react-select";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import * as React from "react";
 
 import IconChevronDown from "@/components/icons/icon-chevron-down";
-import { cn } from "@/lib/utils";
-import { ErrorMessage, useFormikContext } from "formik";
+import { ErrorMessage, useFormikContext, useField } from "formik";
 import { FormattedMessage } from "react-intl";
+import React, { useState, KeyboardEvent } from 'react';  
+import { XCircle } from 'lucide-react';  
+import { cn } from "@/lib/utils";  
 
 const Select = SelectPrimitive.Root;
 
@@ -229,6 +230,59 @@ const FormikSelect = ({
   );
 };
 
+interface FormikDomainInputProps {  
+  name: string;  
+  groupKind: string;
+  label?: string;  
+  placeholder?: string;  
+}  
+
+const FormikDomainInput: React.FC<FormikDomainInputProps> = ({ name, groupKind, label, placeholder }) => {  
+  const { setFieldValue } = useFormikContext();  
+  const [field, meta] = useField(name);  
+  const [inputValue, setInputValue] = useState("");  
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {  
+    if (e.key === 'Enter' && inputValue.trim() !== '') {  
+      e.preventDefault();  
+      // If groupKind is 'client', replace the value else add to it  
+      const newDomains = groupKind === 'client' ? [inputValue.trim()] : [...field.value, inputValue.trim()];  
+      
+      setFieldValue(name, newDomains); // Update the domains in Formik state  
+      setInputValue(""); // Clear input field  
+    }  
+  };  
+
+  const removeDomain = (domainToRemove: string) => {  
+    const newDomains = field.value.filter((domain: string) => domain !== domainToRemove);  
+    setFieldValue(name, newDomains); // Update the domains in Formik state  
+  };  
+
+  return (  
+    <div>  
+      {label && <label className="mb-4 inline-block text-sm font-medium md:text-base lg:text-xl"><FormattedMessage id={label} /></label>}  
+      <div className="relative flex flex-wrap items-center gap-2 rounded-[10px] border bg-black/10 px-3 py-2 outline-none backdrop-blur-xl md:h-[66px] lg:h-[70px]">  
+        {field.value.map((domain: string, index: number) => (  
+          <div key={index} className="flex items-center gap-2 rounded bg-blue-100 px-2 py-1">  
+            {domain}  
+            <XCircle className="size-4 cursor-pointer text-blue-500" onClick={() => removeDomain(domain)} />  
+          </div>  
+        ))}  
+        <input  
+          type="text"  
+          value={inputValue}  
+          onChange={(e) => setInputValue(e.target.value)}  
+          onKeyDown={handleKeyDown}  
+          placeholder={placeholder}  
+          className="flex-1 border-none bg-transparent outline-none placeholder:font-medium placeholder:text-black/80 placeholder:opacity-100 max-md:text-sm"  
+        />  
+      </div>  
+      {meta.touched && meta.error && <div className="text-sm text-red-500">{meta.error}</div>}  
+    </div>  
+  );  
+};  
+
+
 export {
   FormikSelect,
   Select,
@@ -241,4 +295,5 @@ export {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
+  FormikDomainInput
 };

@@ -4,7 +4,7 @@ import CompanyDomainNameVariationAllTable from "@/components/company-domain-name
 import { Tabs, TabsContent } from "@/components/ui/tabs";  
 import useDetailReport from "@/views/current-risk/hooks/useDetailReport";  
 import { FormattedMessage } from "react-intl";  
-import { PaginationComponent } from '@/components/common/pagination';  // Ensure you have the correct path  
+import { PaginationComponent } from '@/components/common/pagination'; 
 
 const AttackSurface = () => {  
   const { data } = useDetailReport();  
@@ -51,8 +51,7 @@ const AttackSurface = () => {
                      <div className="flex w-full justify-center py-4">  
                         <div className="flex items-center justify-center space-x-8">  
                             <div className="flex w-full justify-center py-4">  
-                                <div className="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-8 w-full">  
-                                    {/* Items per page selection */}  
+                                <div className="flex w-full flex-col items-center justify-center space-y-4 md:flex-row md:space-x-8 md:space-y-0">  
                                     <div className="flex flex-row items-center justify-center md:justify-start">  
                                         <label htmlFor="itemsPerPage" className="mr-2">  
                                             <FormattedMessage id="pageShowCount" />  
@@ -63,9 +62,8 @@ const AttackSurface = () => {
                                             <option value="50">50</option>  
                                         </select>  
                                     </div>  
-
-                                    {/* Pagination component - center on mobile */}  
-                                    <div className="w-full flex justify-center md:justify-start">  
+ 
+                                    <div className="flex w-full justify-center md:justify-start">  
                                         <PaginationComponent  
                                             currentPage={currentPage}  
                                             maxPage={maxPage}  
