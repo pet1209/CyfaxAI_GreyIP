@@ -89,7 +89,7 @@ const UserManagementTable: React.FC<UserManagementTableProps> = ({users}) => {
             </tr>  
           </thead>  
           <tbody>  
-          {users.map((user, index) => (
+          {users && users.map((user, index) => (
             <tr 
               key={user.id} 
                 className="h-20 border-b py-4 pl-6 font-mulish text-sm"  
@@ -133,7 +133,7 @@ const UserManagementTable: React.FC<UserManagementTableProps> = ({users}) => {
           </tbody>
         </table>  
         <div className="grid grid-cols-1 gap-3 font-mulish md:grid-cols-2 lg:hidden">
-          {users.map((user, index) => (
+          {users && users.map((user, index) => (
           <div
             key={user.id} 
               className="rounded-lg p-3 shadow-[0_0_12px_rgba(0,0,0,0.12)]"

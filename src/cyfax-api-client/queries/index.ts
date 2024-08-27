@@ -56,7 +56,6 @@ const fetchAllPermissions = async (): Promise<Permission[]> => {
       page++;  
       const nextPageData = await cyfaxApiClient.get<PermissionsAPIResponse>("/permissions/", { params: { page } });  
       allPermissions = allPermissions.concat(nextPageData.data.data);  
-      console.log('asfsd', allPermissions)
   }  
 
   return allPermissions;  
@@ -95,7 +94,6 @@ const fetchAllGroups = async (): Promise<Groups[]> => {
       page++;  
       const nextPageData = await cyfaxApiClient.get<GroupsAPIResponse>("/groups/", { params: { page } });  
       allGroups = allGroups.concat(nextPageData.data.data);  
-      console.log('asfsd', allGroups)
   }  
 
   return allGroups;  
@@ -120,7 +118,6 @@ const fetchAllUsers = async (): Promise<Groups[]> => {
       page++;  
       const nextPageData = await cyfaxApiClient.get<GroupsAPIResponse>("/user_management/", { params: { page } });  
       allUsers = allUsers.concat(nextPageData.data.data);  
-      console.log('asfsd', allUsers)
   }  
 
   return allUsers;  

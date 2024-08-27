@@ -56,7 +56,6 @@ const EditOrg: React.FC<EditOrgProps> = ({ onClose, group, role, groupId }) => {
     const {rolesData} = useDetailReport()
     const getPartnerAdminPermissions = () => {  
     if (!rolesData) {  
-        console.error("rolesData is not loaded yet.");  
         return [];
     }   
     const partnerAdmin = rolesData.find(role => role.role_name === "partner_admin");  
@@ -64,7 +63,6 @@ const EditOrg: React.FC<EditOrgProps> = ({ onClose, group, role, groupId }) => {
     }  
     const getClientAdminPermissions = () => {  
     if (!rolesData) {  
-        console.error("rolesData is not loaded yet.");  
         return []; 
     }   
     const clientAdmin = rolesData.find(role => role.role_name === "client_admin");  
@@ -129,7 +127,6 @@ const EditOrg: React.FC<EditOrgProps> = ({ onClose, group, role, groupId }) => {
             }  
             
             const data = await response.json();  
-            console.log(data.data)
             toast.success(data.data);  
         } catch (error) {  
             console.error('Failed to delete group:', error);  

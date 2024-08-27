@@ -24,7 +24,6 @@ const AttackSurface = () => {
     ...getUsersQueryOptions(),
   });
   const users = allUsers?.data
-  console.log(users)
 
   useEffect(() => {  
     const totalCount = users?.length || 0;  

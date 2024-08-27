@@ -83,7 +83,6 @@ const OrgManagement = () => {
   const {roleNameToIdMap, rolesData} = useDetailReport()
   const getPartnerAdminPermissions = () => {  
     if (!rolesData) {  
-      console.error("rolesData is not loaded yet.");  
       return [];
     }   
     const partnerAdmin = rolesData.find(role => role.role_name === "partner_admin");  
@@ -92,7 +91,6 @@ const OrgManagement = () => {
   
   const getClientAdminPermissions = () => {  
     if (!rolesData) {  
-      console.error("rolesData is not loaded yet.");  
       return []; 
     }   
     const clientAdmin = rolesData.find(role => role.role_name === "client_admin");  
@@ -126,7 +124,6 @@ const OrgManagement = () => {
 
 
   const permissionValues = permissionsQuery?.data;
-  console.log("sdfgsdfg", permissionValues)
 
   const roles = useQuery({
     ...getRolesQueryOptions(),
@@ -198,7 +195,6 @@ const OrgManagement = () => {
     .filter((permission): permission is PermissionOption => Boolean(permission));  
     
   setPermissionOptions(filteredAndMappedPermissions);
-  console.log("3412341234", filteredAndMappedPermissions)
   }, [currentGroupKind, clientAdminPermissions, partnerAdminPermissions, permissionValues]);
   
 
@@ -210,7 +206,6 @@ const OrgManagement = () => {
           const rolesData = roles.data?.data;
 
           if (!rolesData) {  
-            console.error("Role data is undefined.");  
             return;  
           }  
           const clientAdminRole = rolesData.find(role => role.role_name === 'client_admin');  

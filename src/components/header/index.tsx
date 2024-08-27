@@ -41,7 +41,6 @@ const Header = () => {
           'Authorization': `Bearer ${tokens.accessToken}`,
         }
       });  
-      console.log(response)
       
       if (response.ok) {  
         toast.success('Please check your email to reset your password.'); // Success notification  

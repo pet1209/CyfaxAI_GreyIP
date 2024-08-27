@@ -112,7 +112,6 @@ const AuthenticatedSidebarLinks = () => {
   const { isAdmin, logout, logoutMutation, data } = useAuthUserAccount();  
   const {roleNameToIdMap} = useDetailReport()
   const roleString = data?.role ? roleNameToIdMap[data.role] : undefined;
-  console.log("role", roleString)
   const navLinks = useMemo(() => {  
     let filteredNavLinks = [...defaultNavLinks].map(link => ({  
       ...link,  

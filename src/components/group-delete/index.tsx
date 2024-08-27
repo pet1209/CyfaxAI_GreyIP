@@ -27,7 +27,6 @@ const DeleteGroup = ({ groupId, onClose }: GroupDeleteProps) => {
     const handleSubmit = async (event: React.FormEvent) => {  
         event.preventDefault();  
     
-        console.log(groupId);  
         const apiUrl = `${process.env.NEXT_PUBLIC_CYFAX_API_BASE_URL}/group/${groupId}/`;  
         const requestBody = { password };  
         const tokens = await getAuthTokenOnClient();  
@@ -47,8 +46,6 @@ const DeleteGroup = ({ groupId, onClose }: GroupDeleteProps) => {
                 throw new Error(errorResponse.data);
             }  
             
-            const data = await response.json();  
-            console.log(data.data);
             toast.success("Group deleted successfully."); 
             onClose(); 
         } catch (error) {  

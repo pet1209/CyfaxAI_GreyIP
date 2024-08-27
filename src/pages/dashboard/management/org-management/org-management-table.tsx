@@ -78,7 +78,7 @@ const OrgManagementTable: React.FC<OrgManagementTableProps> = ({orgGroups}) => {
             </tr>  
           </thead>  
           <tbody>  
-          {orgGroups.map((group, index) => (  
+          {orgGroups && orgGroups.map((group, index) => (  
               <tr className="h-20 border-b py-4 pl-6 font-mulish text-sm" key={group.id}>  
                 <td className="text-center">{index + 1}</td>  
                 <td className="text-center">{group.name}</td>  
@@ -114,7 +114,7 @@ const OrgManagementTable: React.FC<OrgManagementTableProps> = ({orgGroups}) => {
           </tbody>
         </table>  
         <div className="grid grid-cols-1 gap-3 font-mulish md:grid-cols-2 lg:hidden">
-          {orgGroups.map((group, index) => ( 
+          {orgGroups && orgGroups.map((group, index) => ( 
           <div
               className="rounded-lg p-3 shadow-[0_0_12px_rgba(0,0,0,0.12)]"
               key={group.id}

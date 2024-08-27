@@ -60,7 +60,6 @@ const ResetPassword = () => {
       } else {  
         // Handle non-2xx responses here  
         const error = await response.json(); 
-        console.log(error) 
         toast.error(`Failed to change password: ${error.data}`);  
       }  
     } catch (error) {  
