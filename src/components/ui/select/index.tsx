@@ -8,6 +8,7 @@ import React, { useState, KeyboardEvent } from 'react';
 import { XCircle } from 'lucide-react';  
 import { cn } from "@/lib/utils";  
 
+
 const Select = SelectPrimitive.Root;
 
 const SelectGroup = SelectPrimitive.Group;
@@ -235,9 +236,10 @@ interface FormikDomainInputProps {
   groupKind: string;
   label?: string;  
   placeholder?: string;  
+  onChange?:(domains: string[]) => void;
 }  
 
-const FormikDomainInput: React.FC<FormikDomainInputProps> = ({ name, groupKind, label, placeholder }) => {  
+const FormikDomainInput: React.FC<FormikDomainInputProps> = ({ name, groupKind, label, placeholder, onChange }) => {  
   const { setFieldValue } = useFormikContext();  
   const [field, meta] = useField(name);  
   const [inputValue, setInputValue] = useState("");  
@@ -248,14 +250,15 @@ const FormikDomainInput: React.FC<FormikDomainInputProps> = ({ name, groupKind, 
       // If groupKind is 'client', replace the value else add to it  
       const newDomains = groupKind === 'client' ? [inputValue.trim()] : [...field.value, inputValue.trim()];  
       
-      setFieldValue(name, newDomains); // Update the domains in Formik state  
-      setInputValue(""); // Clear input field  
+      setFieldValue(name, newDomains, true); // Update the domains in Formik state  
+      onChange && onChange(newDomains); // Ensures it calls onChange if provided  
+      setInputValue(""); 
     }  
   };  
 
   const removeDomain = (domainToRemove: string) => {  
     const newDomains = field.value.filter((domain: string) => domain !== domainToRemove);  
-    setFieldValue(name, newDomains); // Update the domains in Formik state  
+    setFieldValue(name, newDomains, true); // Update the domains in Formik state  
   };  
 
   return (  

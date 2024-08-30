@@ -3,7 +3,7 @@ import IconSms from "@/components/icons/icon-sms";
 import routes from "@/constants/routes";
 import { getLoginMutationOptions } from "@/cyfax-api-client/mutations";
 import { cn, getApiErrorMessage } from "@/lib/utils";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { Formik, useField, Field, useFormikContext } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -48,14 +48,13 @@ const Login = () => {
     rememberMe: false,  
   });  
   useEffect(() => {  
-    // Safely access localStorage within useEffect  
     const storedEmail = localStorage.getItem('email');  
     const storedPassword = localStorage.getItem('password');  
     
     setInitialValues({  
       email: storedEmail ? storedEmail : "",  
       password: storedPassword ? storedPassword : "",  
-      rememberMe: !!storedEmail && !!storedPassword // Coerce to boolean  
+      rememberMe: !!storedEmail && !!storedPassword 
     });  
   }, []);
 
@@ -83,7 +82,8 @@ const Login = () => {
                 localStorage.removeItem('email');  
                 localStorage.removeItem('password');  
               }
-              await loginMutation.mutateAsync(values);
+              const res = await loginMutation.mutateAsync(values);
+              console.log('asdfasdf', res)
             } catch (error) {
               actions.setSubmitting(false);
             }

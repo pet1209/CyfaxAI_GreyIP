@@ -40,3 +40,13 @@ type GroupsAPIResponse = {
   data: Groups[];
   pagination: Pagination;
 }
+
+interface User {  
+  id: string;  
+  email: string;  
+  full_name: string;  
+  phone: string;  
+  group_name: string | null;  
+  role_name: string; 
+  group: string; 
+}

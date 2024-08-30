@@ -49,9 +49,7 @@ const validationSchema = z.object({
   name: z.string({
     message: "Name is required",
   }),
-  authorized_domains: z.string({
-    message: "Domain name is required",
-  }),
+  authorized_domains: z.array(z.string().min(1, "Domain name is required")).min(1, "At least one domain is required"),
   group_kind: z.string({ message: "Group kind is required" }),
 }).refine((data) => data.password === data.confirmPassword, {  
   message: "Passwords do not match",  
@@ -320,6 +318,7 @@ const OrgManagement = () => {
                 groupKind={values.group_kind} // Ensure this is based on your form state  
                 label="authorizedOrganizationalDomain"  
                 placeholder={intl.formatMessage({ id: "inputTheDomainNameOfTheOrganization" })}
+                onChange={(domains)=>setFieldValue("authorized_domains", domains)}
               />
               </div>
               <div className="relative lg:col-span-2">

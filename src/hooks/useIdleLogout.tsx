@@ -1,81 +1,45 @@
-import { useCallback, useEffect, useRef } from 'react';  
+import { useCallback, useEffect } from 'react';  
 import useAuthUserAccount from '@/hooks/useAuthUserAccount';  
 
 const useIdleLogout = (inactivityPeriod = 300000) => {  
   const { logoutMutation, hasAuth } = useAuthUserAccount();  
-  // inactivityPeriod = 60000 is equivalent to 5 minutes  
-  
   const isClient = typeof window !== 'undefined';  
 
-  const getSavedTimestamp = () => {  
-    if (!isClient) {  
-      return Date.now() + inactivityPeriod; 
+  const logoutIfInactive = useCallback(() => {  
+    if (isClient && hasAuth) {  
+      const savedTimestamp = localStorage.getItem('logoutTimestamp');  
+      if (savedTimestamp && Date.now() > Number(savedTimestamp)) {  
+        logoutMutation.mutate();  
+        localStorage.removeItem('logoutTimestamp');  
+      }  
     }  
-    const savedTimestamp = localStorage.getItem('logoutTimestamp');  
-    if (savedTimestamp) {  
-      return Number(savedTimestamp);  
-    } else {  
-      const futureTimestamp = Date.now() + inactivityPeriod;  
-      localStorage.setItem('logoutTimestamp', futureTimestamp.toString());  
-      return futureTimestamp;  
-    }  
-  } 
-
-  const activityTimestampRef = useRef<number>(getSavedTimestamp());  
-
-  const refreshActivityTimestamp = useCallback(() => {  
-    if (!isClient) return; 
-    const newTimestamp = Date.now() + inactivityPeriod;  
-    activityTimestampRef.current = newTimestamp;  
-    localStorage.setItem('logoutTimestamp', newTimestamp.toString());  
-  }, [inactivityPeriod]);
-
-  const checkActivityTimeout = useCallback(() => {  
-    if (!isClient) return; 
-    if (Date.now() > activityTimestampRef.current && hasAuth) {  
-      logoutMutation.mutate();  
-      localStorage.removeItem('logoutTimestamp'); 
-    }  
-  }, [logoutMutation, hasAuth]); 
+  }, [logoutMutation, isClient, hasAuth]);  
+ 
+  useEffect(() => {  
+    logoutIfInactive(); 
+  }, [logoutIfInactive]);  
 
   useEffect(() => {  
-    if(!isClient || !hasAuth) return;
-    const checkInitialTimeout = () => {  
-      const savedTimestamp = Number(localStorage.getItem('logoutTimestamp'));  
-      if (Date.now() > savedTimestamp && hasAuth) {  
-        logoutMutation.mutate();  
-        localStorage.removeItem('logoutTimestamp'); 
+    if (!isClient || !hasAuth) return;  
+
+    const intervalId = setInterval(logoutIfInactive, 10000);  
+
+    const updateTimestamp = () => {  
+      if (isClient && hasAuth) {  
+        localStorage.setItem('logoutTimestamp', (Date.now() + inactivityPeriod).toString());  
       }  
     };  
 
-    if (!hasAuth) return;  
+    const events = ['mousemove', 'mousedown', 'keypress', 'touchstart', 'click', 'scroll'];  
+    events.forEach(event => window.addEventListener(event, updateTimestamp));  
 
-    checkInitialTimeout();
-  
-    refreshActivityTimestamp();
-
-    const interval = setInterval(checkActivityTimeout, 10000);  
-
-    const events = [  
-      'mousemove',  
-      'mousedown',  
-      'keypress',  
-      'touchstart',  
-      'click',  
-      'scroll',  
-    ];  
-
-    events.forEach(event => {  
-      window.addEventListener(event, refreshActivityTimestamp);  
-    });  
+    updateTimestamp();
 
     return () => {  
-      clearInterval(interval);  
-      events.forEach(event => {  
-        window.removeEventListener(event, refreshActivityTimestamp);  
-      });  
+      clearInterval(intervalId);  
+      events.forEach(event => window.removeEventListener(event, updateTimestamp));  
     };  
-  }, [checkActivityTimeout, refreshActivityTimestamp, hasAuth, logoutMutation]);  
+  }, [logoutIfInactive, isClient, hasAuth, inactivityPeriod]);  
 
   return { logout: logoutMutation.mutate };  
 };  

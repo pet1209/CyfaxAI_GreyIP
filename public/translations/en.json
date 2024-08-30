@@ -217,6 +217,7 @@
   "updateProfile": "Update Profile",
   "changePasswordTitle": "Change Password",
   "deleteProfileTitle": "Enter your password to delete",
+  "removeProfileTitle": "Enter your password to remove",
   "newPasswordLabel": "New Password",
   "verifyPasswordLabel": "Verify New Password",
   "enterPasswordLabel": "Enter Password",
@@ -229,11 +230,18 @@
   "createNewOrgButton": "Create New Org",
   "edit": "Edit",
   "delete": "Delete",
+  "remove": "Remove",
   "confirmPassword": "Confirm Password",
+  "confirmRemoval": "Confirm Removal",
 
   "editOrgTitle": "Edit Organization",
   "orgName": "ORG name",
   "updateOrg": "Update ORG",
-  "phoneNumber": "Phone number"
+  "phoneNumber": "Phone number",
+  "fullName": "Full name",
+  "phone": "Phone",
+  "chooseOption": "Do you want to remove the user from the current Group or completely delete the user account?",
+  "addGroup": "Add Group",
+  "selectGroupTitle": "Select the group name"
 
 }

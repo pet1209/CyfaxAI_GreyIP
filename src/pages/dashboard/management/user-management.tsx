@@ -5,8 +5,9 @@ import { PaginationComponent } from '@/components/common/pagination';
 import { FormattedMessage } from "react-intl"; 
 import { getUsersQueryOptions } from "@/cyfax-api-client/queries";
 import { useQuery } from "@tanstack/react-query"; 
+import CreateUser from "@/components/create-user";
 
-const AttackSurface = () => {  
+const UserManagement = () => {  
   const [currentPage, setCurrentPage] = useState(1);  
   const [itemsPerPage, setItemsPerPage] = useState(10);  
   const [maxPage, setMaxPage] = useState(0); // Define maxPage and its setter  
@@ -17,7 +18,7 @@ const AttackSurface = () => {
 
   const handleItemsPerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {  
     setItemsPerPage(Number(event.target.value));  
-    setCurrentPage(1); // Reset to first page as the items per page changes  
+    setCurrentPage(1); 
   };  
 
   const allUsers = useQuery({
@@ -32,7 +33,15 @@ const AttackSurface = () => {
   const paginatedUsers = users?.slice(  
     (currentPage - 1) * itemsPerPage,  
     currentPage * itemsPerPage  
-);  
+  );  
+
+  const [isCreateProfileVisible, setIsCreateProfileVisible] = useState(false); 
+  const handleCreateClick = () => {  
+    setIsCreateProfileVisible(true);  
+  };  
+  const handleCreateClose = () => {  
+    setIsCreateProfileVisible(false);  
+  }; 
 
 
   return (  
@@ -42,7 +51,8 @@ const AttackSurface = () => {
                 <FormattedMessage id="userManagementTitle" />   
             </h2>   
             <button   
-                className="h-12 rounded-lg bg-accent px-8 text-sm font-semibold text-white duration-300 hover:opacity-90 md:text-base lg:text-lg"   
+              className="h-12 rounded-lg bg-accent px-8 text-sm font-semibold text-white duration-300 hover:opacity-90 md:text-base lg:text-lg"   
+              onClick={()=>handleCreateClick()}
             >   
                 <FormattedMessage id="createUserButton" />   
             </button>
@@ -58,7 +68,6 @@ const AttackSurface = () => {
                         <div className="flex items-center justify-center space-x-8">  
                             <div className="flex w-full justify-center py-4">  
                                 <div className="flex w-full flex-col items-center justify-center space-y-4 md:flex-row md:space-x-8 md:space-y-0">  
-                                    {/* Items per page selection */}  
                                     <div className="flex flex-row items-center justify-center md:justify-start">  
                                         <label htmlFor="itemsPerPage" className="mr-2">  
                                             <FormattedMessage id="pageShowCount" />  
@@ -70,7 +79,6 @@ const AttackSurface = () => {
                                         </select>  
                                     </div>  
 
-                                    {/* Pagination component - center on mobile */}  
                                     <div className="flex w-full justify-center md:justify-start">  
                                         <PaginationComponent  
                                             currentPage={currentPage}  
@@ -86,8 +94,9 @@ const AttackSurface = () => {
           </TabsContent>  
         </Tabs>  
       </div>  
+      {isCreateProfileVisible && <CreateUser onClose={handleCreateClose} />} 
     </>  
   );  
 };  
 
-export default AttackSurface;
+export default UserManagement;

@@ -10,4 +10,5 @@ export type AuthUserAccount = {
   is_active: boolean;
   groups: [];
   permissions: [];
+  role_name: string;
 };

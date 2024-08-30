@@ -215,6 +215,7 @@
   "updateProfile": "Actualizar perfil",
   "changePasswordTitle": "Cambiar la contraseña",
   "deleteProfileTitle": "Introduce tu contraseña para eliminarla",
+  "removeProfileTitle": "Introduce tu contraseña para eliminarla",
   "newPasswordLabel": "Nueva contraseña",
   "verifyPasswordLabel": "Verificar nueva contraseña",
   "enterPasswordLabel": "Introducir contraseña",
@@ -227,10 +228,17 @@
   "createNewOrgButton": "Crear nueva ORG",
   "edit": "Editar",
   "delete": "Borrar",
+  "remote": "Eliminar",
   "confirmPassword": "confirmar Contraseña",
+  "confirmRemoval": "Confirmar eliminación",
 
   "editOrgTitle": "Editar organización",
   "orgName": "Nombre de la organización",
   "updateOrg": "Actualizar ORG",
-  "phoneNumber": "Número de teléfono"
+  "phoneNumber": "Número de teléfono",
+  "fullName": "Nombre completo",
+  "phone": "Teléfono",
+  "chooseOption": "¿Desea eliminar al usuario del grupo actual o eliminar completamente la cuenta de usuario?",
+  "addGroup": "Agregar grupo",
+  "selectGroupTitle": "Seleccione el nombre del grupo"
 }

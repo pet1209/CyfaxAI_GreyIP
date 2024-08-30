@@ -23,11 +23,12 @@ const Header = () => {
   const router = useRouter();
   const [domainValue, setDomainValue] = useInputState("");
 
-  const { data, logout, isAdmin } = useAuthUserAccount();
+  const { data, logout } = useAuthUserAccount();
   const { setDomain, domain } = useDetailReport();
   const intl = useIntl();
 
   const [loading, setLoading] = useState(false); 
+  const roleName = data?.role_name
 
 
   const resetPassword = async () => {  
@@ -43,13 +44,13 @@ const Header = () => {
       });  
       
       if (response.ok) {  
-        toast.success('Please check your email to reset your password.'); // Success notification  
+        toast.success('Please check your email to reset your password.');
       } else {  
         throw new Error('Failed to send reset password email.');  
       }  
     } catch (error) {  
       console.error('Reset password error:', error);  
-      toast.error('Failed to reset password. Please try again.'); // Error notification  
+      toast.error('Failed to reset password. Please try again.');
     } finally {  
       setLoading(false);  
     }  
@@ -65,7 +66,6 @@ const Header = () => {
 
   useEffect(() => {
     setDomainValue(domain);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [domain]);
 
   const is_authneticatedRoute = isAuthenticatedRoute(router.asPath);
@@ -79,7 +79,7 @@ const Header = () => {
       </div>
 
       <div className="flex grow items-center justify-end space-x-3 rounded-lg md:space-x-5 lg:mr-5">
-        {isAdmin && is_authneticatedRoute && (
+        { is_authneticatedRoute && (roleName === 'super_admin' || roleName === 'partner_admin' || roleName === 'partner_user') && (
           <div className="relative mr-auto pl-[30px] max-lg:mx-auto max-lg:w-3/4">
             <input
               value={domainValue}

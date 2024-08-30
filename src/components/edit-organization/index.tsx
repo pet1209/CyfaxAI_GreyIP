@@ -33,6 +33,7 @@ interface EditOrgProps {
       name: string;  
       authorized_domains: string[];  
       admin_user: string;  
+      permissions: string[];
     };  
     role: 'CLIENT' | 'PARTNER';
     groupId: string;
@@ -42,14 +43,14 @@ const validationSchema = z.object({
     permissions: z.array(z.string()).min(1, "Permissions are required"),
   });
 
-const initialValues = {
-    permissions: [],
-}
 interface FormValues {  
     permissions: string[];  
 }
 
 const EditOrg: React.FC<EditOrgProps> = ({ onClose, group, role, groupId }) => {
+    const editOrgInitialValues = {
+        permissions: group.permissions || [],
+    }
     const [authorizedDomains, setAuthorizedDomains] = useState<string[]>(group.authorized_domains || []);  
 
     const [newDomain, setNewDomain] = useState<string>('');
@@ -129,15 +130,15 @@ const EditOrg: React.FC<EditOrgProps> = ({ onClose, group, role, groupId }) => {
             const data = await response.json();  
             toast.success(data.data);  
         } catch (error) {  
-            console.error('Failed to delete group:', error);  
+            console.error('Failed to edit group:', error);  
             const errorMessage = typeof error === "object" && error !== null && "message" in error ? error.message : String(error);  
-            toast.error(`Failed to delete the group. ${errorMessage}`);   
+            toast.error(`Failed to edit the group. ${errorMessage}`);   
         }  
     };  
     
     return (  
         <Formik
-            initialValues={initialValues}
+            initialValues={editOrgInitialValues}
             onSubmit={(values: FormValues, actions) => {  
                 handleSubmit(values).then(() => {  
                     actions.setSubmitting(false); 
@@ -188,19 +189,20 @@ const EditOrg: React.FC<EditOrgProps> = ({ onClose, group, role, groupId }) => {
                             placeholder="orgName"
                             defaultValue= {group?.name}
                             disabled={true}
-                        />  
-                        <div className="my-4 flex flex-wrap gap-2">  
-                            {authorizedDomains.map((domain, index) => (  
-                                <div key={index} className="flex items-center gap-2 rounded bg-blue-100 p-1">  
-                                {domain}  
-                                <XCircle className="size-4 cursor-pointer text-blue-500" onClick={() => handleRemoveDomain(domain)} />  
-                                </div>  
-                            ))}  
-                        </div>  
+                        />
                         <label htmlFor="authorizedDomains" style={{ fontSize: '15px' }} className="mb-2 block font-semibold text-gray-900">  
                             <FormattedMessage id="authorizedDomains"/>  
                         </label>
                         {role === 'CLIENT' && (  
+                            <>
+                            <div className="my-4 flex flex-wrap gap-2">  
+                                {authorizedDomains.map((domain, index) => (  
+                                    <div key={index} className="flex items-center gap-2 rounded bg-blue-100 p-1">  
+                                    {domain}  
+                                    <XCircle className="size-4 cursor-pointer text-blue-500" onClick={() => handleRemoveDomain(domain)} />  
+                                    </div>  
+                                ))}  
+                            </div>  
                             <input  
                                 id="domainInput"  
                                 type="text"  
@@ -209,6 +211,7 @@ const EditOrg: React.FC<EditOrgProps> = ({ onClose, group, role, groupId }) => {
                                 className="mb-2 h-11 w-full rounded-lg border px-3 text-sm outline-none"  
                                 placeholder="Domain name"   
                             />  
+                            </>
                         )}  
 
                         {role === 'PARTNER' && (  

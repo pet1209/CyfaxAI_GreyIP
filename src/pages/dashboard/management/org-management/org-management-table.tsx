@@ -1,11 +1,10 @@
 import { FormattedMessage } from "react-intl";  
 import EditOrg from "@/components/edit-organization";
-import ChangePassword from "@/components/user-password-change";
 import DeleteGroup from "@/components/group-delete";
 import {useState} from "react";
 
 interface OrgManagementTableProps {  
-  orgGroups: any[];  // Using any for simplicity, consider defining a more precise type  
+  orgGroups: any[];  
 }
 
 interface Group {  
@@ -14,6 +13,7 @@ interface Group {
   authorized_domains: string[];  
   admin_user: string;  
   group_kind: 'client' | 'partner';
+  permissions: string[];
 } 
 
 const OrgManagementTable: React.FC<OrgManagementTableProps> = ({orgGroups}) => {  
@@ -24,7 +24,6 @@ const OrgManagementTable: React.FC<OrgManagementTableProps> = ({orgGroups}) => {
   }; 
 
   const [isEditOrgVisible, setIsEditOrgVisible] = useState(false);  
-  const [isChangePasswordVisible, setIsChangePasswordVisible] = useState(false);  
   const [isDeleteVisible, setIsDeleteVisible] = useState(false);  
   const [selectedGroup, setSelectedGroup] = useState<Group | null>(null);  
 
@@ -36,10 +35,7 @@ const OrgManagementTable: React.FC<OrgManagementTableProps> = ({orgGroups}) => {
 
   const handleEditClose = () => {  
     setIsEditOrgVisible(false);  
-  }; 
-  const handleChangeClose = () => {  
-    setIsChangePasswordVisible(false);  
-  }; 
+  };  
   const groupDeleteClick = (groupId: string) => {  
     setSelectedGroup(orgGroups.find(group => group.id === groupId) || null);
     setIsDeleteVisible(true);  
@@ -53,7 +49,7 @@ const OrgManagementTable: React.FC<OrgManagementTableProps> = ({orgGroups}) => {
       <div>  
         <table className="w-full max-lg:hidden">  
           <thead>  
-            <tr className="bg-[#60605B]/[.07] [&>th]:py-3.5 [&>th]:pl-6 [&>th]:text-center [&>th]:font-mulish [&>th]:font-semibold">  
+            <tr className="[&>th]:font-mulish bg-[#60605B]/[.07] [&>th]:py-3.5 [&>th]:pl-6 [&>th]:text-center [&>th]:font-semibold">  
               <th>  
                 <FormattedMessage id="#" />  
               </th>  
@@ -79,7 +75,7 @@ const OrgManagementTable: React.FC<OrgManagementTableProps> = ({orgGroups}) => {
           </thead>  
           <tbody>  
           {orgGroups && orgGroups.map((group, index) => (  
-              <tr className="h-20 border-b py-4 pl-6 font-mulish text-sm" key={group.id}>  
+              <tr className="font-mulish h-20 border-b py-4 pl-6 text-sm" key={group.id}>  
                 <td className="text-center">{index + 1}</td>  
                 <td className="text-center">{group.name}</td>  
                 <td className="text-center">{group.authorized_domains.join(' | ')}</td>  
@@ -96,14 +92,14 @@ const OrgManagementTable: React.FC<OrgManagementTableProps> = ({orgGroups}) => {
                 <td className="text-center">  
                     <button   
                         style={{fontSize: '12px', width: '55px', height: '2rem', paddingLeft: '4px', paddingRight: '4px'}}   
-                        className="rounded-lg bg-accent text-white duration-300 hover:opacity-90"   
+                        className="bg-accent rounded-lg text-white duration-300 hover:opacity-90"   
                         onClick={handleEditClick(group)}
                     >   
                         <FormattedMessage id="edit" />   
                     </button>  
                     <button   
                         style={{fontSize: '12px', width: '55px', height: '2rem', paddingLeft: '4px', paddingRight: '4px'}}   
-                        className="ml-2 rounded-lg bg-accent text-white duration-300 hover:opacity-90"   
+                        className="bg-accent ml-2 rounded-lg text-white duration-300 hover:opacity-90"   
                         onClick={() => groupDeleteClick(group.id)}
                     >   
                         <FormattedMessage id="delete" />   
@@ -113,7 +109,7 @@ const OrgManagementTable: React.FC<OrgManagementTableProps> = ({orgGroups}) => {
           ))}
           </tbody>
         </table>  
-        <div className="grid grid-cols-1 gap-3 font-mulish md:grid-cols-2 lg:hidden">
+        <div className="font-mulish grid grid-cols-1 gap-3 md:grid-cols-2 lg:hidden">
           {orgGroups && orgGroups.map((group, index) => ( 
           <div
               className="rounded-lg p-3 shadow-[0_0_12px_rgba(0,0,0,0.12)]"
@@ -175,14 +171,14 @@ const OrgManagementTable: React.FC<OrgManagementTableProps> = ({orgGroups}) => {
               <div className="flex items-center">  
                   <button   
                       style={{fontSize: '8px', width: '45px', height: '1.5rem', paddingLeft: '4px', paddingRight: '4px'}}   
-                      className="rounded-lg bg-accent text-white duration-300 hover:opacity-90"   
+                      className="bg-accent rounded-lg text-white duration-300 hover:opacity-90"   
                       onClick={handleEditClick(group)}
                   >   
                       <FormattedMessage id="edit" />   
                   </button>  
                   <button   
                       style={{fontSize: '8px', width: '45px', height: '1.5rem', paddingLeft: '4px', paddingRight: '4px'}}   
-                      className="ml-2 rounded-lg bg-accent text-white duration-300 hover:opacity-90"   
+                      className="bg-accent ml-2 rounded-lg text-white duration-300 hover:opacity-90"   
                       onClick={()=>groupDeleteClick(group.id)}
                   >   
                       <FormattedMessage id="delete" />   
@@ -195,7 +191,6 @@ const OrgManagementTable: React.FC<OrgManagementTableProps> = ({orgGroups}) => {
         </div>
       </div>
       {isEditOrgVisible && selectedGroup && <EditOrg onClose={handleEditClose} group={selectedGroup} role={selectedGroup.group_kind.toUpperCase() as 'CLIENT' | 'PARTNER'} groupId={selectedGroup.id}/>} 
-      {isChangePasswordVisible && <ChangePassword onClose={handleChangeClose} />} 
       {isDeleteVisible && selectedGroup && (  
         <DeleteGroup onClose={groupDeleteClose} groupId={selectedGroup.id} />  
       )} 
