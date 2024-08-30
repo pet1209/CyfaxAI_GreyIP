@@ -242,6 +242,7 @@
   "phone": "Phone",
   "chooseOption": "Do you want to remove the user from the current Group or completely delete the user account?",
   "addGroup": "Add Group",
-  "selectGroupTitle": "Select the group name"
+  "selectGroupTitle": "Select the group name",
+  "removeSuccess": "The user has been removed from group successfully"
 
 }

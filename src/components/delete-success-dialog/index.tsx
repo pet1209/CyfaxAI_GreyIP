@@ -12,9 +12,10 @@ import { useState } from "react";
 
 interface ConfirmDeletionProps {  
     onCloseConfirm: () => void;
+    option: string;
 }  
 
-const DeleteSuccess = ({ onCloseConfirm }: ConfirmDeletionProps) => {   
+const DeleteSuccess = ({ onCloseConfirm, option }: ConfirmDeletionProps) => {   
 
     return (  
         <Dialog open>  
@@ -31,7 +32,7 @@ const DeleteSuccess = ({ onCloseConfirm }: ConfirmDeletionProps) => {
             </DialogHeader> 
             <div className="flex flex-col items-center justify-center"> {/* Centering the content vertically and horizontally */}  
                 <label htmlFor="password" style={{ fontSize: '15px' }} className="mt-3 block font-semibold text-gray-900 text-center">  
-                    <FormattedMessage id="deletionLabel"/>  
+                    <FormattedMessage id={option}/>  
                 </label>  
                 <div className="mt-8">  
                     <button  

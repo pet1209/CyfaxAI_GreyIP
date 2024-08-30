@@ -1,6 +1,8 @@
 import IconChekboxChecked from "@/components/icons/icon-chekbox-checked";
 import IconChekboxUnChecked from "@/components/icons/icon-chekbox-unchecked";
 import { Eye, EyeOff } from 'lucide-react';
+import Router from 'next/router';  
+import routes from "@/constants/routes";
 import {
   FormikSelect,
   Select,
@@ -239,6 +241,7 @@ const OrgManagement = () => {
           toast.success("Organization created successfully");
           actions.setSubmitting(false);
           actions.resetForm();
+          Router.push(routes.orgManagement); 
         } catch (error) {
           actions.setSubmitting(false);
         }

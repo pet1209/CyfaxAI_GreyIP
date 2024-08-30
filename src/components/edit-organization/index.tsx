@@ -129,6 +129,7 @@ const EditOrg: React.FC<EditOrgProps> = ({ onClose, group, role, groupId }) => {
             
             const data = await response.json();  
             toast.success(data.data);  
+            location.reload()
         } catch (error) {  
             console.error('Failed to edit group:', error);  
             const errorMessage = typeof error === "object" && error !== null && "message" in error ? error.message : String(error);  

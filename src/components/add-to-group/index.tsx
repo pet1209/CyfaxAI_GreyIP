@@ -80,7 +80,7 @@ const AddToGroup = ({ onClose, user }: ChooseOptionProps) => {
             
             const data = await response.json();  
             toast.success(data.data);  
-            onClose();
+            location.reload()
         } catch (error) {  
             console.error('Failed to add the group:', error);  
             const errorMessage = typeof error === "object" && error !== null && "message" in error ? error.message : String(error);  

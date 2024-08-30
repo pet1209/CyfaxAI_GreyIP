@@ -108,10 +108,11 @@ const CreateUser = ({ onClose }: UpdateProfileProps) => {
             const data = await response.json();  
             toast.success("Completed to create new user."); 
             onClose();
+            location.reload();
         } catch (error) {  
-            console.error('Failed to edit profile:', error);  
+            console.error('Failed to create profile:', error);  
             const errorMessage = typeof error === "object" && error !== null && "message" in error ? error.message : String(error);  
-            toast.error(`Failed to edit the profile. ${errorMessage}`);
+            toast.error(`Failed to create the profile. ${errorMessage}`);
         }
     };
     

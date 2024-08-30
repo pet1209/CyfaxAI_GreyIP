@@ -29,6 +29,7 @@ const DeleteProfile = ({ onClose, user }: DeleteProfileProps ) => {
     const handleDialogClose = () => {  
         setIsDialogOpen(false);
         onClose();
+        location.reload()
     }; 
 
     const [password, setPassword] = useState('');  
@@ -129,7 +130,7 @@ const DeleteProfile = ({ onClose, user }: DeleteProfileProps ) => {
                 </DialogContent>  
             </Dialog> 
         )} 
-            {isConfirmDeletionVisible && <DeleteSuccess onCloseConfirm={handleDialogClose} />} 
+            {isConfirmDeletionVisible && <DeleteSuccess option={"deletionLabel"} onCloseConfirm={handleDialogClose} />} 
         </>
     );  
 };  

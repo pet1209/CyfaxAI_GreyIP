@@ -48,6 +48,7 @@ const DeleteGroup = ({ groupId, onClose }: GroupDeleteProps) => {
             
             toast.success("Group deleted successfully."); 
             onClose(); 
+            location.reload()
         } catch (error) {  
             console.error('Failed to delete group:', error);  
             const errorMessage = typeof error === "object" && error !== null && "message" in error ? error.message : String(error);  

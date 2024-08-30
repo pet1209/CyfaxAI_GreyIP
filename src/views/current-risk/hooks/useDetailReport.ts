@@ -39,7 +39,7 @@ const useDetailReport = () => {
     ...getRolesQueryOptions(),
   });
 
-  const isOpenDomainModal = isAdmin && !domain;
+  const isOpenDomainModal = !domain;
 
   const queryData = getDetailReportQuery.data?.data;
   const combolist_chart = queryData?.combolist_chart || [];
