@@ -99,6 +99,30 @@ const fetchAllGroups = async (): Promise<Groups[]> => {
   return allGroups;  
 };
 
+export const getAlertsQueryOptions = () => {  
+  return {  
+      queryKey: ["get-alerts"],  
+      queryFn: () => fetchAllAlerts(),  
+  };  
+};  
+
+const fetchAllAlerts = async (): Promise<Alerts[]> => {  
+  let allAlerts: Alerts[] = [];
+  let page = 1;  
+  const response = await cyfaxApiClient.get<AlertsAPIResponse>("/alert_management/", { params: { page } });  
+  const totalPages = response.data.pagination.num_pages;  
+
+  allAlerts = allAlerts.concat(response.data.data);  
+
+  while (page < totalPages) {  
+      page++;  
+      const nextPageData = await cyfaxApiClient.get<AlertsAPIResponse>("/alert_management/", { params: { page } });  
+      allAlerts = allAlerts.concat(nextPageData.data.data);  
+  }  
+
+  return allAlerts;  
+};
+
 export const getUsersQueryOptions = () => {  
   return {  
       queryKey: ["get-users"],  

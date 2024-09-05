@@ -20,6 +20,13 @@ type Groups = {
   created_by: string;
 }
 
+type Alerts = {
+  id: string;
+  domain_name: string;
+  group_name: string[];
+  owner_email: string;
+}
+
 type Pagination = {
   page: number;
   per_page: number;
@@ -41,6 +48,11 @@ type GroupsAPIResponse = {
   pagination: Pagination;
 }
 
+type AlertsAPIResponse = {
+  data: Alerts[];
+  pagination: Pagination;
+}
+
 interface User {  
   id: string;  
   email: string;  
@@ -50,3 +62,13 @@ interface User {
   role_name: string; 
   group: string; 
 }
+interface Group {  
+  id: string;
+  name: string;  
+  authorized_domains: string[];  
+  admin_user: string;  
+  group_kind: 'client' | 'partner';
+  permissions: string[];
+  created_by: string;
+  created_at: string;
+} 

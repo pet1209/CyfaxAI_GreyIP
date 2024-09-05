@@ -63,10 +63,6 @@ const useDetailReport = () => {
       setDomain(null);
       return;
     }
-
-    if (!isAdmin) {
-      setDomain(data?.email.split("@")[1]);
-    }
   }, [data, isAdmin, setDomain]);
 
   return {

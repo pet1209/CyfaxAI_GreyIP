@@ -11,6 +11,7 @@ import { getAuthTokenOnClient } from "@/lib/utils";
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from "react";
 import DeleteSuccess from "@/components/delete-success-dialog";
+import { useQueryClient } from "@tanstack/react-query"; 
 
 interface RemoveProfileProps {  
     onClose: () => void;
@@ -18,6 +19,7 @@ interface RemoveProfileProps {
 }  
 
 const RemoveProfile = ({ onClose, user }: RemoveProfileProps) => {  
+    const queryClient = useQueryClient();
     const [isDialogOpen, setIsDialogOpen] = useState(true);
     const [isPasswordVisible, setPasswordVisible] = useState(false);   
     const [isConfirmDeletionVisible, setIsConfirmDeletionVisible] = useState(false); 
@@ -29,7 +31,6 @@ const RemoveProfile = ({ onClose, user }: RemoveProfileProps) => {
     const handleDialogClose = () => {
         setIsDialogOpen(false);  
         onClose()
-        location.reload()
     }; 
 
     const [password, setPassword] = useState('');  
@@ -68,7 +69,11 @@ const RemoveProfile = ({ onClose, user }: RemoveProfileProps) => {
             }  
             
             toast.success("User Removed successfully."); 
-            setIsDialogOpen(false);
+            queryClient.setQueryData(['get-users'], (oldUsers: User[] | undefined) =>   
+                oldUsers ? oldUsers.filter(u => u.id !== user.id) : []  
+              );  
+        
+            setIsDialogOpen(false);  
             setIsConfirmDeletionVisible(true);
         } catch (error) {  
             console.error('Failed to Remove user:', error);  

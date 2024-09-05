@@ -12,9 +12,10 @@ import { getAuthTokenOnClient } from "@/lib/utils";
 interface ChooseOptionProps {  
     onClose: () => void;  
     user: User;
+    onGroupAdded: (updateUser: User) => void;
 }   
 
-const AddToGroup = ({ onClose, user }: ChooseOptionProps) => {  
+const AddToGroup = ({ onClose, user, onGroupAdded }: ChooseOptionProps) => {  
     const [groups, setGroups] = useState<Groups[]>([]);  
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedGroupId, setSelectedGroupId] = useState("");  
@@ -44,9 +45,10 @@ const AddToGroup = ({ onClose, user }: ChooseOptionProps) => {
                 const loadedGroups = data.data || [];  
                 setGroups(loadedGroups);
                 if (loadedGroups.length > 0) {  
-                    const randomIndex = Math.floor(Math.random() * loadedGroups.length);  
-                    setSelectedGroupId(loadedGroups[randomIndex].id);  
-                }  
+                    const defaultGroup = loadedGroups[0];  
+                    setSelectedGroupId(defaultGroup.id);  
+                    setSelectedGroupName(defaultGroup.name); // Set default group name  
+                } 
             } catch (error) {  
                 console.error('Failed to fetch groups:', error);  
                 toast.error("Failed to fetch groups");  
@@ -55,6 +57,14 @@ const AddToGroup = ({ onClose, user }: ChooseOptionProps) => {
         
         getGroups();  
     }, [user.role_name]);
+    const [selectedGroupName, setSelectedGroupName] = useState('');
+    const handleGroupChange = (e: React.ChangeEvent<HTMLSelectElement>) => {  
+        const selectedGroup = groups.find(group => group.id === e.target.value);  
+        if (selectedGroup) {  
+            setSelectedGroupId(selectedGroup.id);  
+            setSelectedGroupName(selectedGroup.name);  
+        }  
+    };
 
     const handleAddGroup = async () => {  
         const apiUrl = `${process.env.NEXT_PUBLIC_CYFAX_API_BASE_URL}/group_user/`;  
@@ -79,8 +89,11 @@ const AddToGroup = ({ onClose, user }: ChooseOptionProps) => {
             }  
             
             const data = await response.json();  
-            toast.success(data.data);  
-            location.reload()
+            const updatedUser = { ...user, group_name: selectedGroupName }; // selectedGroupName is the string name of the group that the user was added to   
+            onGroupAdded(updatedUser);  
+
+            toast.success(data.data);
+            onClose()
         } catch (error) {  
             console.error('Failed to add the group:', error);  
             const errorMessage = typeof error === "object" && error !== null && "message" in error ? error.message : String(error);  
@@ -110,12 +123,12 @@ const AddToGroup = ({ onClose, user }: ChooseOptionProps) => {
                     placeholder="Search..."  
                     value={searchTerm}  
                     onChange={(e) => setSearchTerm(e.target.value)}  
-                    className="w-full p-2 mb-2 border rounded"  
+                    className="mb-2 w-full rounded border p-2"  
                 />  
                 
-                <select className="w-full p-2 border rounded"
+                <select className="w-full rounded border p-2"
                     value={selectedGroupId}  
-                    onChange={(e) => setSelectedGroupId(e.target.value)} 
+                    onChange={handleGroupChange}
                 >  
                     {filteredGroups && filteredGroups.map((group) => (  
                         <option key={group.id} value={group.id}>{group.name}</option>  

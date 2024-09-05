@@ -11,6 +11,7 @@ import { Eye, EyeOff } from 'lucide-react';
 import { useState } from "react";
 import { getAuthTokenOnClient } from "@/lib/utils";
 import { toast } from "react-toastify";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface ChangeProfileProps {  
     onClose: () => void;
@@ -18,6 +19,7 @@ interface ChangeProfileProps {
 }  
 
 const ChangePassword = ({ onClose, user }: ChangeProfileProps) => {  
+    const queryClient = useQueryClient();
     const [isPasswordVisible, setPasswordVisible] = useState(false);  
     const [isVerifyPasswordVisible, setVerifyPasswordVisible] = useState(false);  
     const displayFullNameOrEmailPart = (user: User) => user.full_name || user.email.split('@')[0];
@@ -59,7 +61,12 @@ const ChangePassword = ({ onClose, user }: ChangeProfileProps) => {
             } 
             const data = await response.json();  
             toast.success(data.data); 
-            location.reload()
+            queryClient.invalidateQueries({  
+                queryKey: ["get-users"],  
+                exact: true,  // Optional exact matching of query key  
+            });
+
+            onClose();
         } catch (error) {  
             console.error('Failed to change profile:', error);  
             const errorMessage = typeof error === "object" && error !== null && "message" in error ? error.message : String(error);  

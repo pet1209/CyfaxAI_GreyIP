@@ -5,8 +5,6 @@ import {
   DialogHeader,  
   DialogTitle,  
 } from "@/components/ui/dialog";  
-import Router from 'next/router';  
-import routes from "@/constants/routes";
 import { FormattedMessage } from "react-intl";  
 import Image from "next/image";  
 import React, { useState, useEffect } from 'react';
@@ -15,9 +13,10 @@ import { toast } from "react-toastify";
 interface UpdateProfileProps {  
   onClose: () => void; 
   user: User;
+  onUserUpdate: (user: User) => void;
 }  
   
-const UpdateProfile = ({ onClose, user }: UpdateProfileProps) => {  
+const UpdateProfile = ({ onClose, user, onUserUpdate }: UpdateProfileProps) => {  
   const displayFullNameOrEmailPart = (user: User) => user.full_name || user.email.split('@')[0];  
   const [fullName, setFullName] = useState(displayFullNameOrEmailPart(user));
   const [phone, setPhone] = useState(user.phone);
@@ -62,7 +61,8 @@ const UpdateProfile = ({ onClose, user }: UpdateProfileProps) => {
       } 
       const data = await response.json();  
       toast.success(data.data); 
-      location.reload()
+      onUserUpdate({...user, full_name: fullName, phone});
+      onClose();
     } catch (error) {  
       console.error('Failed to edit profile:', error);  
       const errorMessage = typeof error === "object" && error !== null && "message" in error ? error.message : String(error);  

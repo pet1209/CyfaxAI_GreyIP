@@ -11,14 +11,22 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import EditIcon from '@mui/icons-material/Edit';
 interface UserManagementTableProps{
   users: any[];
+  onUserUpdate: (user: User) => void;
 }
 
-const capitalizeWords = (s: string) => s.replace(/_/g, ' ')  
-  .split(' ')  
-  .map(word => word.charAt(0).toUpperCase() + word.slice(1))  
-  .join(' ');
+const capitalizeWords = (s: string) => {  
+  if (typeof s !== 'string') {  
+    return ''; // Return an empty string if the input is not a string  
+  }  
 
-const UserManagementTable: React.FC<UserManagementTableProps> = ({users}) => {  
+  return s  
+    .replace(/_/g, ' ')  
+    .split(' ')  
+    .map(word => (word.length > 0 ? word.charAt(0).toUpperCase() + word.slice(1).toLowerCase() : ''))  
+    .join(' ');  
+};
+
+const UserManagementTable: React.FC<UserManagementTableProps> = ({users, onUserUpdate,}) => {  
 
   const [isUpdateProfileVisible, setIsUpdateProfileVisible] = useState(false);  
   const [isChangePasswordVisible, setIsChangePasswordVisible] = useState(false);  
@@ -76,8 +84,16 @@ const UserManagementTable: React.FC<UserManagementTableProps> = ({users}) => {
     setIsDeleteVisible(true);  
   }; 
 
-  const displayFullNameOrEmailPart = (user: User) => user.full_name || user.email.split('@')[0];  
-  const displayRoleName = (roleName: string) => capitalizeWords(roleName);  
+  const displayFullNameOrEmailPart = (user: User | undefined): string => {  
+    if (!user) return 'Unknown';  
+    if (user.full_name && user.full_name.trim().length > 0) {  
+      return user.full_name;  
+    } else if (user.email && user.email.includes('@')) {  
+      return user.email.split('@')[0];  
+    }  
+    return 'Unknown';  
+  };
+  const displayRoleName = (roleName: string | undefined) => roleName ? capitalizeWords(roleName) : 'Unknown Role';  
   const displayGroupNameOrNA = (user: User) => {  
     const rolesWithNoGroupName = ['super_admin', 'client_admin', 'partner_admin'];  
     if (!user.group_name && rolesWithNoGroupName.includes(user.role_name)) {  
@@ -95,6 +111,21 @@ const UserManagementTable: React.FC<UserManagementTableProps> = ({users}) => {
       return capitalizeWords(user.group_name);  
     }  
   };
+  const onGroupAdded = (updatedUser: User) => {  
+    onUserUpdate(updatedUser);  
+  };
+
+  const getInitial = (user: User): string => {  
+    if (user.full_name && user.full_name.length > 0) {  
+        return user.full_name.charAt(0).toUpperCase();  
+    }  
+
+    if (user.email && user.email.length > 0) {  
+        return user.email.charAt(0).toUpperCase();  
+    }  
+
+    return '?';  
+};
 
   return (  
     <>
@@ -138,7 +169,7 @@ const UserManagementTable: React.FC<UserManagementTableProps> = ({users}) => {
                       style={{backgroundColor: "RGB(236, 229, 253)", color: "RGB(133, 91, 243)"}}   
                       className="ml-20 rounded-md p-2 font-extrabold"  
                     >  
-                      {user.full_name ? user.full_name.charAt(0).toUpperCase() : user.email.charAt(0).toUpperCase()}  
+                      {getInitial(user)}
                     </div>  
                     <div className="ml-2 flex flex-col text-left"> 
                       <span style={{fontWeight: "bold"}}>{displayFullNameOrEmailPart(user)}</span>  
@@ -193,7 +224,7 @@ const UserManagementTable: React.FC<UserManagementTableProps> = ({users}) => {
                       style={{backgroundColor: "RGB(236, 229, 253)", color: "RGB(133, 91, 243)"}}   
                       className="rounded-md px-2 py-1"  
                     >  
-                      {user.full_name ? user.full_name.charAt(0).toUpperCase() : user.email.charAt(0).toUpperCase()}   
+                      {getInitial(user)}
                     </div>  
                     <div className="ml-2 flex flex-col text-left text-xs"> 
                       <span>{displayFullNameOrEmailPart(user)}</span>  
@@ -258,7 +289,7 @@ const UserManagementTable: React.FC<UserManagementTableProps> = ({users}) => {
           ))}
         </div>
       </div>
-      {isUpdateProfileVisible && selectedUser && <UpdateProfile user={selectedUser} onClose={handleUpdateClose} />} 
+      {isUpdateProfileVisible && selectedUser && <UpdateProfile user={selectedUser} onClose={handleUpdateClose} onUserUpdate={onUserUpdate} />} 
       {isChangePasswordVisible && selectedUser && <ChangePassword onClose={handleChangeClose} user={selectedUser}/>}
       {isDeleteVisible && selectedUser && <DeleteProfile user={selectedUser} onClose={handleDeleteClose} />} 
       {isRemoveVisible && selectedUser && <RemoveProfile user={selectedUser} onClose={handleRemoveClose} />}
@@ -271,7 +302,7 @@ const UserManagementTable: React.FC<UserManagementTableProps> = ({users}) => {
       )} 
       {  
         isAddToGroupVisible && userToAddToGroup && (  
-          <AddToGroup user={userToAddToGroup} onClose={handleAddToGroupClose} />  
+          <AddToGroup user={userToAddToGroup} onClose={handleAddToGroupClose} onGroupAdded={onGroupAdded} />  
         )  
       } 
     </>

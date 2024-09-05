@@ -1,4 +1,3 @@
-// user-profile-update.tsx  
 import {  
     Dialog,  
     DialogContent,  
@@ -18,6 +17,7 @@ import { getRolesQueryOptions } from "@/cyfax-api-client/queries";
 
 interface UpdateProfileProps {  
     onClose: () => void; 
+    onUserCreate: (newUser: User) => void;
 }  
 
 interface IRoleNames {  
@@ -27,7 +27,7 @@ interface IRoleNames {
     partner_admin: string;  
   }  
 
-const CreateUser = ({ onClose }: UpdateProfileProps) => {  
+const CreateUser = ({ onClose, onUserCreate }: UpdateProfileProps) => {  
     const [formData, setFormData] = useState({  
         email: '',  
         password: '',  
@@ -56,13 +56,13 @@ const CreateUser = ({ onClose }: UpdateProfileProps) => {
     useEffect(() => {  
         let options: string[] = [];  
         
-        if (currentRole === 'partner_admin') {  
-            options = ['client_admin', 'client_user', 'partner_user'];  
+        if (currentRole === 'super_admin' || currentRole === 'partner_admin') {  
+            options = ['partner_user', 'client_user'];  
         } else if (currentRole === 'client_admin') {  
             options = ['client_user'];  
-        } else if (currentRole === "super_admin") {
-            options = ['client_admin', 'client_user', 'partner_user', 'partner_admin'];  
-        }  
+        } else {  
+            options = [];  
+        }
     
         setRoleOptions(options);  
     }, [currentRole]);
@@ -105,10 +105,10 @@ const CreateUser = ({ onClose }: UpdateProfileProps) => {
               const errorResponse = await response.json(); 
               throw new Error(errorResponse.data);
             } 
-            const data = await response.json();  
+            const {data}: {data: User} = await response.json();  
             toast.success("Completed to create new user."); 
+            onUserCreate(data);
             onClose();
-            location.reload();
         } catch (error) {  
             console.error('Failed to create profile:', error);  
             const errorMessage = typeof error === "object" && error !== null && "message" in error ? error.message : String(error);  

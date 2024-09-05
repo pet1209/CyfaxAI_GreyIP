@@ -21,7 +21,7 @@ interface Group {
   
 } 
 
-const OrgManagementTable: React.FC<OrgManagementTableProps> = ({orgGroups, onUpdateGroup, onDeleteGroup}) => {  
+const AlertManagementTable: React.FC<OrgManagementTableProps> = ({orgGroups, onUpdateGroup, onDeleteGroup}) => {  
   
   const formatDate = (dateString: string) => {  
     const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };  
@@ -65,19 +65,13 @@ const OrgManagementTable: React.FC<OrgManagementTableProps> = ({orgGroups, onUpd
                 <FormattedMessage id="companyName" />  
               </th>  
               <th>  
-                <FormattedMessage id="authorizedDomains" />  
+                <FormattedMessage id="domain" />  
               </th>  
               <th>  
-                <FormattedMessage id="createdAt" />  
+                <FormattedMessage id="ownerEmail" />  
               </th>  
-              <th>  
-                <FormattedMessage id="adminEmail" />  
-              </th>  
-              <th>  
-                <FormattedMessage id="role" />  
-              </th>  
-              <th>  
-                <FormattedMessage id="actions" />  
+              <th style={{textAlign: 'center'}}>  
+                <FormattedMessage id="notification" />  
               </th>  
             </tr>  
           </thead>  
@@ -85,42 +79,24 @@ const OrgManagementTable: React.FC<OrgManagementTableProps> = ({orgGroups, onUpd
           {orgGroups && orgGroups.map((group, index) => (  
               <tr className="h-20 border-b py-4 pl-6 font-mulish text-sm" key={group.id}>  
                 <td className="text-center">  
-                  <button onClick={handleFieldClick} className="w-full h-full">{index + 1}</button>  
+                  <button onClick={handleFieldClick} className="size-full">{index + 1}</button>  
                 </td>  
                 <td className="text-center">  
-                  <button onClick={handleFieldClick} className="w-full h-full">{group.name}</button>  
+                  <button onClick={handleFieldClick} className="size-full">{group.name}</button>  
                 </td>  
                 <td className="text-center">  
-                  <button onClick={handleFieldClick} className="w-full h-full">{group.authorized_domains.join(' | ')}</button>  
+                  <button onClick={handleFieldClick} className="size-full">{group.authorized_domains.join(' | ')}</button>  
                 </td>  
                 <td className="text-center">  
-                  <button onClick={handleFieldClick} className="w-full h-full">{formatDate(group.created_at)}</button>  
-                </td>  
-                <td className="text-center">  
-                  <button onClick={handleFieldClick} className="w-full h-full">{group.admin_user}</button>  
+                  <button onClick={handleFieldClick} className="size-full">{group.admin_user}</button>  
                 </td> 
-                <td className="rounded-lg text-center">  
-                  <div   
-                    style={{ fontSize: '12px', backgroundColor: "RGB(248, 228, 229)", height:"2rem", color: "RGB(220, 111, 144)" }}   
-                    className="mx-auto rounded-md py-1.5 font-bold"  
-                  >  
-                    {group.group_kind.toUpperCase()}  
-                  </div>  
-                </td>  
-                <td className="text-center">  
+                <td className="justify-center text-center">  
                     <button   
-                        style={{fontSize: '12px', width: '55px', height: '2rem', paddingLeft: '4px', paddingRight: '4px'}}   
+                        style={{fontSize: '14px', width: '100px', height: '2rem'}}   
                         className="rounded-lg bg-accent text-white duration-300 hover:opacity-90"   
                         onClick={handleEditClick(group)}
                     >   
-                        <FormattedMessage id="edit" />   
-                    </button>  
-                    <button   
-                        style={{fontSize: '12px', width: '55px', height: '2rem', paddingLeft: '4px', paddingRight: '4px'}}   
-                        className="ml-2 rounded-lg bg-accent text-white duration-300 hover:opacity-90"   
-                        onClick={() => groupDeleteClick(group.id)}
-                    >   
-                        <FormattedMessage id="delete" />   
+                        <FormattedMessage id="alertType" />   
                     </button>  
                 </td>
             </tr>  
@@ -133,7 +109,7 @@ const OrgManagementTable: React.FC<OrgManagementTableProps> = ({orgGroups, onUpd
               className="rounded-lg p-3 shadow-[0_0_12px_rgba(0,0,0,0.12)]"
               key={group.id}
           >
-            <div className="grid grid-cols-[repeat(3,auto)] items-center gap-5">  
+            <div className="grid grid-cols-[repeat(2,auto)] items-center gap-5">  
               <div>  
                 <p className="text-[11px] font-semibold tracking-[-0.2px]">  
                   <FormattedMessage id="#" />  
@@ -149,7 +125,12 @@ const OrgManagementTable: React.FC<OrgManagementTableProps> = ({orgGroups, onUpd
                 <span className="mt-2.5 text-xs">  
                   <button onClick={handleFieldClick}>{group.name}</button>  
                 </span>  
-              </div>  
+              </div>    
+            </div>  
+
+            <hr className="my-2.5 border-t border-black/20" />  
+
+            <div className="grid grid-cols-2 items-center gap-5">  
               <div>  
                 <p className="text-[11px] font-semibold tracking-[-0.2px]">  
                   <FormattedMessage id="authorizedDomains" />  
@@ -157,20 +138,7 @@ const OrgManagementTable: React.FC<OrgManagementTableProps> = ({orgGroups, onUpd
                 <span className="mt-2.5 text-xs">  
                   <button onClick={handleFieldClick}>{group.authorized_domains.join(' | ')}</button>  
                 </span>  
-              </div>   
-            </div>  
-
-            <hr className="my-2.5 border-t border-black/20" />  
-
-            <div className="grid grid-cols-3 items-center gap-5">  
-              <div>  
-                <p className="text-[11px] font-semibold tracking-[-0.2px]">  
-                  <FormattedMessage id="createdAt" />  
-                </p>  
-                <span className="mt-2.5 text-xs">  
-                  <button onClick={handleFieldClick}>{formatDate(group.created_at)}</button>  
-                </span>  
-              </div>   
+              </div>  
               <div className="col-span-1 grid">  
                 <p className="text-center  text-[11px] tracking-[-0.2px]">  
                     <FormattedMessage id="adminEmail" />  
@@ -178,14 +146,6 @@ const OrgManagementTable: React.FC<OrgManagementTableProps> = ({orgGroups, onUpd
                 <span className="mt-2.5 text-center text-xs">  
                   <button onClick={handleFieldClick}>{group.admin_user}</button>  
                 </span>  
-              </div>  
-              <div className="col-span-1 grid">  
-                <p className="text-center text-[11px] tracking-[-0.2px]">  
-                    <FormattedMessage id="role" />  
-                </p>  
-                <div style={{fontSize: "8px", width: "45px", height: '1.5rem', backgroundColor: "RGB(248, 228, 229)", color: "RGB(220, 111, 144)"}} className="mx-auto rounded-md py-1.5 text-center font-bold">  
-                  {group.group_kind.toUpperCase()}  
-                </div>  
               </div>  
             </div>  
             <hr className="my-2.5 border-t border-black/20" />  
@@ -195,20 +155,13 @@ const OrgManagementTable: React.FC<OrgManagementTableProps> = ({orgGroups, onUpd
               </p>  
 
               <div className="flex items-center">  
-                  <button   
-                      style={{fontSize: '8px', width: '45px', height: '1.5rem', paddingLeft: '4px', paddingRight: '4px'}}   
-                      className="rounded-lg bg-accent text-white duration-300 hover:opacity-90"   
-                      onClick={handleEditClick(group)}  
-                  >   
-                      <FormattedMessage id="edit" />   
-                  </button>  
-                  <button   
-                      style={{fontSize: '8px', width: '45px', height: '1.5rem', paddingLeft: '4px', paddingRight: '4px'}}   
-                      className="ml-2 rounded-lg bg-accent text-white duration-300 hover:opacity-90"   
-                      onClick={() => groupDeleteClick(group.id)}  
-                  >   
-                      <FormattedMessage id="delete" />   
-                  </button>  
+                <button   
+                    style={{fontSize: '12px', width: '100px', height: '1.8rem'}}   
+                    className="rounded-lg bg-accent text-white duration-300 hover:opacity-90"   
+                    onClick={handleEditClick(group)}
+                >   
+                    <FormattedMessage id="alertType" />   
+                </button>  
               </div>  
             </div>  
             
@@ -234,4 +187,4 @@ const OrgManagementTable: React.FC<OrgManagementTableProps> = ({orgGroups, onUpd
   );
 };
 
-export default OrgManagementTable;
+export default AlertManagementTable;

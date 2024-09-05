@@ -8,9 +8,10 @@ import { getAuthTokenOnClient } from "@/lib/utils";
 interface GroupDeleteProps {  
     onClose: () => void;  
     groupId: string;  
+    onDelete: (groupId: string) => void;
 }  
 
-const DeleteGroup = ({ groupId, onClose }: GroupDeleteProps) => {  
+const DeleteGroup = ({ groupId, onClose, onDelete }: GroupDeleteProps) => {  
     const [isPasswordVisible, setPasswordVisible] = useState(false);   
     const [password, setPassword] = useState("");   
     const [error, setError] = useState("");  
@@ -47,8 +48,8 @@ const DeleteGroup = ({ groupId, onClose }: GroupDeleteProps) => {
             }  
             
             toast.success("Group deleted successfully."); 
+            onDelete(groupId);
             onClose(); 
-            location.reload()
         } catch (error) {  
             console.error('Failed to delete group:', error);  
             const errorMessage = typeof error === "object" && error !== null && "message" in error ? error.message : String(error);  

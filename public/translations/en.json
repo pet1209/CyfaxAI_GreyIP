@@ -243,6 +243,10 @@
   "chooseOption": "Do you want to remove the user from the current Group or completely delete the user account?",
   "addGroup": "Add Group",
   "selectGroupTitle": "Select the group name",
-  "removeSuccess": "The user has been removed from group successfully"
+  "removeSuccess": "The user has been removed from group successfully",
+  "searchBy": "Search by",
+  "domain": "Domain",
+  "ownerEmail": "Owner Email",
+  "createNewAlertButton": "Create new alert"
 
 }

@@ -240,5 +240,10 @@
   "phone": "Teléfono",
   "chooseOption": "¿Desea eliminar al usuario del grupo actual o eliminar completamente la cuenta de usuario?",
   "addGroup": "Agregar grupo",
-  "selectGroupTitle": "Seleccione el nombre del grupo"
+  "selectGroupTitle": "Seleccione el nombre del grupo",
+  "removeSuccess": "El usuario ha sido eliminado del grupo con éxito",
+  "searchBy": "Buscar por",
+  "domain": "Dominio",
+  "ownerEmail": "Correo electrónico del propietario",
+  "createNewAlertButton": "Crear nueva alerta"
 }

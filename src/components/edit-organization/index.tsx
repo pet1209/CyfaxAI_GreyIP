@@ -29,6 +29,7 @@ import IconChekboxUnChecked from "@/components/icons/icon-chekbox-unchecked";
 
 interface EditOrgProps {  
     onClose: () => void;   
+    onUpdate: (updatedGroup: any) => void;
     group: {  
       name: string;  
       authorized_domains: string[];  
@@ -47,7 +48,7 @@ interface FormValues {
     permissions: string[];  
 }
 
-const EditOrg: React.FC<EditOrgProps> = ({ onClose, group, role, groupId }) => {
+const EditOrg: React.FC<EditOrgProps> = ({ onClose, onUpdate, group, role, groupId }) => {
     const editOrgInitialValues = {
         permissions: group.permissions || [],
     }
@@ -129,7 +130,8 @@ const EditOrg: React.FC<EditOrgProps> = ({ onClose, group, role, groupId }) => {
             
             const data = await response.json();  
             toast.success(data.data);  
-            location.reload()
+            onUpdate({ ...group, authorized_domains: authorizedDomains, permissions });  
+            onClose(); 
         } catch (error) {  
             console.error('Failed to edit group:', error);  
             const errorMessage = typeof error === "object" && error !== null && "message" in error ? error.message : String(error);  
