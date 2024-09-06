@@ -11,6 +11,9 @@ const AlertType = () => {
                 <FormattedMessage id="ownerEmail" /> : {selectedAlert?.owner_email || ''}  
             </p>  
             <p style={{color: "#720072"}} className="text-sm font-medium sm:text-xl/[120%]">
+                <FormattedMessage id="domainName" /> : {selectedAlert?.domain_name || ''}  
+            </p> 
+            <p style={{color: "#720072"}} className="text-sm font-medium sm:text-xl/[120%]">
                 <FormattedMessage id="receivedEmail" /> : {selectedAlert?.received_email || ''}  
             </p> 
             <p style={{color: "#720072"}} className="text-sm font-medium sm:text-xl/[120%]">

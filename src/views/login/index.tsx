@@ -133,7 +133,7 @@ const Login = () => {
               </div> 
               <button
                 type="submit"
-                style={{color: '#720072'}}
+                style={{backgroundColor: '#720072'}}
                 className="h-[56px] w-full rounded-[10px] text-center font-semibold text-white duration-300 hover:opacity-90 md:h-[75px] md:rounded-[15px] md:text-xl"
                 disabled={isSubmitting}
               >
@@ -144,7 +144,7 @@ const Login = () => {
                   <span className="inline-block opacity-60">
                     <FormattedMessage id="dontHaveAnAccount" />
                   </span>{" "}
-                  <Link href={"#"} className="underline underline-offset-[3px]">
+                  <Link href={"#"} style={{color: '#720072'}} className="underline underline-offset-[3px]">
                     <FormattedMessage id="signUp" />
                   </Link>
                 </p>

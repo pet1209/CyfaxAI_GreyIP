@@ -251,5 +251,6 @@
   "slackWebhook": "Webhook Slack",
   "stealerLog": "Journal du voleur",
   "hackerAndDarkweb": "Mentions de hackers et de darkweb",
-  "save": "Sauvegarder"
+  "save": "Sauvegarder",
+  "domainName": "Nom de domaine"
 }
