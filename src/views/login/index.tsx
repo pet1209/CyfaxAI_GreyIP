@@ -3,7 +3,7 @@ import IconSms from "@/components/icons/icon-sms";
 import routes from "@/constants/routes";
 import { getLoginMutationOptions } from "@/cyfax-api-client/mutations";
 import { cn, getApiErrorMessage } from "@/lib/utils";
-import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Formik, useField, Field, useFormikContext } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -60,10 +60,10 @@ const Login = () => {
 
   return (
     <div className="flex flex-col items-center px-5 pb-20 lg:pb-[148px]">
-      <h1 className="mt-4 max-w-[862px] text-center font-poppins font-medium max-sm:max-w-[244px] sm:mt-11 sm:text-[34px]/[46px] lg:text-[50px]/[70px]">
+      <h1 className="mt-4 max-w-[862px] text-center font-medium max-sm:max-w-[244px] sm:mt-11 sm:text-[34px]/[46px] lg:text-[50px]/[70px]">
         <FormattedMessage id="logInTitle" />
       </h1>
-      <div className="mt-6 w-full max-w-[643px] font-inter sm:mt-20 lg:mt-[104px]">
+      <div className="mt-6 w-full max-w-[643px] sm:mt-20 lg:mt-[104px]">
         
         <div className='mb-8 flex flex-col items-center justify-center space-y-1 text-center'>  
           <h2 className="text-[40px] font-medium leading-[150%]"> 
@@ -82,8 +82,7 @@ const Login = () => {
                 localStorage.removeItem('email');  
                 localStorage.removeItem('password');  
               }
-              const res = await loginMutation.mutateAsync(values);
-              console.log('asdfasdf', res)
+              await loginMutation.mutateAsync(values);
             } catch (error) {
               actions.setSubmitting(false);
             }
@@ -119,21 +118,23 @@ const Login = () => {
                   }
                 />
               </div>
-              <div className="flex items-center justify-between mb-8 mt-4 w-full">  
-                <label className="flex items-center space-x-2 cursor-pointer min-w-[120px]">  
-                  <Field type="checkbox" name="rememberMe" className="w-4 h-4"/>  
+              <div className="mb-8 mt-4 flex w-full items-center justify-between">  
+                <label className="flex min-w-[120px] cursor-pointer items-center space-x-2">  
+                  <Field type="checkbox" name="rememberMe" className="size-4"/>  
                   <span className="text-sm text-gray-700"><FormattedMessage id="rememberMe" /></span>  
                 </label>  
                 <Link  
                   href={routes.forgotPassword}  
-                  className="text-sm text-accent underline-offset-4 duration-300 hover:opacity-90 md:underline min-w-[120px] flex justify-end"  
+                  style={{color: '#720072'}}
+                  className="flex min-w-[120px] justify-end text-sm underline-offset-4 duration-300 hover:opacity-90 md:underline"  
                 >  
                   <FormattedMessage id="forgotPassword" />  
                 </Link>  
               </div> 
               <button
                 type="submit"
-                className="h-[56px] w-full rounded-[10px] bg-accent text-center font-semibold text-white duration-300 hover:opacity-90 md:h-[75px] md:rounded-[15px] md:text-xl"
+                style={{color: '#720072'}}
+                className="h-[56px] w-full rounded-[10px] text-center font-semibold text-white duration-300 hover:opacity-90 md:h-[75px] md:rounded-[15px] md:text-xl"
                 disabled={isSubmitting}
               >
                 <FormattedMessage id={isSubmitting ? "pleaseWait" : "login"} />

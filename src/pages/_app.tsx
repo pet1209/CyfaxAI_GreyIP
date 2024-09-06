@@ -11,6 +11,7 @@ import { useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { SelectedValueProvider } from '@/context/selectedValueContext';
+import { AlertProvider } from '@/context/alertContext';
 
 const mulish = Mulish({
   subsets: ["latin"],
@@ -31,8 +32,6 @@ export default function MyCustomApp({ Component, pageProps }: AppProps) {
       new QueryClient({
         defaultOptions: {
           queries: {
-            // With SSR, we usually want to set some default staleTime
-            // above 0 to avoid refetching immediately on the client
             staleTime: 10000,
             retry: 1,
             refetchOnWindowFocus: false,
@@ -52,14 +51,16 @@ export default function MyCustomApp({ Component, pageProps }: AppProps) {
       `}</style>
       <QueryClientProvider client={queryClient}>
         <SelectedValueProvider>
-          <Intl>
-            <Layout>
-              <DefaultSeo {...defaultSEOConfiguration} />
-              <Component {...pageProps} />
-              <GoogleAnalytics gaId="G-JPQQNPQ5PG" />
-            </Layout>
-          </Intl>
-        <ToastContainer stacked position="top-right" />
+          <AlertProvider>
+            <Intl>
+              <Layout>
+                <DefaultSeo {...defaultSEOConfiguration} />
+                <Component {...pageProps} />
+                <GoogleAnalytics gaId="G-JPQQNPQ5PG" />
+              </Layout>
+            </Intl>
+            <ToastContainer stacked position="top-right" />
+          </AlertProvider>
         </SelectedValueProvider>
       </QueryClientProvider>
     </>

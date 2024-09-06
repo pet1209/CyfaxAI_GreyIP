@@ -1,13 +1,44 @@
 import { FormattedMessage } from "react-intl";  
+import Link from "next/link";
+import { useAlertContext } from '@/context/alertContext'; 
+import routes from "@/constants/routes";
 
-const AlertManagementTable = () => {  
+interface AlertsManagementTableProps{
+  alerts: any[];
+}
+
+const capitalizeWords = (s: string) => {  
+  if (typeof s !== 'string') {  
+    return ''; 
+  }  
+
+  return s  
+    .replace(/_/g, ' ')  
+    .split(' ')  
+    .map(word => (word.length > 0 ? word.charAt(0).toUpperCase() + word.slice(1).toLowerCase() : ''))  
+    .join(' ');  
+};
+
+const AlertManagementTable: React.FC<AlertsManagementTableProps> = ({alerts}) => {  
+  const { setSelectedAlert } = useAlertContext();
+  const handleAlertClick = (alert: Alert) => {  
+    setSelectedAlert(alert);  
+  };  
+
+  const displayGroupNameOrNA = (alert: Alert) => {  
+    if (!alert.group_name) {  
+      return 'N/A';  
+    } else {  
+      return capitalizeWords(alert.group_name);  
+    }  
+  };
 
   return (  
     <>
       <div>  
         <table className="w-full max-lg:hidden">  
           <thead>  
-            <tr className="bg-[#60605B]/[.07] [&>th]:py-3.5 [&>th]:pl-6 [&>th]:text-center [&>th]:font-mulish [&>th]:font-semibold">  
+            <tr className="bg-[#60605B]/[.07] [&>th]:py-3.5 [&>th]:pl-6 [&>th]:text-center [&>th]:font-semibold">  
               <th>  
                 <FormattedMessage id="#" />  
               </th>  
@@ -26,33 +57,46 @@ const AlertManagementTable = () => {
             </tr>  
           </thead>  
           <tbody>  
-              <tr className="h-20 border-b py-4 pl-6 font-mulish text-sm">  
+            {alerts && alerts.map((alert, index) => (
+              <tr 
+                className="h-20 border-b py-4 pl-6 text-sm"
+                key={alert.id}
+              >  
                 <td className="text-center">  
-                  <button className="size-full">asdfa</button>  
+                  <button className="size-full">{index+1}</button>  
                 </td>  
                 <td className="text-center">  
-                  <button className="size-full">asfsdf</button>  
+                  <button className="size-full">{displayGroupNameOrNA(alert)}</button>  
                 </td>  
                 <td className="text-center">  
-                  <button className="size-full">gadasfd</button>  
+                  <button className="size-full">{alert.domain_name}</button>  
                 </td>  
                 <td className="text-center">  
-                  <button className="size-full">asdf</button>  
+                  <button className="size-full">{alert.owner_email}</button>  
                 </td> 
                 <td className="justify-center text-center">  
+                  <Link 
+                    href={routes.alertType} 
+                    onClick={() => handleAlertClick(alert)}
+                    passHref
+                  >
                     <button   
-                        style={{fontSize: '14px', width: '100px', height: '2rem'}}   
-                        className="rounded-lg bg-accent text-white duration-300 hover:opacity-90"  
+                        style={{backgroundColor: '#720072', fontSize: '14px', width: '100px', height: '2rem'}}   
+                        className="rounded-lg text-white duration-300 hover:opacity-90"  
                     >   
                         <FormattedMessage id="alertType" />   
                     </button>  
+                  </Link>
                 </td>
-            </tr>  
+              </tr>  
+            ))}
           </tbody>
         </table>  
-        <div className="grid grid-cols-1 gap-3 font-mulish md:grid-cols-2 lg:hidden">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:hidden">
+        {alerts && alerts.map((alert, index) => (
           <div
               className="rounded-lg p-3 shadow-[0_0_12px_rgba(0,0,0,0.12)]"
+              key={alert.id}
           >
             <div className="grid grid-cols-[repeat(2,auto)] items-center gap-5">  
               <div>  
@@ -60,7 +104,7 @@ const AlertManagementTable = () => {
                   <FormattedMessage id="#" />  
                 </p>  
                 <span className="mt-2.5 text-xs">  
-                  <button>sfa</button>  
+                  <button>{index+1}</button>  
                 </span>  
               </div>   
               <div>  
@@ -68,7 +112,7 @@ const AlertManagementTable = () => {
                   <FormattedMessage id="companyName" />  
                 </p>  
                 <span className="mt-2.5 text-xs">  
-                  <button>asdf</button>  
+                  <button>{displayGroupNameOrNA(alert)}</button>  
                 </span>  
               </div>    
             </div>  
@@ -81,7 +125,7 @@ const AlertManagementTable = () => {
                   <FormattedMessage id="authorizedDomains" />  
                 </p>  
                 <span className="mt-2.5 text-xs">  
-                  <button>gdfg</button>  
+                  <button>{alert.domain_name}</button>  
                 </span>  
               </div>  
               <div className="col-span-1 grid">  
@@ -89,7 +133,7 @@ const AlertManagementTable = () => {
                     <FormattedMessage id="adminEmail" />  
                 </p>  
                 <span className="mt-2.5 text-center text-xs">  
-                  <button>asdf</button>  
+                  <button>{alert.owner_email}</button>  
                 </span>  
               </div>  
             </div>  
@@ -100,16 +144,19 @@ const AlertManagementTable = () => {
               </p>  
 
               <div className="flex items-center">  
-                <button   
-                    style={{fontSize: '12px', width: '100px', height: '1.8rem'}}   
-                    className="rounded-lg bg-accent text-white duration-300 hover:opacity-90"   
-                >   
-                    <FormattedMessage id="alertType" />   
-                </button>  
+                <Link href={routes.alertType} passHref>
+                  <button   
+                      style={{backgroundColor: '#720072', fontSize: '12px', width: '100px', height: '1.8rem'}}   
+                      className="rounded-lg text-white duration-300 hover:opacity-90"   
+                  >   
+                      <FormattedMessage id="alertType" />   
+                  </button>  
+                </Link>
               </div>  
             </div>  
             
           </div>
+        ))}
         </div>
       </div>
     </>

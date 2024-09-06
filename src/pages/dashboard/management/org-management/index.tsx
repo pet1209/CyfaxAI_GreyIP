@@ -49,7 +49,7 @@ const OrgGroups = () => {
       setOrgGroups(groupsData);  
       return;  
     }  
-    const baseUrl = 'https://cyfax.ai/backend/api/groups/';  
+    const baseUrl = `${process.env.NEXT_PUBLIC_CYFAX_API_BASE_URL}/groups/`;  
     let url = baseUrl;  
   
     switch (selectedOption) {  
@@ -109,7 +109,7 @@ const OrgGroups = () => {
 
   return (  
     <>  
-      <div className="p-4 font-mulish xl:p-5">  
+      <div className="p-4 xl:p-5">  
         <div className="flex flex-col items-center justify-between space-y-4 md:flex-row md:space-x-4 md:space-y-0">  
           <h2 className="self-stretch text-center text-sm font-semibold sm:text-2xl/[120%] md:self-auto md:text-left">  
             <FormattedMessage id="organizationalManagement" />  
@@ -126,7 +126,7 @@ const OrgGroups = () => {
                   style={{ borderColor: '#720072' }}  
                 />  
                 <button className="pointer-events-auto absolute right-3 top-1/2 -translate-y-1/2 md:right-5">  
-                  <Search className="w-4 text-accent md:w-5 lg:w-6" />  
+                  <Search style={{color: '#720072'}} className="w-4 md:w-5 lg:w-6" />  
                 </button>  
               </div>  
 
@@ -149,7 +149,7 @@ const OrgGroups = () => {
               </div>  
             </div>  
             <Link href={routes.createOrgManagement} className="order-1 w-full md:order-none md:w-auto">  
-              <button className="h-12 w-full rounded-lg bg-accent px-6 text-sm font-semibold text-white duration-300 hover:opacity-90 md:w-auto md:text-base lg:text-base">  
+              <button style={{backgroundColor: '#720072'}} className="h-12 w-full rounded-lg px-6 text-sm font-semibold text-white duration-300 hover:opacity-90 md:w-auto md:text-base lg:text-base">  
                 <FormattedMessage id="createNewOrgButton" />  
               </button>  
             </Link>
@@ -171,7 +171,6 @@ const OrgGroups = () => {
                         <div className="flex items-center justify-center space-x-8">  
                             <div className="flex w-full justify-center py-4">  
                                 <div className="flex w-full flex-col items-center justify-center space-y-4 md:flex-row md:space-x-8 md:space-y-0">  
-                                    {/* Items per page selection */}  
                                     <div className="flex flex-row items-center justify-center md:justify-start">  
                                         <label htmlFor="itemsPerPage" className="mr-2">  
                                             <FormattedMessage id="pageShowCount" />  
@@ -183,7 +182,6 @@ const OrgGroups = () => {
                                         </select>  
                                     </div>  
 
-                                    {/* Pagination component - center on mobile */}  
                                     <div className="flex w-full justify-center md:justify-start">  
                                         <PaginationComponent  
                                             currentPage={currentPage}  

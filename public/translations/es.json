@@ -68,7 +68,7 @@
   "organizationName": "Nombre de la organización",
   "emailAddress": "Dirección de correo electrónico",
   "notification": "Notificación",
-  "alertType": "Tipo de alerta",
+  "alertType": "Configuración",
 
   "organizationalManagement": "Gestión Organizacional",
   "createAnOrganization": "Crear una organización",
@@ -245,5 +245,11 @@
   "searchBy": "Buscar por",
   "domain": "Dominio",
   "ownerEmail": "Correo electrónico del propietario",
-  "createNewAlertButton": "Crear nueva alerta"
+  "createNewAlertButton": "Crear nueva alerta",
+  "receivedEmail": "Correo electrónico recibido",
+  "teamsWebhook": "Webhook de equipos",
+  "slackWebhook": "Webhook de Slack",
+  "stealerLog": "Registro del ladrón",
+  "hackerAndDarkweb": "Menciones a hackers y darkweb",
+  "save": "Ahorrar"
 }

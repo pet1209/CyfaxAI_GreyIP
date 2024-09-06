@@ -134,7 +134,7 @@ const AuthenticatedSidebarLinks = () => {
         break;  
       case 'client_user':  
       case 'partner_user':  
-        filteredNavLinks = filteredNavLinks.filter(link => link.label !== 'management');  
+        filteredNavLinks = filteredNavLinks.filter(link => link.label !== 'management' && link.label !== 'alertManagement');  
         break;  
       default:  
         break;  

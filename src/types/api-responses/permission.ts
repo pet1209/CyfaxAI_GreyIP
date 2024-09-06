@@ -72,3 +72,17 @@ interface Group {
   created_by: string;
   created_at: string;
 } 
+
+interface Alert {  
+  id: string;
+  domain_name: string;  
+  email_alert_management: string[];  
+  teams_alert_management: string[];  
+  slack_alert_management: string[];  
+  received_email: string;  
+  teams_webhook: string;  
+  slack_webhook: string;
+  owner: string;
+  owner_email: string;
+  group_name: string;
+} 

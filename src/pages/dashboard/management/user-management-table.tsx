@@ -16,7 +16,7 @@ interface UserManagementTableProps{
 
 const capitalizeWords = (s: string) => {  
   if (typeof s !== 'string') {  
-    return ''; // Return an empty string if the input is not a string  
+    return '';
   }  
 
   return s  
@@ -101,7 +101,8 @@ const UserManagementTable: React.FC<UserManagementTableProps> = ({users, onUserU
     } else if (!user.group_name) {  
       return (  
         <button   
-          className="rounded bg-accent px-2 py-1 text-white"   
+          style={{backgroundColor: '#720072'}}
+          className="rounded px-2 py-1 text-white"   
           onClick={() => handleAddToGroupClick(user)}  
         >  
           + Add to group  
@@ -132,7 +133,7 @@ const UserManagementTable: React.FC<UserManagementTableProps> = ({users, onUserU
       <div>  
         <table className="w-full max-lg:hidden">  
           <thead>  
-            <tr className="bg-[#60605B]/[.07] [&>th]:py-3.5 [&>th]:pl-6 [&>th]:text-center [&>th]:font-mulish [&>th]:font-semibold">  
+            <tr className="bg-[#60605B]/[.07] [&>th]:py-3.5 [&>th]:pl-6 [&>th]:text-center [&>th]:font-semibold">  
               <th>  
                 <FormattedMessage id="#" />  
               </th>  
@@ -160,7 +161,7 @@ const UserManagementTable: React.FC<UserManagementTableProps> = ({users, onUserU
           {users && users.map((user, index) => (
             <tr 
               key={user.id} 
-                className="h-20 border-b py-4 pl-6 font-mulish text-sm"  
+                className="h-20 border-b py-4 pl-6 text-sm"  
             >  
                 <td className="text-center">{index+1}</td>  
                 <td className="text-center">  
@@ -202,7 +203,7 @@ const UserManagementTable: React.FC<UserManagementTableProps> = ({users, onUserU
           ))}
           </tbody>
         </table>  
-        <div className="grid grid-cols-1 gap-3 font-mulish md:grid-cols-2 lg:hidden">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:hidden">
           {users && users.map((user, index) => (
           <div
             key={user.id} 

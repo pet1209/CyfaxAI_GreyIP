@@ -17,14 +17,15 @@ const UserManagement = () => {
   const [maxPage, setMaxPage] = useState(0); 
   const { selectedValue, rowType } = useSelectedValue();  
   const [searchTerm, setSearchTerm] = useState(selectedValue || '');  
-  const [selectedOption, setSelectedOption] = useState('');  
+  console.log('asdfasdfsad', searchTerm)
+  const [selectedOption, setSelectedOption] = useState('Full name');  
   useEffect(() => {  
     setSearchTerm(selectedValue);  
     if (rowType === 'adminEmail') {  
       setSelectedOption('Email');  
     } 
     if (rowType === 'companyName'){  
-      setSelectedOption('ORG name'); // Or any default value you'd like to set if needed  
+      setSelectedOption('ORG name'); 
     }  
   }, [selectedValue, rowType]); 
   
@@ -52,11 +53,11 @@ const UserManagement = () => {
   );  
 
   const searchUsers = useCallback(async () => {  
-    const baseUrl = 'https://cyfax.ai/backend/api/user_management/';  
+    const baseUrl = `${process.env.NEXT_PUBLIC_CYFAX_API_BASE_URL}/user_management/`;  
     let url = baseUrl;  
 
     switch (selectedOption) {  
-      case 'Full Name':  
+      case 'Full name':  
         url += `?full_name=${encodeURIComponent(searchTerm)}`;  
         break;  
       case 'Email':  
@@ -86,12 +87,9 @@ const UserManagement = () => {
     } catch (error) {  
       console.error('Error fetching filtered users', error);  
     }  
-  }, [searchTerm, selectedOption]); 
+  }, [searchTerm, selectedOption, queryClient]); 
   
   useEffect(() => {  
-    // Checking dependencies to understand if redundant updates occur  
-    console.log(`Dependencies check: searchTerm: [${searchTerm}], selectedOption: [${selectedOption}]`);  
-    
     const timeout = setTimeout(() => {  
       searchUsers();  
     }, 1000);  
@@ -127,7 +125,7 @@ const UserManagement = () => {
 
   return (  
     <>  
-      <div className="p-4 font-mulish xl:p-5">  
+      <div className="p-4 xl:p-5">  
         <div className="flex flex-col items-center justify-between space-y-4 md:flex-row md:space-x-4 md:space-y-0">  
           <h2 className="text-sm font-semibold sm:text-2xl/[120%]">   
             <FormattedMessage id="userManagementTitle" />   
@@ -144,7 +142,7 @@ const UserManagement = () => {
                   style={{ borderColor: '#720072' }}  
                 />  
                 <button className="pointer-events-auto absolute right-3 top-1/2 -translate-y-1/2 md:right-5">  
-                  <Search className="w-4 text-accent md:w-5 lg:w-6" />  
+                  <Search style={{color: '#720072'}} className="w-4 md:w-5 lg:w-6" />  
                 </button>  
               </div>  
 
@@ -167,7 +165,8 @@ const UserManagement = () => {
               </div>  
             </div>  
             <button   
-              className="h-12 rounded-lg bg-accent px-8 text-sm font-semibold text-white duration-300 hover:opacity-90 md:text-base lg:text-lg"   
+              style={{backgroundColor: '#720072'}}
+              className="h-12 rounded-lg px-8 text-sm font-semibold text-white duration-300 hover:opacity-90 md:text-base lg:text-lg"   
               onClick={()=>handleCreateClick()}
             >   
                 <FormattedMessage id="createUserButton" />   
