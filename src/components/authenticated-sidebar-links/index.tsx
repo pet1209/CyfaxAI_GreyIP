@@ -11,7 +11,6 @@ import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import {
-  Fragment,
   MouseEventHandler,
   useEffect,
   useMemo,
@@ -109,7 +108,7 @@ const defaultNavLinks: SidebarNavigationMenuItem[] = [
 ];
 
 const AuthenticatedSidebarLinks = () => {  
-  const { isAdmin, logout, logoutMutation, data } = useAuthUserAccount();  
+  const { logout, logoutMutation, data } = useAuthUserAccount();  
   const {roleNameToIdMap} = useDetailReport()
   const roleString = data?.role ? roleNameToIdMap[data.role] : undefined;
   const navLinks = useMemo(() => {  
@@ -158,9 +157,6 @@ const AuthenticatedSidebarLinks = () => {
   return (  
     <div className="space-y-5">  
       {navLinks.map((item) => {  
-        if (!isAdmin && item.isAdmin) {  
-          return <Fragment key={item.url} />;  
-        }  
         return <MenuItem menuItem={item} key={item.url} />;  
       })}  
     </div>  

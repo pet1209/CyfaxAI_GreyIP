@@ -4,9 +4,8 @@ import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { PaginationComponent } from '@/components/common/pagination';  
 import Link from "next/link";
 import routes from "@/constants/routes";
-import { getGroupsQueryOptions, getAlertsQueryOptions } from "@/cyfax-api-client/queries";
+import { getAlertsQueryOptions } from "@/cyfax-api-client/queries";
 import { Search } from "lucide-react";
-import { getAuthTokenOnClient } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { FormattedMessage, useIntl } from "react-intl";
 
@@ -14,11 +13,6 @@ const AlartManagement = () => {
   const [currentPage, setCurrentPage] = useState(1);  
   const [itemsPerPage, setItemsPerPage] = useState(10);  
   const [maxPage, setMaxPage] = useState(0);
-  
-  const [searchTerm, setSearchTerm] = useState('');  
-  const [selectedOption, setSelectedOption] = useState('ORG name');  
-  const [debounceTimeout, setDebounceTimeout] = useState<NodeJS.Timeout | null>(null);  
-  
   const gotoPage = (page: number) => {  
     setCurrentPage(page);  
   };  
@@ -28,92 +22,6 @@ const AlartManagement = () => {
     setCurrentPage(1); 
   };  
 
-  const { data: groupsData = [] } = useQuery(getGroupsQueryOptions());  
-
-  const [orgGroups, setOrgGroups] = useState(groupsData);  
-
-  useEffect(() => {  
-    setOrgGroups(groupsData);  
-  }, [groupsData]); 
-
-  const handleUpdateGroup = (updatedGroup: Group) => {  
-    const updatedGroups = orgGroups.map((group) => (group.id === updatedGroup.id ? updatedGroup : group));  
-    setOrgGroups(updatedGroups);  
-  };
-  const handleDeleteGroup = (groupId: string) => {  
-    const updatedGroups = orgGroups.filter((group) => group.id !== groupId);  
-    setOrgGroups(updatedGroups);  
-  };
-
-  const searchGroups = useCallback(async () => {  
-    if (!searchTerm) {  
-      setOrgGroups(groupsData);  
-      return;  
-    }  
-    const baseUrl = 'https://cyfax.ai/backend/api/groups/';  
-    let url = baseUrl;  
-  
-    switch (selectedOption) {  
-      case 'ORG name':  
-        url += `?query=${encodeURIComponent(searchTerm)}`;  
-        break;  
-      case 'Admin Email':  
-        url += `?admin_email=${encodeURIComponent(searchTerm)}`;  
-        break;  
-      case 'Role':  
-        url += `?group_kind=${encodeURIComponent(searchTerm)}`;  
-        break;  
-      default:  
-        return;  
-    }  
-    const tokens = await getAuthTokenOnClient();
-    try {  
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',  
-          'Authorization': `Bearer ${tokens.accessToken}`,
-        }
-      });  
-      if (!response.ok) {  
-        throw new Error('Network response was not ok');  
-      }  
-      const data = await response.json();  
-      console.log("print: ", data.data)
-      setOrgGroups(data.data); // Populate orgGroups with the filtered data  
-    } catch (error) {  
-      console.error("Error fetching filtered groups", error);  
-    }  
-  }, [searchTerm, selectedOption, groupsData]);
-
-  useEffect(() => {  
-    if (debounceTimeout) {  
-      clearTimeout(debounceTimeout);  
-    }  
-  
-    setDebounceTimeout(  
-      setTimeout(() => {  
-        searchGroups();  
-      }, 1000)  
-    );  
-
-    return () => {  
-      if (debounceTimeout) {  
-        clearTimeout(debounceTimeout);  
-      }  
-    };  
-  }, [searchTerm, selectedOption, searchGroups, debounceTimeout]); 
-
-  useEffect(() => {  
-    const totalCount = orgGroups?.length || 0;  
-    setMaxPage(Math.ceil(totalCount / itemsPerPage));  
-  }, [orgGroups?.length, itemsPerPage]);
-
-
-  const paginatedGroups = orgGroups?.slice(  
-    (currentPage - 1) * itemsPerPage,  
-    currentPage * itemsPerPage  
-  ); 
   const intl = useIntl();
 
 
@@ -132,8 +40,6 @@ const AlartManagement = () => {
               <div className="relative w-full md:w-auto">  
                 <input  
                   type="text"  
-                  // value={searchTerm}
-                  // onChange={(e)=>setSearchTerm(e.target.value)}
                   placeholder={intl.formatMessage({ id: "search" })}  
                   className="h-10 w-full rounded-lg border-2 pl-3 pr-8 text-xs outline-none placeholder:text-xs md:w-64 md:pr-10 md:text-base md:placeholder:text-base lg:h-12 lg:pl-5 lg:pr-14"  
                   style={{ borderColor: '#720072' }}  
@@ -149,8 +55,6 @@ const AlartManagement = () => {
                 </p>  
 
                 <select  
-                  // value={selectedOption}
-                  // onChange={(e)=>setSelectedOption(e.target.value)}
                   style={{ color: '#720072' }}
                   id="role"  
                   className="h-11 w-full rounded-lg border px-3 text-sm outline-none md:w-auto md:text-base lg:h-12 lg:px-4"  
@@ -173,11 +77,7 @@ const AlartManagement = () => {
         <Tabs defaultValue="sub_domain_exploitable_services">  
           <TabsContent value="sub_domain_exploitable_services" key="sub_domain_exploitable_services" asChild>  
             <div className="overflow-hidden rounded shadow-[0_4px_14px_2px_rgba(0,0,0,0.06)]">  
-              <AlertManagementTable 
-                orgGroups={paginatedGroups || []} 
-                onUpdateGroup={handleUpdateGroup} 
-                onDeleteGroup={handleDeleteGroup}  
-              />
+              <AlertManagementTable/>
 
               
               <div className="flex w-full justify-center py-4">  

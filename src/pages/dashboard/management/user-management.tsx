@@ -8,15 +8,25 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import CreateUser from "@/components/create-user";
 import { getAuthTokenOnClient } from "@/lib/utils";
 import { Search } from "lucide-react";
+import { useSelectedValue } from '@/context/selectedValueContext'; 
 
 const UserManagement = () => {  
   const queryClient = useQueryClient();
   const [currentPage, setCurrentPage] = useState(1);  
   const [itemsPerPage, setItemsPerPage] = useState(10);  
   const [maxPage, setMaxPage] = useState(0); 
-  const [searchTerm, setSearchTerm] = useState('');  
-  const [selectedOption, setSelectedOption] = useState('Full Name');  
-  const [debounceTimeout, setDebounceTimeout] = useState<NodeJS.Timeout | null>(null);  
+  const { selectedValue, rowType } = useSelectedValue();  
+  const [searchTerm, setSearchTerm] = useState(selectedValue || '');  
+  const [selectedOption, setSelectedOption] = useState('');  
+  useEffect(() => {  
+    setSearchTerm(selectedValue);  
+    if (rowType === 'adminEmail') {  
+      setSelectedOption('Email');  
+    } 
+    if (rowType === 'companyName'){  
+      setSelectedOption('ORG name'); // Or any default value you'd like to set if needed  
+    }  
+  }, [selectedValue, rowType]); 
   
   const gotoPage = (page: number) => {  
     setCurrentPage(page);  
@@ -72,30 +82,22 @@ const UserManagement = () => {
       }  
       const data = await response.json();  
       console.log('Filtered users:', data.data);  
-      // Assuming you handle the users state set up similarly  
       queryClient.setQueryData(["get-users"], data.data || []);  
     } catch (error) {  
       console.error('Error fetching filtered users', error);  
     }  
-  }, [searchTerm, selectedOption]);  
-
+  }, [searchTerm, selectedOption]); 
+  
   useEffect(() => {  
-    if (debounceTimeout) {  
-      clearTimeout(debounceTimeout);  
-    }  
-
-    setDebounceTimeout(  
-      setTimeout(() => {  
-        searchUsers();  
-      }, 1000)  
-    );  
-
-    return () => {  
-      if (debounceTimeout) {  
-        clearTimeout(debounceTimeout);  
-      }  
-    };  
-  }, [searchTerm, selectedOption, searchUsers]);  
+    // Checking dependencies to understand if redundant updates occur  
+    console.log(`Dependencies check: searchTerm: [${searchTerm}], selectedOption: [${selectedOption}]`);  
+    
+    const timeout = setTimeout(() => {  
+      searchUsers();  
+    }, 1000);  
+  
+    return () => clearTimeout(timeout);  
+  }, [searchTerm, selectedOption, searchUsers]);
 
   const [isCreateProfileVisible, setIsCreateProfileVisible] = useState(false); 
   const handleCreateClick = () => {  

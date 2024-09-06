@@ -10,6 +10,7 @@ import { Inter, Mulish, Poppins } from "next/font/google";
 import { useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { SelectedValueProvider } from '@/context/selectedValueContext';
 
 const mulish = Mulish({
   subsets: ["latin"],
@@ -50,14 +51,16 @@ export default function MyCustomApp({ Component, pageProps }: AppProps) {
         }
       `}</style>
       <QueryClientProvider client={queryClient}>
-        <Intl>
-          <Layout>
-            <DefaultSeo {...defaultSEOConfiguration} />
-            <Component {...pageProps} />
-            <GoogleAnalytics gaId="G-JPQQNPQ5PG" />
-          </Layout>
-        </Intl>
+        <SelectedValueProvider>
+          <Intl>
+            <Layout>
+              <DefaultSeo {...defaultSEOConfiguration} />
+              <Component {...pageProps} />
+              <GoogleAnalytics gaId="G-JPQQNPQ5PG" />
+            </Layout>
+          </Intl>
         <ToastContainer stacked position="top-right" />
+        </SelectedValueProvider>
       </QueryClientProvider>
     </>
   );

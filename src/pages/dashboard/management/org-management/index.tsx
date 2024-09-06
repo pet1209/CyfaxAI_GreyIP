@@ -17,7 +17,6 @@ const OrgGroups = () => {
   
   const [searchTerm, setSearchTerm] = useState('');  
   const [selectedOption, setSelectedOption] = useState('ORG name');  
-  const [debounceTimeout, setDebounceTimeout] = useState<NodeJS.Timeout | null>(null);  
   
   const gotoPage = (page: number) => {  
     setCurrentPage(page);  
@@ -87,22 +86,14 @@ const OrgGroups = () => {
   }, [searchTerm, selectedOption, groupsData]);
 
   useEffect(() => {  
-    if (debounceTimeout) {  
-      clearTimeout(debounceTimeout);  
-    }  
+    console.log(`Dependencies check: searchTerm: [${searchTerm}], selectedOption: [${selectedOption}]`);  
+    
+    const timeout = setTimeout(() => {  
+      searchGroups();  
+    }, 1000);  
   
-    setDebounceTimeout(  
-      setTimeout(() => {  
-        searchGroups();  
-      }, 1000)  
-    );  
-
-    return () => {  
-      if (debounceTimeout) {  
-        clearTimeout(debounceTimeout);  
-      }  
-    };  
-  }, [searchTerm, selectedOption, searchGroups]); 
+    return () => clearTimeout(timeout);  
+  }, [searchTerm, selectedOption, searchGroups]);
 
   useEffect(() => {  
     const totalCount = orgGroups?.length || 0;  
