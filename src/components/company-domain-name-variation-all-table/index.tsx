@@ -10,7 +10,7 @@ const CompanyDomainNameVariationTable = ({
     <>
       <table className="w-full max-lg:hidden">
         <thead>
-          <tr className="bg-[#60605B]/[.07] [&>th]:py-3.5 [&>th]:pl-6 [&>th]:text-left [&>th]:font-mulish [&>th]:font-semibold">
+          <tr className="bg-[#60605B]/[.07] [&>th]:py-3.5 [&>th]:text-center [&>th]:font-mulish [&>th]:font-semibold">
             <th>
               <FormattedMessage id="fuzzerType" />
             </th>
@@ -42,16 +42,16 @@ const CompanyDomainNameVariationTable = ({
             return (
               <tr
                 key={i}
-                className="[&>td]:border-b [&>td]:py-4 [&>td]:pl-6 [&>td]:font-mulish [&>td]:text-sm"
+                className="h-20 border-b py-4 text-sm"
               >
-                <td>{row?.fuzzer}</td>
-                <td>{row?.domain}</td>
-                <td>{row?.dns_ns?.join(", ")}</td>
-                <td>{row?.dns_a?.join(", ")}</td>
-                <td>{row?.tech?.join(", ")}</td>
-                <td>{row?.scheme}</td>
-                <td>{row?.title || "-"}</td>
-                <td>  
+                <td className="text-center">{row?.fuzzer}</td>
+                <td className="text-center">{row?.domain}</td>
+                <td className="text-center">{row?.dns_ns?.join(", ")}</td>
+                <td className="text-center">{row?.dns_a?.join(", ")}</td>
+                <td className="text-center">{row?.tech?.join(", ")}</td>
+                <td className="text-center">{row?.scheme}</td>
+                <td className="text-center">{row?.title || "-"}</td>
+                <td className="text-center">  
                     <button type="button" className="mt-4 rounded border border-gray-300 px-4 py-2 text-sm leading-none text-gray-800 hover:border-transparent hover:bg-[#720072] hover:text-white lg:mt-0">  
                         Request  
                     </button>

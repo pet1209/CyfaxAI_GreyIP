@@ -7,21 +7,138 @@ const AlertType = () => {
     const array = ["resultPageCardTitle4", "companyExploitableServicesTableTitle", "subDomainExploitableServicesTableTitle", "domainVariation", "emailProtection", "stealerLog", "hackerAndDarkweb"];  
     return (  
         <div className="p-4 xl:p-5">  
-            <p style={{color: "#720072"}} className="text-sm font-medium sm:text-xl/[120%]">
-                <FormattedMessage id="ownerEmail" /> : {selectedAlert?.owner_email || ''}  
-            </p>  
-            <p style={{color: "#720072"}} className="text-sm font-medium sm:text-xl/[120%]">
-                <FormattedMessage id="domainName" /> : {selectedAlert?.domain_name || ''}  
-            </p> 
-            <p style={{color: "#720072"}} className="text-sm font-medium sm:text-xl/[120%]">
-                <FormattedMessage id="receivedEmail" /> : {selectedAlert?.received_email || ''}  
-            </p> 
-            <p style={{color: "#720072"}} className="text-sm font-medium sm:text-xl/[120%]">
-                <FormattedMessage id="teamsWebhook" /> : {selectedAlert?.teams_webhook || ''}  
-            </p> 
-            <p style={{color: "#720072"}} className="text-sm font-medium sm:text-xl/[120%]">
-                <FormattedMessage id="slackWebhook" /> : {selectedAlert?.slack_webhook || ''}  
-            </p> 
+            <table className="w-full max-lg:hidden">  
+                <thead>  
+                    <tr className="bg-[#60605B]/[.07] [&>th]:py-3.5 [&>th]:text-center [&>th]:font-semibold">  
+                        <th className="text-center">  
+                            <FormattedMessage id="ownerEmail" />  
+                        </th>  
+                        <th className="text-center">  
+                            <FormattedMessage id="domainName" />  
+                        </th>  
+                        <th className="text-center">  
+                            <FormattedMessage id="receivedEmail" />  
+                        </th>  
+                        <th className="text-center">  
+                            <FormattedMessage id="teamsWebhook" />  
+                        </th>  
+                        <th className="text-center">  
+                            <FormattedMessage id="slackWebhook" />  
+                        </th>  
+                    </tr>  
+                </thead>
+                <tbody>  
+                    <tr 
+                        className="h-20 border-b py-4 pl-6 text-sm"
+                    >  
+                        <td className="text-center">  
+                            {selectedAlert?.owner_email || 'N/A'} 
+                        </td>  
+                        <td className="text-center">  
+                            {selectedAlert?.domain_name || 'N/A'}  
+                        </td>  
+                        <td className="text-center">  
+                            <input  
+                                type="text"  
+                                value={selectedAlert?.received_email || ''}  
+                                // onChange={(e) => {  
+                                // }}  
+                                placeholder="N/A"  
+                                className="mt-1.5 rounded border px-1 py-0.5 text-sm"  
+                            />  
+                        </td>  
+                        <td className="text-center">  
+                        <input  
+                                type="text"  
+                                value={selectedAlert?.teams_webhook || ''}  
+                                // onChange={(e) => {  
+                                // }}  
+                                placeholder="N/A"  
+                                className="mt-1.5 rounded border px-1 py-0.5 text-sm"  
+                            />  
+                        </td> 
+                        <td className="text-center">  
+                        <input  
+                                type="text"  
+                                value={selectedAlert?.slack_webhook || ''}  
+                                // onChange={(e) => {  
+                                // }}  
+                                placeholder="N/A"  
+                                className="mt-1.5 rounded border px-1 py-0.5 text-sm"  
+                            />  
+                        </td>
+                    </tr>
+                </tbody>
+            </table>  
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:hidden">
+                <div
+                    className="rounded-lg p-3 shadow-[0_0_12px_rgba(0,0,0,0.12)]"
+                >
+                    <div className="grid grid-cols-[repeat(3,auto)] items-center gap-5">  
+                        <div>  
+                            <p className="text-[11px] font-semibold tracking-[-0.2px]">  
+                                <FormattedMessage id="ownerEmail" />  
+                            </p>  
+                            <span className="mt-2.5 text-xs">  
+                                {selectedAlert?.owner_email || 'N/A'} 
+                            </span>  
+                        </div>   
+                        <div>  
+                            <p className="text-[11px] font-semibold tracking-[-0.2px]">  
+                                <FormattedMessage id="domainName" />  
+                            </p>  
+                            <span className="mt-2.5 text-xs">  
+                                {selectedAlert?.domain_name || 'N/A'} 
+                            </span>  
+                        </div>    
+                    </div>  
+
+                    <hr className="my-2.5 border-t border-black/20" />  
+                    <div className="col-span-1 grid">  
+                        <p className="text-center  text-[11px] tracking-[-0.2px]">  
+                            <FormattedMessage id="receivedEmail" />  
+                        </p>  
+                        <input  
+                            type="text"  
+                            value={selectedAlert?.received_email || ''}  
+                            // onChange={(e) => {  
+                            // }}  
+                            placeholder="N/A"  
+                            className="mt-2.5 rounded border px-1 py-0.5 text-xs"  
+                        />  
+                    </div>  
+                    <hr className="my-2.5 border-t border-black/20" />  
+                    <div className="grid grid-cols-2 items-center gap-5">  
+                        <div className="col-span-1 grid">  
+                            <p className="text-center text-[11px] font-semibold tracking-[-0.2px]">  
+                                <FormattedMessage id="teamsWebhook" />  
+                            </p>  
+                            <input  
+                                type="text"  
+                                value={selectedAlert?.teams_webhook || ''}  
+                                // onChange={(e) => {  
+                                // }}  
+                                placeholder="N/A"  
+                                className="mt-2.5 rounded border px-1 py-0.5 text-xs"  
+                            />  
+                        </div>
+                        <div className="col-span-1 grid">  
+                            <p className="text-center  text-[11px] tracking-[-0.2px]">  
+                                <FormattedMessage id="slackWebhook" />  
+                            </p>  
+                            <input  
+                                type="text"  
+                                value={selectedAlert?.slack_webhook || ''}  
+                                // onChange={(e) => {  
+                                // }}  
+                                placeholder="N/A"  
+                                className="mt-2.5 rounded border px-1 py-0.5 text-xs"  
+                            />  
+                        </div>  
+                    </div>  
+                    
+                </div>
+            </div>
             <div className="mt-5"></div>  
             <div className="rounded-lg pb-[132px] sm:rounded-xl xl:p-6 xl:shadow-[0_0_12px_rgba(0,0,0,0.12)]">  
                 <h2 className="text-sm font-semibold sm:text-2xl/[120%]">

@@ -38,7 +38,7 @@ const AlertManagementTable: React.FC<AlertsManagementTableProps> = ({alerts}) =>
       <div>  
         <table className="w-full max-lg:hidden">  
           <thead>  
-            <tr className="bg-[#60605B]/[.07] [&>th]:py-3.5 [&>th]:pl-6 [&>th]:text-center [&>th]:font-semibold">  
+            <tr className="bg-[#60605B]/[.07] [&>th]:py-3.5 [&>th]:text-center [&>th]:font-semibold">  
               <th>  
                 <FormattedMessage id="#" />  
               </th>  
@@ -59,7 +59,7 @@ const AlertManagementTable: React.FC<AlertsManagementTableProps> = ({alerts}) =>
           <tbody>  
             {alerts && alerts.map((alert, index) => (
               <tr 
-                className="h-20 border-b py-4 pl-6 text-sm"
+                className="h-20 border-b py-4 text-sm"
                 key={alert.id}
               >  
                 <td className="text-center">  

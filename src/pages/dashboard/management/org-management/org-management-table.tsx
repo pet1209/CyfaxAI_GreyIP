@@ -68,7 +68,7 @@ const OrgManagementTable: React.FC<OrgManagementTableProps> = ({orgGroups, onUpd
     <div>  
       <table className="w-full max-lg:hidden">  
         <thead>  
-          <tr className="bg-[#60605B]/[.07] [&>th]:py-3.5 [&>th]:pl-6 [&>th]:text-center [&>th]:font-semibold">  
+          <tr className="bg-[#60605B]/[.07] [&>th]:py-3.5 [&>th]:text-center [&>th]:font-semibold">  
             <th>  
               <FormattedMessage id="#" />  
             </th>  
@@ -94,7 +94,7 @@ const OrgManagementTable: React.FC<OrgManagementTableProps> = ({orgGroups, onUpd
         </thead>  
         <tbody>  
         {orgGroups && orgGroups.map((group, index) => (  
-            <tr className="h-20 border-b py-4 pl-6 text-sm" key={group.id}>  
+            <tr className="h-20 border-b py-4 text-sm" key={group.id}>  
               <td onClick={handleFieldClickWithoutFilter} className="text-center">  
                 <button className="size-full">{index + 1}</button>  
               </td>  

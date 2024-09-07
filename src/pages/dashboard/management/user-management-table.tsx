@@ -133,7 +133,7 @@ const UserManagementTable: React.FC<UserManagementTableProps> = ({users, onUserU
       <div>  
         <table className="w-full max-lg:hidden">  
           <thead>  
-            <tr className="bg-[#60605B]/[.07] [&>th]:py-3.5 [&>th]:pl-6 [&>th]:text-center [&>th]:font-semibold">  
+            <tr className="bg-[#60605B]/[.07] [&>th]:py-3.5 [&>th]:text-center [&>th]:font-semibold">  
               <th>  
                 <FormattedMessage id="#" />  
               </th>  
@@ -161,14 +161,14 @@ const UserManagementTable: React.FC<UserManagementTableProps> = ({users, onUserU
           {users && users.map((user, index) => (
             <tr 
               key={user.id} 
-                className="h-20 border-b py-4 pl-6 text-sm"  
+                className="h-20 border-b py-4 text-sm"  
             >  
                 <td className="text-center">{index+1}</td>  
                 <td className="text-center">  
                   <div className="flex items-start justify-start">  
                     <div   
                       style={{backgroundColor: "RGB(236, 229, 253)", color: "RGB(133, 91, 243)"}}   
-                      className="ml-20 rounded-md p-2 font-extrabold"  
+                      className="ml-20 rounded-md p-3 font-extrabold"  
                     >  
                       {getInitial(user)}
                     </div>  
