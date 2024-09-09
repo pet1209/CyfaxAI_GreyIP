@@ -36,6 +36,10 @@ const AlertManagement = () => {
   }, [alerts?.length, itemsPerPage]);  
 
   const fetchFilteredAlerts = useCallback(async () => {  
+    if(!searchTerm) {
+      queryClient.refetchQueries(getAlertsQueryOptions());  
+      return
+    }
     const baseUrl = `${process.env.NEXT_PUBLIC_CYFAX_API_BASE_URL}/alert_management/`;  
     let url = baseUrl;  
   

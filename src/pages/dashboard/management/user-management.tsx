@@ -15,19 +15,20 @@ const UserManagement = () => {
   const [currentPage, setCurrentPage] = useState(1);  
   const [itemsPerPage, setItemsPerPage] = useState(10);  
   const [maxPage, setMaxPage] = useState(0); 
-  const { selectedValue, rowType } = useSelectedValue();  
+  const { selectedValue, rowType, setSelectedValue } = useSelectedValue();  
   const [searchTerm, setSearchTerm] = useState(selectedValue || '');  
   console.log('asdfasdfsad', searchTerm)
   const [selectedOption, setSelectedOption] = useState('Full name');  
   useEffect(() => {  
-    setSearchTerm(selectedValue);  
-    if (rowType === 'adminEmail') {  
-      setSelectedOption('Email');  
-    } 
-    if (rowType === 'companyName'){  
-      setSelectedOption('ORG name'); 
+    if (selectedValue) {  
+      setSearchTerm(selectedValue);  
+      if (rowType === 'adminEmail') setSelectedOption('Email');  
+      if (rowType === 'companyName') setSelectedOption('ORG name');  
+      
+      // After utilizing the values from context, clear them.  
+      setSelectedValue('', '');  
     }  
-  }, [selectedValue, rowType]); 
+  }, [selectedValue, rowType, setSelectedValue]);
   
   const gotoPage = (page: number) => {  
     setCurrentPage(page);  
@@ -53,6 +54,9 @@ const UserManagement = () => {
   );  
 
   const searchUsers = useCallback(async () => {  
+    if(!searchTerm) {
+      queryClient.refetchQueries(getUsersQueryOptions());  
+    };
     const baseUrl = `${process.env.NEXT_PUBLIC_CYFAX_API_BASE_URL}/user_management/`;  
     let url = baseUrl;  
 

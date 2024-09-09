@@ -107,8 +107,8 @@ const OrgManagementTable: React.FC<OrgManagementTableProps> = ({orgGroups, onUpd
               <td onClick={handleFieldClickWithoutFilter} className="text-center">  
                 <button className="size-full">{formatDate(group.created_at)}</button>  
               </td>  
-              <td className="text-center">  
-                <button onClick={handleFieldClick(group.admin_user, 'adminEmail')} className="size-full">{group.admin_user}</button>  
+              <td onClick={handleFieldClickWithoutFilter} className="text-center">  
+                <button className="size-full">{group.admin_user}</button>  
               </td>  
               <td onClick={handleFieldClickWithoutFilter} className="text-center">  
                 <div   
