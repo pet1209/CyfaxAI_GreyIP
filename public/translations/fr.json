@@ -252,5 +252,10 @@
   "stealerLog": "Journal du voleur",
   "hackerAndDarkweb": "Mentions de hackers et de darkweb",
   "save": "Sauvegarder",
-  "domainName": "Nom de domaine"
+  "domainName": "Nom de domaine",
+  "writeDomainName": "Écrivez le nom de domaine ici...",
+  "writeOwnerName": "Écrivez le nom du propriétaire ici...",
+  "writeReceivedEmail": "Écrivez ici l'e-mail reçu...",
+  "writeTeamsWebhook": "Écrivez ici le webhook des équipes...",
+  "writeSlackWebhook": "Écrivez le webhook Slack ici..."
 }

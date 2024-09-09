@@ -136,7 +136,7 @@ const AlertManagement = () => {
                 </select>  
               </div>  
             </div>  
-            <Link href={routes.createOrgManagement} className="order-1 w-full md:order-none md:w-auto">  
+            <Link href={routes.createAlert} className="order-1 w-full md:order-none md:w-auto">  
               <button style={{backgroundColor: '#720072'}} className="h-12 w-full rounded-lg px-6 text-sm font-semibold text-white duration-300 hover:opacity-90 md:w-auto md:text-base lg:text-base">  
                 <FormattedMessage id="createNewAlertButton" />  
               </button>  

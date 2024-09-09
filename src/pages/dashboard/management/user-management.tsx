@@ -18,14 +18,13 @@ const UserManagement = () => {
   const { selectedValue, rowType, setSelectedValue } = useSelectedValue();  
   const [searchTerm, setSearchTerm] = useState(selectedValue || '');  
   console.log('asdfasdfsad', searchTerm)
-  const [selectedOption, setSelectedOption] = useState('Full name');  
+  const [selectedOption, setSelectedOption] = useState('ORG name');  
   useEffect(() => {  
     if (selectedValue) {  
       setSearchTerm(selectedValue);  
       if (rowType === 'adminEmail') setSelectedOption('Email');  
       if (rowType === 'companyName') setSelectedOption('ORG name');  
       
-      // After utilizing the values from context, clear them.  
       setSelectedValue('', '');  
     }  
   }, [selectedValue, rowType, setSelectedValue]);

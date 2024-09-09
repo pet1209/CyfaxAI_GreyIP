@@ -57,6 +57,12 @@ const OrgManagementTable: React.FC<OrgManagementTableProps> = ({orgGroups, onUpd
   const handleFieldClickWithoutFilter = () => {
     Router.push(routes.userManagement);
   }
+  const handleTableCellClick = (value: string, type: string) => {
+    return (event: React.MouseEvent<HTMLTableDataCellElement>) => {
+      setSelectedValue(value, type);
+      Router.push(routes.userManagement);
+    }
+  }
 
   return (  
     <>
@@ -95,22 +101,22 @@ const OrgManagementTable: React.FC<OrgManagementTableProps> = ({orgGroups, onUpd
         <tbody>  
         {orgGroups && orgGroups.map((group, index) => (  
             <tr className="h-20 border-b py-4 text-sm" key={group.id}>  
-              <td onClick={handleFieldClickWithoutFilter} className="text-center">  
-                <button className="size-full">{index + 1}</button>  
+              <td onClick={handleTableCellClick(group.name, 'companyName')} className="text-center">  
+                {index + 1}
               </td>  
-              <td className="text-center">  
-                <button onClick={handleFieldClick(group.name, 'companyName')} className="size-full">{group.name}</button>  
+              <td onClick={handleTableCellClick(group.name, 'companyName')} className="text-center">  
+                {group.name}
               </td>
-              <td onClick={handleFieldClickWithoutFilter} className="text-center">  
-                <button className="size-full">{group.authorized_domains.join(' | ')}</button>  
+              <td onClick={handleTableCellClick(group.name, 'companyName')} className="text-center">  
+                {group.authorized_domains.join(' | ')}
               </td>  
-              <td onClick={handleFieldClickWithoutFilter} className="text-center">  
-                <button className="size-full">{formatDate(group.created_at)}</button>  
+              <td onClick={handleTableCellClick(group.name, 'companyName')} className="text-center">  
+                {formatDate(group.created_at)}
               </td>  
-              <td onClick={handleFieldClickWithoutFilter} className="text-center">  
-                <button className="size-full">{group.admin_user}</button>  
+              <td onClick={handleTableCellClick(group.name, 'companyName')} className="text-center">  
+                {group.admin_user}
               </td>  
-              <td onClick={handleFieldClickWithoutFilter} className="text-center">  
+              <td onClick={handleTableCellClick(group.name, 'companyName')} className="text-center">  
                 <div   
                   style={{ fontSize: '12px', backgroundColor: "RGB(248, 228, 229)", height:"2rem", color: "RGB(220, 111, 144)" }}   
                   className="mx-auto rounded-md py-1.5 font-bold"  

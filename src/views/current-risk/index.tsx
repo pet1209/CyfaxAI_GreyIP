@@ -29,8 +29,9 @@ const CurrentRisk = () => {
 
   const roleName = account?.role_name || "";  
 
-  const canViewDialog = !["client_admin", "client_user"].includes(roleName) && ["partner_admin", "partner_user", "super_admin"].includes(roleName);  
+  const canViewDialog = !["client_admin", "client_user"].includes(roleName);  
 
+  getDetailReportQuery.refetch(); 
   return (  
     <div className="p-4 sm:p-6">  
       {isOpenDomainModal && canViewDialog ? (  

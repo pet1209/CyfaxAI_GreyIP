@@ -254,6 +254,13 @@
   "stealerLog": "Stealer Log",
   "hackerAndDarkweb": "Hacker and darkweb mentions",
   "save": "Save",
-  "domainName": "Domain name"
+  "domainName": "Domain name",
+  "writeDomainName": "Write domain name here...",
+  "writeOwnerName": "Write owner name here...",
+  "writeReceivedEmail": "Write received email here...",
+  "writeTeamsWebhook": "Write teams webhook here...",
+  "writeSlackWebhook": "Write slack webhook here...",
+  "invalidEmail": "Invalid email format.",
+  "invalidUrl": "Invalid url format."
 
 }
