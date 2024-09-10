@@ -4,13 +4,14 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { getAuthTokenOnClient } from "@/lib/utils";  
 import useAuthUserAccount from "@/hooks/useAuthUserAccount"; 
 import { toast } from "react-toastify"; 
+import Router from 'next/router';  
+import routes from "@/constants/routes";
 
 const AlertType = () => {  
     const { data: account } = useAuthUserAccount();  
     const roleName = account?.role_name || "";  
 
     const [domainName, setDomainName] = useState<string>("");  
-    const [ownerEmail, setOwnerEmail] = useState<string>("");  
     const [receivedEmail, setReceivedEmail] = useState<string>("");  
     const [teamsWebhook, setTeamsWebhook] = useState<string>("");  
     const [slackWebhook, setSlackWebhook] = useState<string>("");  
@@ -45,42 +46,18 @@ const AlertType = () => {
     };  
 
     useEffect(() => {  
-        const isReceivedEmailFilled = receivedEmail.trim() !== "";  
-        const isSlackWebhookFilled = slackWebhook.trim() !== "";  
-        const isTeamsWebhookFilled = teamsWebhook.trim() !== "";  
+        const isDomainNameValid = roleName === 'client_admin' || domainName.trim() !== "";  
+        
+        const emailCheckboxSelected = checkboxStates.some((state, index) => index % 3 === 0 && state);  
+        const slackCheckboxSelected = checkboxStates.some((state, index) => index % 3 === 1 && state);  
+        const teamsCheckboxSelected = checkboxStates.some((state, index) => index % 3 === 2 && state);  
     
-        const isEachColumnCheckedOrEmpty = () => {  
-            for (let col = 0; col < 3; col++) {  
-                const columnChecked = checkboxStates  
-                    .filter((_, index) => index % 3 === col)  
-                    .some((checked) => checked);  
-    
-                if (!columnChecked) {  
-                    switch (col) {  
-                        case 0:  
-                            if (isReceivedEmailFilled) return false;  
-                            break;  
-                        case 1:  
-                            if (isSlackWebhookFilled) return false;  
-                            break;  
-                        case 2:  
-                            if (isTeamsWebhookFilled) return false;  
-                            break;  
-                    }  
-                }  
-            }  
-            return true;  
-        };  
-    
-        if (roleName === 'client_admin') {  
-            setIsSaveEnabled(isEachColumnCheckedOrEmpty() && ownerEmail.trim() !== "");  
-        } else {  
-            const isDomainNameFilled = domainName.trim() !== "";  
-            setIsSaveEnabled(  
-                isDomainNameFilled && isEachColumnCheckedOrEmpty() && ownerEmail.trim() !== ""  
-            );  
-        }  
-    }, [roleName, domainName, ownerEmail, receivedEmail, slackWebhook, teamsWebhook, checkboxStates]);  
+        const isReceivedEmailValid = !emailCheckboxSelected || receivedEmail.trim() !== "";  
+        const isSlackWebhookValid = !slackCheckboxSelected || slackWebhook.trim() !== "";  
+        const isTeamsWebhookValid = !teamsCheckboxSelected || teamsWebhook.trim() !== "";  
+        
+        setIsSaveEnabled(isDomainNameValid && isReceivedEmailValid && isSlackWebhookValid && isTeamsWebhookValid);  
+    }, [roleName, domainName, receivedEmail, slackWebhook, teamsWebhook, checkboxStates]);
     
     const handleSubmit = async () => {  
         const alertTypes = [  
@@ -95,7 +72,6 @@ const AlertType = () => {
     
         const newErrors = ["", "", "", "", ""];  
         if (roleName !== "client_admin" && !validateDomainName(domainName)) newErrors[0] = "invalidDomain";  
-        if (!validateEmail(ownerEmail)) newErrors[1] = "invalidEmail";  
         if (!validateEmail(receivedEmail) && receivedEmail.trim() !== "") newErrors[2] = "invalidEmail";  
         if (!validateURL(teamsWebhook) && teamsWebhook.trim() !== "") newErrors[3] = "invalidUrl";  
         if (!validateURL(slackWebhook) && slackWebhook.trim() !== "") newErrors[4] = "invalidUrl";  
@@ -153,6 +129,7 @@ const AlertType = () => {
                 } 
                 const data = await response.json();  
                 toast.success(data.data);
+                Router.push(routes.alertManagement); 
             } catch (error) {  
                 console.error('Failed to create new alert:', error);  
                 const errorMessage = typeof error === "object" && error !== null && "message" in error ? error.message : String(error);  
@@ -197,8 +174,8 @@ const AlertType = () => {
                     </label>  
                     <input  
                         type="text"  
-                        value={ownerEmail}  
-                        onChange={(e) => setOwnerEmail(e.target.value)}  
+                        value={account?.email}  
+                        disabled={true} 
                         placeholder={intl.formatMessage({ id: "writeOwnerName" })}  
                         className="h-12 w-full rounded-[10px] bg-black/10 px-5 outline-none backdrop-blur-xl placeholder:font-medium placeholder:text-black/80 placeholder:opacity-100 max-md:text-sm max-md:placeholder:text-sm md:h-[66px] md:rounded-xl"  
                     />  

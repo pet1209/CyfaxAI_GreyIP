@@ -31,7 +31,8 @@ const CurrentRisk = () => {
 
   const canViewDialog = !["client_admin", "client_user"].includes(roleName);  
 
-  getDetailReportQuery.refetch(); 
+  // Remove the refetch from here unless you need it explicitly in certain conditions  
+
   return (  
     <div className="p-4 sm:p-6">  
       {isOpenDomainModal && canViewDialog ? (  
@@ -51,6 +52,7 @@ const CurrentRisk = () => {
                   if (!domainValue.trim()) return;  
                   setDomain(domainValue);  
                   setDomainValue("");  
+                  getDetailReportQuery.refetch(); // Optionally refetch here after setting a new domain  
                 }}  
               >  
                 <input  
@@ -64,7 +66,7 @@ const CurrentRisk = () => {
                 <div className="mt-3.5 flex justify-end">  
                   <button  
                     disabled={!domainValue.trim()}  
-                    style={{backgroundColor: '#720072'}}
+                    style={{backgroundColor: '#720072'}}  
                     className="h-11 rounded-md px-8 font-medium text-white duration-300 enabled:hover:opacity-80 disabled:opacity-50"  
                     type="submit"  
                   >  

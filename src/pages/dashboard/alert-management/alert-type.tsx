@@ -4,6 +4,8 @@ import { useAlertContext } from '@/context/alertContext';
 import { useState, useEffect } from "react";  
 import { getAuthTokenOnClient } from "@/lib/utils";
 import { toast } from "react-toastify"; 
+import Router from 'next/router';  
+import routes from "@/constants/routes";
 
 const AlertType = () => {   
     const { selectedAlert } = useAlertContext();  
@@ -33,8 +35,43 @@ const AlertType = () => {
             setReceivedEmail(selectedAlert.received_email || "");  
             setTeamsWebhook(selectedAlert.teams_webhook || "");  
             setSlackWebhook(selectedAlert.slack_webhook || "");  
+    
+            const alertTypes = [  
+                "alert_leaked_credentials",  
+                "alert_company_exposed_ports_and_services",  
+                "alert_subdomain_analysis",  
+                "alert_domain_variations",  
+                "alert_email_protection",  
+                "alert_stealer_log",  
+                "alert_hacker_and_darkweb_mentions",  
+            ];  
+    
+            const updatedCheckboxStates = Array(7 * 3).fill(false);  
+    
+            selectedAlert.email_alert_management.forEach((alertType) => {  
+                const index = alertTypes.indexOf(alertType);  
+                if (index !== -1) {  
+                    updatedCheckboxStates[index * 3] = true; 
+                }  
+            });  
+    
+            selectedAlert.slack_alert_management.forEach((alertType) => {  
+                const index = alertTypes.indexOf(alertType);  
+                if (index !== -1) {  
+                    updatedCheckboxStates[index * 3 + 1] = true;  
+                }  
+            });  
+     
+            selectedAlert.teams_alert_management.forEach((alertType) => {  
+                const index = alertTypes.indexOf(alertType);  
+                if (index !== -1) {  
+                    updatedCheckboxStates[index * 3 + 2] = true;
+                }  
+            });  
+    
+            setCheckboxStates(updatedCheckboxStates);  
         }  
-    }, [selectedAlert]);   
+    }, [selectedAlert]);
 
     useEffect(() => {  
         let emailIsValid = receivedEmail === "" || validateEmail(receivedEmail);  
@@ -126,6 +163,7 @@ const AlertType = () => {
             } 
             const data = await response.json();  
             toast.success(data.data);
+            Router.push(routes.alertManagement); 
         } catch (error) {  
             console.error('Failed to save alert:', error);  
             const errorMessage = typeof error === "object" && error !== null && "message" in error ? error.message : String(error);  
@@ -168,9 +206,9 @@ const AlertType = () => {
                     </label>  
                     <input  
                         type="text"  
-                        value={receivedEmail || 'N/A'}  
+                        value={receivedEmail || ''}  
                         onChange={(e) => setReceivedEmail(e.target.value)}  
-                        placeholder="N/A"  
+                        placeholder=""  
                         className="h-12 w-full rounded-[10px] bg-black/10 px-5 outline-none backdrop-blur-xl placeholder:font-medium placeholder:text-black/80 placeholder:opacity-100 max-md:text-sm max-md:placeholder:text-sm md:h-[66px] md:rounded-xl"  
                     />  
                 </div>  
@@ -180,9 +218,9 @@ const AlertType = () => {
             </label>  
             <input  
                 type="text"  
-                value={teamsWebhook || 'N/A'}  
+                value={teamsWebhook || ''}  
                 onChange={(e) => setTeamsWebhook(e.target.value)}  
-                placeholder="N/A"  
+                placeholder=""  
                 className="h-12 w-full rounded-[10px] bg-black/10 px-5 outline-none backdrop-blur-xl placeholder:font-medium placeholder:text-black/80 placeholder:opacity-100 max-md:text-sm max-md:placeholder:text-sm md:h-[66px] md:rounded-xl"  
             />  
             <label className="inline-block text-sm font-medium md:text-base lg:text-xl">  
@@ -190,9 +228,9 @@ const AlertType = () => {
             </label>  
             <input  
                 type="text"  
-                value={slackWebhook || 'N/A'}  
+                value={slackWebhook || ''}  
                 onChange={(e) => setSlackWebhook(e.target.value)}  
-                placeholder="N/A"  
+                placeholder=""  
                 className="h-12 w-full rounded-[10px] bg-black/10 px-5 outline-none backdrop-blur-xl placeholder:font-medium placeholder:text-black/80 placeholder:opacity-100 max-md:text-sm max-md:placeholder:text-sm md:h-[66px] md:rounded-xl"  
             />  
             <div>  
