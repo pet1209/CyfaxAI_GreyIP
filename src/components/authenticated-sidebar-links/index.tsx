@@ -97,6 +97,11 @@ const defaultNavLinks: SidebarNavigationMenuItem[] = [
         url: `${routes.management}/user-management`,
         disabled: true,
       },
+      {
+        label: "vipManagement",
+        url: `${routes.management}/vip-management`,
+        disabled: true,
+      },
     ],
   },
   {
@@ -126,7 +131,7 @@ const AuthenticatedSidebarLinks = () => {
           if (link.label === 'management' && link.submenuItems) {  
             return {  
               ...link,  
-              submenuItems: link.submenuItems.filter(subItem => subItem.label === 'userManagementTitle'),  
+              submenuItems: link.submenuItems.filter(subItem => subItem.label === 'userManagementTitle' || subItem.label === 'vipManagement'),  
             };  
           }  
           return link;  

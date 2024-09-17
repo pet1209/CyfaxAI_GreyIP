@@ -4,12 +4,20 @@ import useDetailReport from "@/views/current-risk/hooks/useDetailReport";
 import { FormattedMessage } from "react-intl";
 import React, { useState, useEffect } from 'react';  
 import { PaginationComponent } from '@/components/common/pagination'; 
+import SearchBar from "@/components/search-bar";  
+import SearchDialog from "@/components/search-dialog"; 
+import useAuthUserAccount from "@/hooks/useAuthUserAccount";  
 
 const LeakedCredentials = () => {
-  const { data } = useDetailReport();
+  const { isOpenDomainModal, data } = useDetailReport();
   const [currentPage, setCurrentPage] = useState(1);  
   const [itemsPerPage, setItemsPerPage] = useState(10);  
   const [maxPage, setMaxPage] = useState(0);  
+
+  const { data: account } = useAuthUserAccount();  
+  const roleName = account?.role_name || "";  
+
+  const canViewDialog = !["client_admin", "client_user"].includes(roleName);
 
   useEffect(() => {  
     const totalItems = data?.combolist_result?.hacker_dark_web_mentions?.dark_web_mentions_items?.length || 0;  
@@ -48,11 +56,15 @@ const LeakedCredentials = () => {
   return (
     <>
     <div className="p-4 font-mulish xl:p-5">  
-        <h2 className="text-sm font-semibold sm:text-2xl/[120%]">
-            <FormattedMessage id="darkWebMentions" /> 
-        </h2>  
+      <div className="mb-6 flex grow items-center justify-start space-x-3 rounded-lg md:space-x-5 lg:mr-5">  
+        <SearchBar />  
+      </div>  
+      <h2 className="text-sm font-semibold sm:text-2xl/[120%]">
+        <FormattedMessage id="darkWebMentions" /> 
+      </h2>  
     </div>
       <div className="p-3 sm:rounded-xl sm:p-5">
+        {isOpenDomainModal && canViewDialog && <SearchDialog />} 
 
         <Tabs defaultValue={tab.value}>
             <TabsContent value={tab.value} key={tab.value} asChild>

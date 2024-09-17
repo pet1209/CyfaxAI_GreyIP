@@ -88,6 +88,12 @@
   "inputTheDomainNameOfTheOrganization": "Saisissez le nom de domaine de l'organisation et appuyez sur Entrée",
   "inputFullNameOfAdditionalUser": "Saisissez le nom complet de l'utilisateur supplémentaire ici...",
   "inputAdditionalUserEmailHere": "Saisissez l'email de l'utilisateur supplémentaire ici...",
+  "inputExecutiveSuiteUsernames": "Saisissez les noms d'utilisateur de la suite exécutive et appuyez sur Entrée",
+  "inputExecutiveSuiteCorporateEmails": "Saisissez les e-mails d'entreprise de la suite exécutive et appuyez sur Entrée",
+  "inputExecutiveSuitePersonalEmails": "Saisissez les e-mails personnels de la suite exécutive et appuyez sur Entrée",
+  "executiveSuiteUsernames": "Noms d'utilisateur de la suite exécutive",
+  "executiveSuiteCorporateEmails": "Courriel(s) d'entreprise de la suite exécutive",
+  "executiveSuitePersonalEmails": "Courriels personnels de la suite exécutive",
 
   "client": "Client",
   "partner": "Partenaire",
@@ -257,5 +263,9 @@
   "writeOwnerName": "Écrivez le nom du propriétaire ici...",
   "writeReceivedEmail": "Écrivez ici l'e-mail reçu...",
   "writeTeamsWebhook": "Écrivez ici le webhook des équipes...",
-  "writeSlackWebhook": "Écrivez le webhook Slack ici..."
+  "writeSlackWebhook": "Écrivez le webhook Slack ici...",
+  "rescanOrg": "Organisation de réanalyse",
+  "vipManagement": "Gestion VIP",
+  "selfAttest": "Auto-attestation",
+  "alertTypeText": "Do you need our help?"
 }

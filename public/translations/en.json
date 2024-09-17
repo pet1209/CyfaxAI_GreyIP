@@ -89,6 +89,12 @@
   "inputTheDomainNameOfTheOrganization": "Input the domain name of the organization and press Enter",
   "inputFullNameOfAdditionalUser": "Input full name of additional user...",
   "inputAdditionalUserEmailHere": "Input additional user email here...",
+  "inputExecutiveSuiteUsernames": "Input Executive Suite Usernames and Press Enter",
+  "inputExecutiveSuiteCorporateEmails": "Input Executive Suite Corporate Emails and Press Enter",
+  "inputExecutiveSuitePersonalEmails": "Input Executive Suite Personal Emails and Press Enter",
+  "executiveSuiteUsernames": "Executive Suite Usernames",
+  "executiveSuiteCorporateEmails": "Executive Suite Corporate Email(s)",
+  "executiveSuitePersonalEmails": "Executive Suite Personal Emails(s)",
 
   "client": "Client",
   "partner": "Partner",
@@ -261,6 +267,10 @@
   "writeTeamsWebhook": "Write teams webhook here...",
   "writeSlackWebhook": "Write slack webhook here...",
   "invalidEmail": "Invalid email format.",
-  "invalidUrl": "Invalid url format."
+  "invalidUrl": "Invalid url format.",
+  "rescanOrg": "Rescan Organization",
+  "vipManagement": "VIP Management",
+  "selfAttest": "Self Attest",
+  "alertTypeText": "Do you need our help?"
 
 }

@@ -22,6 +22,8 @@ const routes = {
   hacker_channel_mention: "/dashboard/current-risk/hacker-channel-mention",
   userManagement: "/dashboard/management/user-management",
   orgManagement: "/dashboard/management/org-management",
+  vipManagement: "/dashboard/management/vip-management",
+  executive_suite_usernames: "/dashboard/management/vip-management/execute-suite-usernames",
   createOrgManagement: "/dashboard/management/org-management/create-organization"
 };
 
@@ -46,6 +48,8 @@ export const authenticatedRoutes = [
   routes.hacker_channel_mention,
   routes.userManagement,
   routes.orgManagement,
+  routes.vipManagement,
+  routes.executive_suite_usernames,
   routes.createOrgManagement
 ];
 

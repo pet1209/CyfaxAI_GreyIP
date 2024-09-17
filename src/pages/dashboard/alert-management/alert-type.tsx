@@ -6,6 +6,13 @@ import { getAuthTokenOnClient } from "@/lib/utils";
 import { toast } from "react-toastify"; 
 import Router from 'next/router';  
 import routes from "@/constants/routes";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+  } from "@/components/ui/tooltip";
+import IconCircleExclamation from "@/components/icons/icon-circle-exclamation";
 
 const AlertType = () => {   
     const { selectedAlert } = useAlertContext();  
@@ -183,9 +190,26 @@ const AlertType = () => {
 
     return (  
         <div className="p-4 xl:p-5">  
-            <p style={{color: '#ab00ab'}} className="text-[30px] font-semibold tracking-[-0.2px]">  
-                {selectedAlert?.domain_name}  
-            </p>  
+            <div className="flex items-center">  
+                <p  
+                    style={{ color: '#ab00ab' }}  
+                    className="mr-2 text-[30px] font-semibold tracking-[-0.2px]"  
+                >  
+                    {selectedAlert?.domain_name}  
+                </p>  
+                <TooltipProvider delayDuration={0}>  
+                    <Tooltip>  
+                        <TooltipTrigger>  
+                            <IconCircleExclamation className="w-5 text-[#292D32] sm:w-6" />  
+                        </TooltipTrigger>  
+                        <TooltipContent>  
+                            <p>  
+                            <FormattedMessage id="alertTypeText" />  
+                            </p>  
+                        </TooltipContent>  
+                    </Tooltip>  
+                </TooltipProvider>  
+            </div>
             <hr className="my-2 border-t border-t-accent" />  
             <div className="-mx-4 flex flex-wrap">  
                 <div className="w-full px-4 md:w-1/2">  
