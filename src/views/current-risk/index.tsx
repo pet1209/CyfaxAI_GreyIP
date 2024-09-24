@@ -10,7 +10,7 @@ import VulnerabilitiesServices from "@/views/current-risk/components/vulnerabili
 import useDetailReport from "@/views/current-risk/hooks/useDetailReport";  
 import useAuthUserAccount from "@/hooks/useAuthUserAccount";  
 import SearchBar from "@/components/search-bar";  
-import SearchDialog from "@/components/search-dialog"; // Import the new SearchDialog component  
+import SearchDialog from "@/components/search-dialog"; 
 
 const CurrentRisk = () => {  
   const { getDetailReportQuery, isOpenDomainModal, data } = useDetailReport();  
@@ -23,7 +23,7 @@ const CurrentRisk = () => {
 
   return (  
     <div className="p-4 sm:p-6">  
-      {isOpenDomainModal && canViewDialog ? (  
+      {isOpenDomainModal ? (  
         <SearchDialog />  
       ) : getDetailReportQuery.isError ? (  
         <div className="flex justify-center py-40 text-red-500">  

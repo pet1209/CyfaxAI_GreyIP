@@ -13,12 +13,19 @@ const TabsList = React.forwardRef<
 ));
 TabsList.displayName = TabsPrimitive.List.displayName;
 
-const TabsTrigger = React.forwardRef<
-  React.ElementRef<typeof TabsPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>
->(({ className, ...props }, ref) => (
-  <TabsPrimitive.Trigger ref={ref} className={cn(className)} {...props} />
-));
+const TabsTrigger = React.forwardRef<  
+  React.ElementRef<typeof TabsPrimitive.Trigger>,  
+  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>  
+>(({ className, ...props }, ref) => (  
+  <TabsPrimitive.Trigger  
+    ref={ref}  
+    className={cn(  
+      "w-[150px] px-4 py-2 text-center inline-flex items-center justify-center",  
+      className  
+    )}  
+    {...props}  
+  />  
+));  
 TabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
 
 const TabsContent = React.forwardRef<

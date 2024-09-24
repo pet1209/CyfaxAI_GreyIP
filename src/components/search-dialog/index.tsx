@@ -3,19 +3,16 @@ import { FormattedMessage } from "react-intl";
 import React from "react";  
 import useDetailReport from "@/views/current-risk/hooks/useDetailReport";  
 import { useInputState } from "@mantine/hooks";  
-import useAuthUserAccount from "@/hooks/useAuthUserAccount";  
 
 const SearchDialog = () => {
-    const { getDetailReportQuery, isOpenDomainModal, setDomain, data } = useDetailReport();  
+    const { getDetailReportQuery, isOpenDomainModal, setDomain } = useDetailReport();  
     const [domainValue, setDomainValue] = useInputState("");  
-    const { data: account } = useAuthUserAccount();  
-    const roleName = account?.role_name || "";  
     const handleSubmit = (e: React.FormEvent) => {  
         e.preventDefault();  
         if (!domainValue.trim()) return;  
         setDomain(domainValue);  
         setDomainValue("");  
-        getDetailReportQuery.refetch(); // Optionally refetch here after setting a new domain  
+        getDetailReportQuery.refetch(); 
     };  
     return(
         <>

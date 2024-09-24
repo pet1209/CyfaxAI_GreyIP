@@ -4,6 +4,13 @@ export type CredentialItem = {
   source: "COMBOLIST" | "TELEGRAM";
 };
 
+export type PricesItem = {
+  feature: string;
+  essentials: string;
+  professional: string;
+  enterprise: string;
+};
+
 export type StealerLogsForSaleItem = {
   affected_asset: string[];
   tag: string;
@@ -72,6 +79,8 @@ export type MXToolboxDNSItem = {
   result: string;
 };
 export type TableData = CredentialItem[];  
+
+export type PriceData = PricesItem[];
 
 export type StealerTableData = StealerLogsForSaleItem[];
 

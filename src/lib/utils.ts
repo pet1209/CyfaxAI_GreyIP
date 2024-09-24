@@ -242,10 +242,22 @@ export const downloadPDF = (
   }
 };
 
-export const isAuthenticatedRoute = (pathname: string) => {
-  return pathname === routes.home && publicRoutes.includes(routes.home)
-    ? false
-    : !!authenticatedRoutes.find((route) => route.startsWith(pathname));
+export const isAuthenticatedRoute = (pathname: string) => {  
+  for (const route of authenticatedRoutes) {  
+    if (typeof route === 'function') {  
+      const exampleSlug = 'exampleSlug';  
+      const dynamicRoute = route(exampleSlug);  
+      if (pathname === dynamicRoute) {  
+        console.log(`Matched dynamic route: ${pathname}`);  
+        return true;  
+      }  
+    } else if (typeof route === 'string' && pathname.startsWith(route)) {  
+      console.log(`Matched static route: ${pathname}`);  
+      return true;  
+    }  
+  }  
+  console.log(`No match for: ${pathname}`);  
+  return false;  
 };
 
 export const isUnAuthenticatedRoute = (pathname: string) => {

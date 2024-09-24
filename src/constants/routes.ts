@@ -23,8 +23,10 @@ const routes = {
   userManagement: "/dashboard/management/user-management",
   orgManagement: "/dashboard/management/org-management",
   vipManagement: "/dashboard/management/vip-management",
-  executive_suite_usernames: "/dashboard/management/vip-management/execute-suite-usernames",
-  createOrgManagement: "/dashboard/management/org-management/create-organization"
+  see_all_vips: (slug: string) => `/dashboard/management/vip-management/seeAll/${slug}`,
+  createOrgManagement: "/dashboard/management/org-management/create-organization",
+  contactUs: "/contact-us",
+  result: "/result"
 };
 
 export default routes;
@@ -49,7 +51,7 @@ export const authenticatedRoutes = [
   routes.userManagement,
   routes.orgManagement,
   routes.vipManagement,
-  routes.executive_suite_usernames,
+  routes.see_all_vips,
   routes.createOrgManagement
 ];
 
@@ -57,5 +59,7 @@ export const unAuthenticatedRoutes = [
   routes.login,
   routes.signup,
   routes.forgotPassword,
+  routes.contactUs,
+  routes.result
 ];
 export const publicRoutes = [routes.home, routes.publicReportResults("")];

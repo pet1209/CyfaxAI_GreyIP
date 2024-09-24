@@ -133,99 +133,99 @@ const CreateUser = ({ onClose, onUserCreate }: UpdateProfileProps) => {
             </DialogTitle>  
             </DialogHeader>  
             <div className="mt-7">  
-            <form onSubmit={handleSubmit}>  
-                <label htmlFor="email" style={{ fontSize: '15px' }} className="mb-2 block font-semibold text-gray-900">  
-                    <FormattedMessage id="email"/>  
-                </label>
-                <input  
-                    id="email"  
-                    type="text"  
-                    value={formData.email}  
-                    onChange={updateFormData}
-                    className="mb-2 h-11 w-full rounded-lg border px-3 text-sm outline-none placeholder:text-sm md:text-base md:placeholder:text-base lg:h-12 lg:px-4"  
-                />  
-                <label htmlFor="password" style={{ fontSize: '15px' }} className="mb-2 block font-semibold text-gray-900">  
-                    <FormattedMessage id="password"/>  
-                </label>
-                <div className="relative mb-2">  
+                <form onSubmit={handleSubmit}>  
+                    <label htmlFor="email" style={{ fontSize: '15px' }} className="mb-2 block font-semibold text-gray-900">  
+                        <FormattedMessage id="email"/>  
+                    </label>
                     <input  
-                        id="password"  
-                        type={showPassword ? 'text' : 'password'}  
-                        value={formData.password}  
-                        onChange={updateFormData}  
+                        id="email"  
+                        type="text"  
+                        value={formData.email}  
+                        onChange={updateFormData}
                         className="mb-2 h-11 w-full rounded-lg border px-3 text-sm outline-none placeholder:text-sm md:text-base md:placeholder:text-base lg:h-12 lg:px-4"  
                     />  
-                    <span className="absolute inset-y-0 right-4 flex items-center">  
-                        {showPassword ? (  
-                        <EyeOff size={20} onClick={() => setShowPassword(false)} className="cursor-pointer" />  
-                        ) : (  
-                        <Eye size={20} onClick={() => setShowPassword(true)} className="cursor-pointer" />  
-                        )}  
-                    </span>  
-                </div> 
-                <label htmlFor="confirmPassword" style={{ fontSize: '15px' }} className="mb-2 block font-semibold text-gray-900">  
-                    <FormattedMessage id="confirmPassword"/>  
-                </label>
-                <div className="relative mb-2">  
+                    <label htmlFor="password" style={{ fontSize: '15px' }} className="mb-2 block font-semibold text-gray-900">  
+                        <FormattedMessage id="password"/>  
+                    </label>
+                    <div className="relative mb-2">  
+                        <input  
+                            id="password"  
+                            type={showPassword ? 'text' : 'password'}  
+                            value={formData.password}  
+                            onChange={updateFormData}  
+                            className="mb-2 h-11 w-full rounded-lg border px-3 text-sm outline-none placeholder:text-sm md:text-base md:placeholder:text-base lg:h-12 lg:px-4"  
+                        />  
+                        <span className="absolute inset-y-0 right-4 flex items-center">  
+                            {showPassword ? (  
+                            <EyeOff size={20} onClick={() => setShowPassword(false)} className="cursor-pointer" />  
+                            ) : (  
+                            <Eye size={20} onClick={() => setShowPassword(true)} className="cursor-pointer" />  
+                            )}  
+                        </span>  
+                    </div> 
+                    <label htmlFor="confirmPassword" style={{ fontSize: '15px' }} className="mb-2 block font-semibold text-gray-900">  
+                        <FormattedMessage id="confirmPassword"/>  
+                    </label>
+                    <div className="relative mb-2">  
+                        <input  
+                            id="confirmPassword"  
+                            type={showConfirmPassword ? 'text' : 'password'}  
+                            value={formData.confirmPassword}  
+                            onChange={updateFormData}  
+                            className="mb-2 h-11 w-full rounded-lg border px-3 text-sm outline-none placeholder:text-sm md:text-base md:placeholder:text-base lg:h-12 lg:px-4"  
+                        />  
+                        <span className="absolute inset-y-0 right-4 flex items-center">  
+                            {showConfirmPassword ? (  
+                            <EyeOff size={20} onClick={() => setShowConfirmPassword(false)} className="cursor-pointer" />  
+                            ) : (  
+                            <Eye size={20} onClick={() => setShowConfirmPassword(true)} className="cursor-pointer" />  
+                            )}  
+                        </span>  
+                    </div> 
+                    <label htmlFor="fullName" style={{ fontSize: '15px' }} className="mb-2 block font-semibold text-gray-900">  
+                        <FormattedMessage id="fullName"/>  
+                    </label>
                     <input  
-                        id="confirmPassword"  
-                        type={showConfirmPassword ? 'text' : 'password'}  
-                        value={formData.confirmPassword}  
+                        id="fullName"  
+                        type="text"  
+                        value={formData.fullName}  
                         onChange={updateFormData}  
                         className="mb-2 h-11 w-full rounded-lg border px-3 text-sm outline-none placeholder:text-sm md:text-base md:placeholder:text-base lg:h-12 lg:px-4"  
+                        placeholder="full name"  
                     />  
-                    <span className="absolute inset-y-0 right-4 flex items-center">  
-                        {showConfirmPassword ? (  
-                        <EyeOff size={20} onClick={() => setShowConfirmPassword(false)} className="cursor-pointer" />  
-                        ) : (  
-                        <Eye size={20} onClick={() => setShowConfirmPassword(true)} className="cursor-pointer" />  
-                        )}  
-                    </span>  
-                </div> 
-                <label htmlFor="fullName" style={{ fontSize: '15px' }} className="mb-2 block font-semibold text-gray-900">  
-                    <FormattedMessage id="fullName"/>  
-                </label>
-                <input  
-                    id="fullName"  
-                    type="text"  
-                    value={formData.fullName}  
-                    onChange={updateFormData}  
-                    className="mb-2 h-11 w-full rounded-lg border px-3 text-sm outline-none placeholder:text-sm md:text-base md:placeholder:text-base lg:h-12 lg:px-4"  
-                    placeholder="full name"  
-                />  
-                <label htmlFor="phone" style={{ fontSize: '15px' }} className="mb-2 block font-semibold text-gray-900">  
-                    <FormattedMessage id="phone"/>  
-                </label>
-                <input  
-                    id="phone"  
-                    type="text"  
-                    value={formData.phone}  
-                    onChange={updateFormData}  
-                    placeholder="phone number"  
-                    className="mb-2 h-11 w-full rounded-lg border px-3 text-sm outline-none placeholder:text-sm md:text-base md:placeholder:text-base lg:h-12 lg:px-4"  
-                />  
-                <label htmlFor="role" style={{ fontSize: '15px' }} className="mb-2 block font-semibold text-gray-900">  
-                    <FormattedMessage id="role"/>  
-                </label>
-                <select   
-                    id="role"   
-                    value={formData.role}   
-                    onChange={updateFormData}   
-                    className="mb-2 h-11 w-full rounded-lg border px-3 text-sm outline-none md:text-base lg:h-12 lg:px-4">  
-                    <option value="">Select Role</option>  
-                    {roleOptions.map((role) => (    
-                        <option key={role} value={role}>{roleNames[role as keyof IRoleNames]}</option>  
-                    ))}
-                </select>
-                <div className="mt-3.5 flex justify-end">  
-                    <button  
-                        disabled={!isFormFilled()} 
-                        className="h-11 rounded-md bg-accent px-8 font-medium text-white duration-300 enabled:hover:opacity-80 disabled:opacity-50"  
-                    >  
-                        <FormattedMessage id="createUserButton" />  
-                    </button>  
-                </div>  
-            </form>  
+                    <label htmlFor="phone" style={{ fontSize: '15px' }} className="mb-2 block font-semibold text-gray-900">  
+                        <FormattedMessage id="phone"/>  
+                    </label>
+                    <input  
+                        id="phone"  
+                        type="text"  
+                        value={formData.phone}  
+                        onChange={updateFormData}  
+                        placeholder="phone number"  
+                        className="mb-2 h-11 w-full rounded-lg border px-3 text-sm outline-none placeholder:text-sm md:text-base md:placeholder:text-base lg:h-12 lg:px-4"  
+                    />  
+                    <label htmlFor="role" style={{ fontSize: '15px' }} className="mb-2 block font-semibold text-gray-900">  
+                        <FormattedMessage id="role"/>  
+                    </label>
+                    <select   
+                        id="role"   
+                        value={formData.role}   
+                        onChange={updateFormData}   
+                        className="mb-2 h-11 w-full rounded-lg border px-3 text-sm outline-none md:text-base lg:h-12 lg:px-4">  
+                        <option value="">Select Role</option>  
+                        {roleOptions.map((role) => (    
+                            <option key={role} value={role}>{roleNames[role as keyof IRoleNames]}</option>  
+                        ))}
+                    </select>
+                    <div className="mt-3.5 flex justify-end">  
+                        <button  
+                            disabled={!isFormFilled()} 
+                            className="h-11 rounded-md bg-accent px-8 font-medium text-white duration-300 enabled:hover:opacity-80 disabled:opacity-50"  
+                        >  
+                            <FormattedMessage id="createUserButton" />  
+                        </button>  
+                    </div>  
+                </form>  
             </div>  
         </DialogContent>  
         </Dialog>  

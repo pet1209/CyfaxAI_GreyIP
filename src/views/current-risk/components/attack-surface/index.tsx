@@ -17,17 +17,66 @@ import { ComponentProps, forwardRef, useMemo } from "react";
 import { FormattedMessage } from "react-intl";
 import {useState} from "react";
 import routes from "@/constants/routes";
-
+import SearchDialog from "./rescan-dialog";
+import useAuthUserAccount from "@/hooks/useAuthUserAccount";
+import { getAuthTokenOnClient } from "@/lib/utils";  
+import { toast } from "react-toastify"; 
 
 function isRouteFunction(route: any): route is (arg: string) => string {  
   return typeof route === "function";  
 }  
 
 const AttackSurface = () => {  
+  const [isDialogOpen, setIsDialogOpen] = useState(false);  
+  const { data: userAccount } = useAuthUserAccount();
+  const roleName = userAccount?.role_name;
+  console.log(roleName)
   const { data } = useDetailReport();  
   const [selectedTab, setSelectedTab] = useState<keyof typeof routes>(  
     "company_exposed_ports"  
   );  
+
+  const handleRescan = async () => {  
+    if (roleName === 'client_admin') {  
+      await sendScanRequest();  
+    } else {  
+      setIsDialogOpen(true);  
+    }  
+  };  
+
+  const sendScanRequest = async (domainName = '') => {  
+    const tokens = await getAuthTokenOnClient();  
+    
+    try {  
+      const apiUrl = `${process.env.NEXT_PUBLIC_CYFAX_API_BASE_URL}/manual_scan/`;  
+      const body = domainName ? JSON.stringify({ domain_name: domainName }) : undefined;  
+      const response = await fetch(apiUrl, {  
+        method: "POST",  
+        headers: {  
+          "Content-Type": "application/json",  
+          Authorization: `Bearer ${tokens.accessToken}`,  
+        },  
+        body: body,
+      });  
+      
+      if (response.status === 429) {  
+        const data = await response.json();  
+        toast.error(data.data);  
+        return;  
+      }  
+      
+      if (!response.ok) {  
+        throw new Error(`HTTP error! Status: ${response.status}`);  
+      }  
+      
+      const data = await response.json();  
+      toast.success(data.data);  
+      
+    } catch (error) {  
+      console.error("An error occurred:", error);  
+      toast.error("Failed to initiate scan. An unexpected error occurred.");  
+    }  
+  }; 
 
   const tabs = useMemo(() => {  
     return [  
@@ -163,12 +212,15 @@ const AttackSurface = () => {
                 </TabsTrigger>  
               ))}  
               <button  
-                className="ml-10 h-11 rounded-md bg-accent px-8 font-medium text-white duration-300 enabled:hover:opacity-80 disabled:opacity-50"  
+                className="ml-10 h-11 rounded-md bg-[#720072] px-8 font-medium text-white duration-300 enabled:hover:opacity-80 disabled:opacity-50"  
+                disabled={roleName === 'client_user' || roleName === 'partner_user'}
+                onClick={handleRescan}
               >  
                 <FormattedMessage id="rescanOrg" />  
-              </button>  
+              </button> 
             </div>  
-          </TabsList>  
+          </TabsList>
+          <SearchDialog isOpen={isDialogOpen} onClose={() => setIsDialogOpen(false)} />  
 
           {tabs.map((tab) => (  
             <TabsContent value={tab.value} key={tab.value} asChild>  

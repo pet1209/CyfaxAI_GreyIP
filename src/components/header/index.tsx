@@ -1,95 +1,132 @@
-import LanguageDropDown from "@/components/language-dropdown";
-import Sidebar from "@/components/mobile-sidebar";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import routes from "@/constants/routes";
-import { FormattedMessage } from "react-intl";
-import useAuthUserAccount from "@/hooks/useAuthUserAccount";
-import { ChevronDown, LogOut, ListRestart } from "lucide-react";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import Image from "next/image";
-import { getAuthTokenOnClient } from "@/lib/utils";
-const Header = () => {
+import { useRouter } from 'next/router';  
+import LanguageDropDown from "@/components/language-dropdown";  
+import PricesDropDown from "@/components/prices-dropdown";  
+import Sidebar from "@/components/mobile-sidebar";  
+import {  
+  DropdownMenu,  
+  DropdownMenuContent,  
+  DropdownMenuItem,  
+  DropdownMenuTrigger,  
+} from "@/components/ui/dropdown-menu";  
+import routes from "@/constants/routes";  
+import { FormattedMessage } from "react-intl";  
+import useAuthUserAccount from "@/hooks/useAuthUserAccount";  
+import { ChevronDown, LogOut, ListRestart, Globe } from "lucide-react";  
+import Link from "next/link";  
+import { useState } from "react";  
+import { toast } from "react-toastify";  
+import Image from "next/image";  
+import { getAuthTokenOnClient } from "@/lib/utils";  
 
-  const { data, logout } = useAuthUserAccount();
-
-  const [loading, setLoading] = useState(false); 
-
+const Header = () => {  
+  const router = useRouter();
+  const { data, logout } = useAuthUserAccount();  
+  const [loading, setLoading] = useState(false);   
 
   const resetPassword = async () => {  
     setLoading(true);  
     try {  
-      const tokens = await getAuthTokenOnClient();
+      const tokens = await getAuthTokenOnClient();  
       const response = await fetch(`${process.env.NEXT_PUBLIC_CYFAX_API_BASE_URL}/reset_password/`, {  
         method: 'POST',  
         headers: {  
           'Content-Type': 'application/json',  
-          'Authorization': `Bearer ${tokens.accessToken}`,
-        }
+          'Authorization': `Bearer ${tokens.accessToken}`,  
+        }  
       });  
       
       if (response.ok) {  
-        toast.success('Please check your email to reset your password.');
+        toast.success('Please check your email to reset your password.');  
       } else {  
         throw new Error('Failed to send reset password email.');  
       }  
     } catch (error) {  
       console.error('Reset password error:', error);  
-      toast.error('Failed to reset password. Please try again.');
+      toast.error('Failed to reset password. Please try again.');  
     } finally {  
       setLoading(false);  
     }  
-  };
+  };  
 
-  return (
-    <div className="flex items-center justify-between bg-white px-4 max-lg:py-1.5 lg:bg-[#13101c] lg:px-0">
-      <div className="flex h-[43px] items-center justify-center lg:h-20 lg:w-[280px]">
-        <Link href={routes.home}>
+  const isHomePage = router.pathname === '/' || router.pathname === '/contact-us' || router.pathname === '/result' || router.pathname === '/plans-pricing';  
+  const isContact = router.pathname === '/contact-us';
+
+  return (  
+    <div className={`flex items-center justify-between max-lg:py-1.5 lg:px-0 ${isContact ? 'bg-[#09171B]' : !isHomePage ? 'bg-white lg:bg-[#13101c]' : ''} px-4`}>  
+      <div className="flex h-[43px] items-center justify-center lg:h-20 lg:w-[300px]">  
+        <Link href={routes.home}>  
           <Image src="/site-logo.png" width="50" height="50" alt="Microsoft Teams Icon"/>  
-        </Link>
-      </div>
+        </Link>  
+      </div>  
+      {isHomePage && (  
+        <div className="hidden items-center md:flex">  
+          <Link href={routes.home}>  
+            <p className="-ml-10 mr-10 font-mulish text-base font-normal leading-5 text-gray-200">  
+              <FormattedMessage id="products" />  
+            </p>  
+          </Link>  
+          <PricesDropDown />  
+        </div>  
+      )} 
 
-      <div className="flex grow items-center justify-end space-x-3 rounded-lg md:space-x-5 lg:mr-5">
-        <div className="hidden lg:block">
-          <LanguageDropDown />
-        </div>
-        {data && (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <div className="flex cursor-pointer flex-row items-center gap-x-2">
-                <h3 className="hidden font-mulish text-base font-normal leading-5 text-gray-200 lg:block">
-                  {data?.full_name || data?.email}
-                </h3>
-                <ChevronDown className="size-5 text-white" />
-              </div>
-            </DropdownMenuTrigger>
-
-            <DropdownMenuContent
-              collisionPadding={10}
-              sideOffset={10}
-              className="min-w-[200px]"
-            >
-              <DropdownMenuItem onClick={() => !loading && resetPassword()}>
-                <ListRestart className="size-4" /> <FormattedMessage id="resetPassword" />
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => logout()}>
-                <LogOut className="size-4" /> <FormattedMessage id="logOut" /> 
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+      <div className="flex grow items-center justify-end space-x-3 rounded-lg md:space-x-5 lg:mr-5">  
+      <div className="hidden items-center lg:flex" style={{ transform: 'translateX(-80px)' }}>  
+        {isHomePage && (
+          <>
+            <Link href={routes.login}>  
+              <button  
+                className="ml-4 h-10 w-32 rounded-3xl bg-[#720072] text-base font-semibold text-white duration-300 hover:bg-[#ab00ab] md:text-lg lg:text-lg"  
+              >  
+                <FormattedMessage id="loginText" />   
+              </button>
+            </Link>
+            <Link href={routes.login}>  
+              <button  
+                className="ml-4 h-10 w-32 rounded-3xl bg-white text-base font-semibold text-[#720072] duration-300 hover:opacity-80 md:text-lg lg:text-lg"  
+              >  
+                <FormattedMessage id="signUpText" />   
+              </button>
+            </Link>
+          </>
         )}
-        <div className="lg:hidden">
-          <Sidebar />
-        </div>
+        <Globe className="ml-10 mr-2 size-5 text-white"/>  
+        <LanguageDropDown />  
+      </div>  
+        
+        {data && (  
+          <div style={{ transform: 'translateX(-80px)' }}>  
+            <DropdownMenu>  
+              <DropdownMenuTrigger asChild>  
+                <div className="flex cursor-pointer flex-row items-center gap-x-2">  
+                  <h3 className="hidden font-mulish text-base font-normal leading-5 text-gray-200 lg:block">  
+                    {data?.full_name || data?.email}  
+                  </h3>  
+                  <ChevronDown className="size-5 text-white" />  
+                </div>  
+              </DropdownMenuTrigger>  
+
+              <DropdownMenuContent  
+                collisionPadding={10}  
+                sideOffset={10}  
+                className="min-w-[200px]"  
+              >  
+                <DropdownMenuItem onClick={() => !loading && resetPassword()}>  
+                  <ListRestart className="size-4" /> <FormattedMessage id="resetPassword" />  
+                </DropdownMenuItem>  
+                <DropdownMenuItem onClick={() => logout()}>  
+                  <LogOut className="size-4" /> <FormattedMessage id="logOut" />  
+                </DropdownMenuItem>  
+              </DropdownMenuContent>  
+            </DropdownMenu>  
+          </div>  
+        )}  
+        
+        <div className="lg:hidden">  
+          <Sidebar />  
+        </div>  
       </div>
-    </div>
-  );
-};
+    </div>  
+  );  
+};  
 
 export default Header;

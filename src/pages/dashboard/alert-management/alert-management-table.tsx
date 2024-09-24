@@ -1,15 +1,19 @@
-import { FormattedMessage } from "react-intl";  
-import Link from "next/link";
-import { useAlertContext } from '@/context/alertContext'; 
-import routes from "@/constants/routes";
+// alert-management-table.tsx  
 
-interface AlertsManagementTableProps{
-  alerts: any[];
-}
+import { useEffect, useState } from "react";  
+import { FormattedMessage } from "react-intl";  
+import Link from "next/link";  
+import { useAlertContext } from '@/context/alertContext';   
+import routes from "@/constants/routes";  
+import DeleteDialog from './alert-delete';   
+
+interface AlertsManagementTableProps{  
+  alerts: any[];  
+}  
 
 const capitalizeWords = (s: string) => {  
   if (typeof s !== 'string') {  
-    return ''; 
+    return '';   
   }  
 
   return s  
@@ -17,12 +21,32 @@ const capitalizeWords = (s: string) => {
     .split(' ')  
     .map(word => (word.length > 0 ? word.charAt(0).toUpperCase() + word.slice(1).toLowerCase() : ''))  
     .join(' ');  
-};
+};  
 
-const AlertManagementTable: React.FC<AlertsManagementTableProps> = ({alerts}) => {  
-  const { setSelectedAlert } = useAlertContext();
+const AlertManagementTable: React.FC<AlertsManagementTableProps> = ({ alerts: initialAlerts }) => {  
+  const { setSelectedAlert } = useAlertContext();  
+  const [isDeleteVisible, setIsDeleteVisible] = useState(false);  
+  const [selectedAlert, setSelectedAlertState] = useState<Alert | null>(null);  
+  const [alerts, setAlerts] = useState(initialAlerts);
+  useEffect(()=>{
+    setAlerts(initialAlerts);
+  }, [initialAlerts])
+
   const handleAlertClick = (alert: Alert) => {  
     setSelectedAlert(alert);  
+  };  
+
+  const handleDeleteClick = (alert: any) => {  
+    setSelectedAlertState(alert);  
+    setIsDeleteVisible(true);  
+  };  
+
+  const handleDeleteClose = () => {  
+    setIsDeleteVisible(false);  
+  };  
+
+  const handleDeleteSuccess = (alertId: string) => {  
+    setAlerts((prevAlerts) => prevAlerts.filter(alert => alert.id !== alertId)); 
   };  
 
   const displayGroupNameOrNA = (alert: Alert) => {  
@@ -31,10 +55,11 @@ const AlertManagementTable: React.FC<AlertsManagementTableProps> = ({alerts}) =>
     } else {  
       return capitalizeWords(alert.group_name);  
     }  
-  };
+  };  
+  console.log(alerts)
 
   return (  
-    <>
+    <>  
       <div>  
         <table className="w-full max-lg:hidden">  
           <thead>  
@@ -57,10 +82,10 @@ const AlertManagementTable: React.FC<AlertsManagementTableProps> = ({alerts}) =>
             </tr>  
           </thead>  
           <tbody>  
-            {alerts && alerts.map((alert, index) => (
-              <tr 
-                className="h-20 border-b py-4 text-sm"
-                key={alert.id}
+            {alerts && alerts.map((alert, index) => (  
+              <tr   
+                className="h-20 border-b py-4 text-sm"  
+                key={alert.id}  
               >  
                 <td className="text-center">  
                   <button className="size-full">{index+1}</button>  
@@ -73,24 +98,31 @@ const AlertManagementTable: React.FC<AlertsManagementTableProps> = ({alerts}) =>
                 </td>  
                 <td className="text-center">  
                   <button className="size-full">{alert.owner_email}</button>  
-                </td> 
+                </td>   
                 <td className="justify-center text-center">  
-                  <Link 
-                    href={routes.alertType} 
-                    onClick={() => handleAlertClick(alert)}
-                    passHref
-                  >
+                  <Link   
+                    href={routes.alertType}   
+                    onClick={() => handleAlertClick(alert)}  
+                    passHref  
+                  >  
                     <button   
-                        style={{backgroundColor: '#720072', fontSize: '14px', width: '100px', height: '2rem'}}   
+                        style={{backgroundColor: '#720072', fontSize: '12px', width: '55px', height: '2rem'}}   
                         className="rounded-lg text-white duration-300 hover:opacity-90"  
                     >   
                         <FormattedMessage id="alertType" />   
                     </button>  
-                  </Link>
-                </td>
+                  </Link>  
+                  <button   
+                      style={{backgroundColor: '#720072', fontSize: '12px', width: '55px', height: '2rem', paddingLeft: '4px', paddingRight: '4px'}}   
+                      className="ml-2 rounded-lg text-white duration-300 hover:opacity-90"   
+                      onClick={() => handleDeleteClick(alert)}  
+                  >   
+                      <FormattedMessage id="delete" />   
+                  </button>  
+                </td>  
               </tr>  
-            ))}
-          </tbody>
+            ))}  
+          </tbody>  
         </table>  
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:hidden">
         {alerts && alerts.map((alert, index) => (
@@ -146,21 +178,40 @@ const AlertManagementTable: React.FC<AlertsManagementTableProps> = ({alerts}) =>
               <div className="flex items-center">  
                 <Link href={routes.alertType} passHref>
                   <button   
-                      style={{backgroundColor: '#720072', fontSize: '12px', width: '100px', height: '1.8rem'}}   
+                      style={{backgroundColor:'#720072', fontSize: '8px', width: '45px', height: '1.5rem', paddingLeft: '4px', paddingRight: '4px'}}   
                       className="rounded-lg text-white duration-300 hover:opacity-90"   
                   >   
                       <FormattedMessage id="alertType" />   
                   </button>  
                 </Link>
+                <button   
+                  style={{backgroundColor: '#720072', fontSize: '8px', width: '45px', height: '1.5rem', paddingLeft: '4px', paddingRight: '4px'}}   
+                  className="ml-2 rounded-lg text-white duration-300 hover:opacity-90"   
+                  onClick={() => handleDeleteClick(alert)}  
+                >   
+                  <FormattedMessage id="delete" />   
+                </button>  
               </div>  
             </div>  
             
           </div>
         ))}
         </div>
-      </div>
-    </>
-  );
-};
+      </div>  
+
+      {isDeleteVisible && selectedAlert && (   
+        <DeleteDialog  
+          entityId={selectedAlert.id}  
+          entityName={displayGroupNameOrNA(selectedAlert)}  
+          entityType="alert"  
+          onClose={handleDeleteClose}  
+          onDelete={handleDeleteSuccess}  
+        />  
+      )}  
+    </>  
+  );  
+};  
 
 export default AlertManagementTable;
+
+

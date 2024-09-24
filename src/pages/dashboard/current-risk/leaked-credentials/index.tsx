@@ -37,6 +37,7 @@ const LeakedCredentials = () => {
     setItemsPerPage(Number(event.target.value));  
     setCurrentPage(1); 
   };  
+  console.log(paginatedData)
   
   const tab = {  
     value: "leaked_credentials",  

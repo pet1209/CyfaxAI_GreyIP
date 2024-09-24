@@ -22,7 +22,7 @@ const DeleteGroup = ({ groupId, onClose, onDelete }: GroupDeleteProps) => {
 
     const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {  
         setPassword(event.target.value);  
-        setError(""); // Reset error message on password change  
+        setError(""); 
     };   
 
     const handleSubmit = async (event: React.FormEvent) => {  

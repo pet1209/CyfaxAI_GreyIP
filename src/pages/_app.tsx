@@ -12,6 +12,9 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { SelectedValueProvider } from '@/context/selectedValueContext';
 import { AlertProvider } from '@/context/alertContext';
+import { DataProvider } from "@/context/DataContext";
+import { PlanProvider } from '@/context/selectedPriceContext';
+import { SearchProvider } from '@/context/searchContext'; 
 
 const mulish = Mulish({
   subsets: ["latin"],
@@ -50,7 +53,10 @@ export default function MyCustomApp({ Component, pageProps }: AppProps) {
         }
       `}</style>
       <QueryClientProvider client={queryClient}>
+        <SearchProvider>
+        <PlanProvider>
         <SelectedValueProvider>
+          <DataProvider>
           <AlertProvider>
             <Intl>
               <Layout>
@@ -61,7 +67,10 @@ export default function MyCustomApp({ Component, pageProps }: AppProps) {
             </Intl>
             <ToastContainer stacked position="top-right" />
           </AlertProvider>
+          </DataProvider>
         </SelectedValueProvider>
+        </PlanProvider>
+        </SearchProvider>
       </QueryClientProvider>
     </>
   );
