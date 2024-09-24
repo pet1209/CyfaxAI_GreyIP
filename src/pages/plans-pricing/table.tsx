@@ -13,25 +13,25 @@ const PlansPricingAllTable = ({
     data.map((row, i) => (  
       <tr  
         key={i}  
-        className="bg-[#09171B] leading-[28px] text-white [&>td]:border-b [&>td]:py-4 [&>td]:pl-6 [&>td]:font-mulish [&>td]:text-xs [&>td]:first:pl-[16px] sm:[&>td]:text-sm sm:[&>td]:first:pl-6"  
+        className="bg-[#09171B] text-left leading-[28px] text-white [&>td]:border-b [&>td]:px-6 [&>td]:py-4 [&>td]:font-mulish [&>td]:text-xs sm:[&>td]:text-sm"  
       >  
-        <td className="text-start">{row.feature}</td>  
+        <td>{row.feature}</td>  
         <td  
-          className={`text-start ${  
+          className={`${  
             selectedPlan !== "essentials" ? "hidden md:table-cell" : ""  
           }`}  
         >  
           {row.essentials}  
         </td>  
         <td  
-          className={`text-start ${  
+          className={`${  
             selectedPlan !== "professional" ? "hidden md:table-cell" : ""  
           }`}  
         >  
           {row.professional}  
         </td>  
         <td  
-          className={`text-start ${  
+          className={`${  
             selectedPlan !== "enterprise" ? "hidden md:table-cell" : ""  
           }`}  
         >  
@@ -41,7 +41,7 @@ const PlansPricingAllTable = ({
     ))  
   ) : (  
     <tr>  
-      <td colSpan={3}>No data available</td>  
+      <td colSpan={4} className="text-left">No data available</td>  
     </tr>  
   );  
 
@@ -49,11 +49,9 @@ const PlansPricingAllTable = ({
     <div className="overflow-hidden rounded-3xl">  
       <table className="w-full min-w-full">  
         <thead>  
-          <tr className="bg-[#720072] leading-[18.75px] text-white [&>th]:py-3.5 [&>th]:pl-6 [&>th]:text-left [&>th]:font-mulish [&>th]:font-semibold [&>th]:first:pl-[16px] sm:[&>th]:first:pl-6"
+          <tr className="bg-[#720072] leading-[18.75px] text-white [&>th]:px-6 [&>th]:py-3.5 [&>th]:text-left [&>th]:font-mulish [&>th]:font-semibold"  
           >  
-            <th>  
-              <FormattedMessage id="feature" />  
-            </th>  
+            <th><FormattedMessage id="feature" /></th>  
             <th className={`${selectedPlan !== "essentials" ? "hidden md:table-cell" : ""}`}>  
               <FormattedMessage id="essentials" />  
             </th>  

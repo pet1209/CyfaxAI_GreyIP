@@ -56,11 +56,11 @@ const Home = () => {
             <div className="mb-4 text-[28px] font-bold text-white md:text-[48px]">  
               <FormattedMessage id="homeHeroTitle2" /><span style={{color: '#E400E4'}}><FormattedMessage id="homeHeroColorTitle" /></span>  
             </div>  
-            <div className="text-[16px] font-bold text-white md:text-[18px]">  
+            {/* <div className="text-[16px] font-bold text-white md:text-[18px]">  
               <FormattedMessage id="smallTitle1" />  
-            </div>  
+            </div>   */}
             <div className="mb-8 text-[16px] font-bold text-white md:text-[18px]">   
-              <FormattedMessage id="smallTitle2" />  
+              <FormattedMessage id="smallTitle1" />  
             </div>  
             <div className="flex w-full items-center md:w-auto">  
               <div className="relative w-full pr-3 md:w-4/5 md:pr-0">  

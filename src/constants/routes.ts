@@ -26,7 +26,8 @@ const routes = {
   see_all_vips: (slug: string) => `/dashboard/management/vip-management/seeAll/${slug}`,
   createOrgManagement: "/dashboard/management/org-management/create-organization",
   contactUs: "/contact-us",
-  result: "/result"
+  result: "/result",
+  prices: "/plans-pricing"
 };
 
 export default routes;
@@ -60,6 +61,7 @@ export const unAuthenticatedRoutes = [
   routes.signup,
   routes.forgotPassword,
   routes.contactUs,
-  routes.result
+  routes.result,
+  routes.prices
 ];
 export const publicRoutes = [routes.home, routes.publicReportResults("")];

@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';  
 import LanguageDropDown from "@/components/language-dropdown";  
-import PricesDropDown from "@/components/prices-dropdown";  
 import Sidebar from "@/components/mobile-sidebar";  
 import {  
   DropdownMenu,  
@@ -20,7 +19,7 @@ import { getAuthTokenOnClient } from "@/lib/utils";
 
 const Header = () => {  
   const router = useRouter();
-  const { data, logout } = useAuthUserAccount();  
+  const { data, accessToken, logout } = useAuthUserAccount();  
   const [loading, setLoading] = useState(false);   
 
   const resetPassword = async () => {  
@@ -60,18 +59,22 @@ const Header = () => {
       </div>  
       {isHomePage && (  
         <div className="hidden items-center md:flex">  
-          <Link href={routes.home}>  
+          <Link href={routes.dashboard}>  
             <p className="-ml-10 mr-10 font-mulish text-base font-normal leading-5 text-gray-200">  
               <FormattedMessage id="products" />  
             </p>  
           </Link>  
-          <PricesDropDown />  
+          <Link href={routes.prices}>  
+            <p className="mr-10 font-mulish text-base font-normal leading-5 text-gray-200">  
+              <FormattedMessage id="plans" />  
+            </p>  
+          </Link>   
         </div>  
       )} 
 
       <div className="flex grow items-center justify-end space-x-3 rounded-lg md:space-x-5 lg:mr-5">  
-      <div className="hidden items-center lg:flex" style={{ transform: 'translateX(-80px)' }}>  
-        {isHomePage && (
+      <div className="hidden items-center lg:flex" style={{ transform: 'translateX(-20px)' }}>  
+        {isHomePage && !accessToken && (
           <>
             <Link href={routes.login}>  
               <button  
@@ -80,7 +83,7 @@ const Header = () => {
                 <FormattedMessage id="loginText" />   
               </button>
             </Link>
-            <Link href={routes.login}>  
+            <Link href={routes.prices}>  
               <button  
                 className="ml-4 h-10 w-32 rounded-3xl bg-white text-base font-semibold text-[#720072] duration-300 hover:opacity-80 md:text-lg lg:text-lg"  
               >  
@@ -94,7 +97,7 @@ const Header = () => {
       </div>  
         
         {data && (  
-          <div style={{ transform: 'translateX(-80px)' }}>  
+          <div style={{ transform: 'translateX(-20px)' }}>  
             <DropdownMenu>  
               <DropdownMenuTrigger asChild>  
                 <div className="flex cursor-pointer flex-row items-center gap-x-2">  

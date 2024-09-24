@@ -5,7 +5,7 @@
   "homeHeroTitleMobile": "Revela y contiene: Domina tu exposición digital con Cyfax",
   "homeHeroDescription": "Su primera línea de defensa contra",
   "homeHereDescriptionText": " Vulnerabilidades cibernéticas",
-  "smallTitle1": "Utilice nuestro análisis gratuito para descubrir exposiciones externas y amenazas de la web oscura antes de que...",
+  "smallTitle1": "Utilice nuestro análisis gratuito para descubrir exposiciones externas y amenazas de la web oscura antes de que convertirse en un problema importante",
   "smallTitle2": "convertirse en un problema importante",
   "inputPlaceholder": "Introduce la dirección de correo electrónico de la empresa o el nombre de dominio",
   "search": "Buscar",
@@ -327,5 +327,6 @@
   "enterprise": "EMPRESA",
   "letsTalk": "HABLEMOS",
   "contactSubText": "Estamos preparados para proteger su mundo digital. ¿Y usted?",
-  "invalidEmailAndDomain": "Formato de dominio o correo electrónico no válido"
+  "invalidEmailAndDomain": "Formato de dominio o correo electrónico no válido",
+  "plans": "Planes"
 }

@@ -5,7 +5,7 @@
   "homeHeroTitleMobile": "Reveal and contain: Master Your Digital Exposure with Cyfax",
   "homeHeroDescription": "Your First Line of Defense Against",
   "homeHereDescriptionText": " Cyber Vulnerabilities",
-  "smallTitle1": "Use our free scan to uncover external exposures and dark web threats before they",
+  "smallTitle1": "Use our free scan to uncover external exposures and dark web threats before they become a major problem",
   "smallTitle2": "become a major problem",
   "inputPlaceholder": "Enter company email address or domain name",
   "search": "Search",
@@ -331,5 +331,6 @@
   "enterprise": "ENTERPRISE",
   "letsTalk": "LET'S TALK",
   "contactSubText": "We're ready to safeguard your digital world. Are you?",
-  "invalidEmailAndDomain": "Invalid email or domain format"
+  "invalidEmailAndDomain": "Invalid email or domain format",
+  "plans": "Plans"
 }

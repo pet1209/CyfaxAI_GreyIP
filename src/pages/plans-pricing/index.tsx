@@ -175,20 +175,20 @@ const Home = () => {
                     <div className="mb-0 flex h-[700px] flex-col overflow-hidden rounded-3xl border border-none border-[#d6d6d6] md:mb-10 md:h-[330px] md:flex-row"  
                         style={{ backgroundColor: "rgb(2, 7, 18)" }}>  
                         <div className="w-full rounded-3xl p-4 md:w-4/5 md:rounded-r-none md:p-8">   
-                            <h3 className="my-4 text-start font-mulish text-[24px] font-bold leading-[28px] text-[#E400E4] md:text-[28px]">  
+                            <h3 className="my-2 text-start font-mulish text-[24px] font-bold leading-[28px] text-[#E400E4] md:text-[28px]">  
                                 <FormattedMessage id="addOns" />  
                             </h3>  
                             <div className="grid grid-cols-1 gap-4 md:grid-cols-4">  
-                                <div className="text-start text-[15px] font-bold leading-[24px] text-white md:text-[16px] md:leading-[28px]">  
+                                <div className="text-start text-[15px] font-bold leading-[24px] text-white md:text-[16px]">  
                                     <FormattedMessage id="addOns1" />  
                                 </div>  
-                                <div className="text-start text-[15px] font-bold leading-[24px] text-white md:text-[16px] md:leading-[28px]">  
+                                <div className="text-start text-[15px] font-bold leading-[24px] text-white md:text-[16px]">  
                                     <FormattedMessage id="addOns2" />  
                                 </div>  
-                                <div className="text-start text-[15px] font-bold leading-[24px] text-white md:text-[16px] md:leading-[28px]">  
+                                <div className="text-start text-[15px] font-bold leading-[24px] text-white md:text-[16px]">  
                                     <FormattedMessage id="addOns3" />  
                                 </div>  
-                                <div className="text-start text-[15px] font-bold leading-[24px] text-white md:text-[16px] md:leading-[28px]">  
+                                <div className="text-start text-[15px] font-bold leading-[24px] text-white md:text-[16px]">  
                                     <FormattedMessage id="addOns4" />  
                                 </div>  
                             </div>  
@@ -196,16 +196,16 @@ const Home = () => {
                                 <FormattedMessage id="cost" />  
                             </h3>  
                             <div className="grid grid-cols-1 gap-4 md:grid-cols-4">  
-                                <div className="text-start text-[15px] font-bold leading-[24px] text-white md:text-[16px] md:leading-[28px]">  
+                                <div className="text-start text-[15px] font-bold leading-[24px] text-white md:text-[16px]">  
                                     <FormattedMessage id="costText1" />  
                                 </div>  
-                                <div className="text-start text-[15px] font-bold leading-[24px] text-white md:text-[16px] md:leading-[28px]">  
+                                <div className="text-start text-[15px] font-bold leading-[24px] text-white md:text-[16px]">  
                                     <FormattedMessage id="costText2" />  
                                 </div>  
-                                <div className="text-start text-[15px] font-bold leading-[24px] text-white md:text-[16px] md:leading-[28px]">  
+                                <div className="text-start text-[15px] font-bold leading-[24px] text-white md:text-[16px]">  
                                     <FormattedMessage id="costText3" />  
                                 </div>  
-                                <div className="text-start text-[15px] font-bold leading-[24px] text-white md:text-[16px] md:leading-[28px]">  
+                                <div className="text-start text-[15px] font-bold leading-[24px] text-white md:text-[16px]">  
                                     <FormattedMessage id="costText4" />  
                                 </div>  
                             </div>  

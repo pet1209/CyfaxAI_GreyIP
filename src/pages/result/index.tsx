@@ -149,7 +149,7 @@ const Home = () => {
                         height={50}  
                     />
                     
-                    <Link href={routes.login}>  
+                    <Link href={routes.prices}>  
                         <button  
                             className="h-10 w-28 rounded-3xl bg-white text-base font-semibold text-[#720072] duration-300 hover:opacity-80 md:h-10 md:w-32 md:text-lg lg:text-lg"  
                         >  

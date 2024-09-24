@@ -56,7 +56,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
           {children}  
         </div>  
       </div>  
-      {isNewPages && <Footer />}
+      {!isNewPages && <Footer />}
     </>  
   );  
 };  
