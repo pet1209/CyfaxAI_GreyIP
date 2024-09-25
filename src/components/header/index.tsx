@@ -76,19 +76,19 @@ const Header = () => {
         </Link>  
       </div>  
       {isHomePage && (  
-        <div className="hidden items-center md:flex">  
-          <Link href={routes.dashboard}>  
-            <p className="-ml-10 mr-10 font-mulish text-base font-normal leading-5 text-gray-200">  
+        <div className="hidden items-center justify-between md:flex md:space-x-10">  
+          <Link href={accessToken ? routes.dashboard : routes.login}>  
+            <p className="font-mulish text-base font-normal leading-5 text-gray-200">  
               <FormattedMessage id="products" />  
             </p>  
           </Link>  
           <Link href={routes.prices}>  
-            <p className="mr-10 font-mulish text-base font-normal leading-5 text-gray-200">  
+            <p className="font-mulish text-base font-normal leading-5 text-gray-200">  
               <FormattedMessage id="plans" />  
             </p>  
           </Link>  
         </div>  
-      )}  
+      )}
 
       <div className="flex grow items-center justify-end space-x-3 rounded-lg md:space-x-5 lg:mr-5">  
         <div className="hidden items-center lg:flex" style={{ transform: 'translateX(-20px)' }}>  
