@@ -33,9 +33,9 @@ const useAuthUserAccount = () => {
       try {
         appCache.del(ACCESS_TOKEN.name);
         appCache.del(REFRESH_TOKEN.name);
-        await router.push(routes.login);
-
+        setAccessToken(null);
         queryClient.removeQueries();
+        await router.push(routes.login);
       } catch(error) {
         toast.error(
         getApiErrorMessage(error, "Failed to logout. Please try again."),
