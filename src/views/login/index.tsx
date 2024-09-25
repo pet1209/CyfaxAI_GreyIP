@@ -32,15 +32,18 @@ const Login = () => {
     onError(error) {
       toast.error(getApiErrorMessage(error));
     },
-    onSuccess() {
-      router.replace(routes.dashboard).then(async () => {
-        try {
-          await queryClient.cancelQueries();
-          await queryClient.invalidateQueries();
-        } catch (error) {}
-      });
-      toast.success(intl.formatMessage({ id: "logInSuccessMessage" }));
-    },
+    onSuccess: async () => {  
+      try {  
+        await router.push(routes.dashboard);  
+        
+        await queryClient.cancelQueries();  
+        await queryClient.invalidateQueries();  
+  
+        toast.success(intl.formatMessage({ id: "logInSuccessMessage" }));  
+      } catch (error) {  
+        console.error("An error occurred during navigation or query update", error);  
+      }  
+    }, 
   });
   const [initialValues, setInitialValues] = useState({  
     email: '',  

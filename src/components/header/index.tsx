@@ -12,15 +12,33 @@ import { FormattedMessage } from "react-intl";
 import useAuthUserAccount from "@/hooks/useAuthUserAccount";  
 import { ChevronDown, LogOut, ListRestart, Globe } from "lucide-react";  
 import Link from "next/link";  
-import { useState } from "react";  
+import { useState, useEffect } from "react";  
 import { toast } from "react-toastify";  
 import Image from "next/image";  
 import { getAuthTokenOnClient } from "@/lib/utils";  
 
 const Header = () => {  
-  const router = useRouter();
-  const { data, accessToken, logout } = useAuthUserAccount();  
-  const [loading, setLoading] = useState(false);   
+  const router = useRouter();  
+  const { data, logout } = useAuthUserAccount();  
+  const [loading, setLoading] = useState(false);  
+  const [accessToken, setAccessToken] = useState<string | null>(null);  
+
+  useEffect(() => {  
+    const fetchToken = async () => {  
+      try {  
+        const tokens = await getAuthTokenOnClient();  
+        if (tokens && typeof tokens === 'object' && 'accessToken' in tokens) {  
+          setAccessToken(tokens.accessToken as string);  
+        } else {  
+          setAccessToken(null);  
+        }  
+      } catch (error) {  
+        console.error("Error fetching access token:", error);  
+      }  
+    };  
+
+    fetchToken();  
+  }, []);  
 
   const resetPassword = async () => {  
     setLoading(true);  
@@ -31,9 +49,9 @@ const Header = () => {
         headers: {  
           'Content-Type': 'application/json',  
           'Authorization': `Bearer ${tokens.accessToken}`,  
-        }  
+        },  
       });  
-      
+
       if (response.ok) {  
         toast.success('Please check your email to reset your password.');  
       } else {  
@@ -48,7 +66,7 @@ const Header = () => {
   };  
 
   const isHomePage = router.pathname === '/' || router.pathname === '/contact-us' || router.pathname === '/result' || router.pathname === '/plans-pricing';  
-  const isContact = router.pathname === '/contact-us';
+  const isContact = router.pathname === '/contact-us';  
 
   return (  
     <div className={`flex items-center justify-between max-lg:py-1.5 lg:px-0 ${isContact ? 'bg-[#09171B]' : !isHomePage ? 'bg-white lg:bg-[#13101c]' : ''} px-4`}>  
@@ -68,34 +86,34 @@ const Header = () => {
             <p className="mr-10 font-mulish text-base font-normal leading-5 text-gray-200">  
               <FormattedMessage id="plans" />  
             </p>  
-          </Link>   
+          </Link>  
         </div>  
-      )} 
+      )}  
 
       <div className="flex grow items-center justify-end space-x-3 rounded-lg md:space-x-5 lg:mr-5">  
-      <div className="hidden items-center lg:flex" style={{ transform: 'translateX(-20px)' }}>  
-        {isHomePage && !accessToken && (
-          <>
-            <Link href={routes.login}>  
-              <button  
-                className="ml-4 h-10 w-32 rounded-3xl bg-[#720072] text-base font-semibold text-white duration-300 hover:bg-[#ab00ab] md:text-lg lg:text-lg"  
-              >  
-                <FormattedMessage id="loginText" />   
-              </button>
-            </Link>
-            <Link href={routes.prices}>  
-              <button  
-                className="ml-4 h-10 w-32 rounded-3xl bg-white text-base font-semibold text-[#720072] duration-300 hover:opacity-80 md:text-lg lg:text-lg"  
-              >  
-                <FormattedMessage id="signUpText" />   
-              </button>
-            </Link>
-          </>
-        )}
-        <Globe className="ml-10 mr-2 size-5 text-white"/>  
-        <LanguageDropDown />  
-      </div>  
-        
+        <div className="hidden items-center lg:flex" style={{ transform: 'translateX(-20px)' }}>  
+          {isHomePage && !accessToken && (
+            <>  
+              <Link href={routes.login}>  
+                <button  
+                  className="ml-4 h-10 w-32 rounded-3xl bg-[#720072] text-base font-semibold text-white duration-300 hover:bg-[#ab00ab] md:text-lg lg:text-lg"  
+                >  
+                  <FormattedMessage id="loginText" />  
+                </button>  
+              </Link>  
+              <Link href={routes.prices}>  
+                <button  
+                  className="ml-4 h-10 w-32 rounded-3xl bg-white text-base font-semibold text-[#720072] duration-300 hover:opacity-80 md:text-lg lg:text-lg"  
+                >  
+                  <FormattedMessage id="signUpText" />  
+                </button>  
+              </Link>  
+            </>  
+          )}  
+          <Globe className="ml-10 mr-2 size-5 text-white"/>  
+          <LanguageDropDown />  
+        </div>  
+
         {data && (  
           <div style={{ transform: 'translateX(-20px)' }}>  
             <DropdownMenu>  
@@ -123,11 +141,11 @@ const Header = () => {
             </DropdownMenu>  
           </div>  
         )}  
-        
+
         <div className="lg:hidden">  
           <Sidebar />  
         </div>  
-      </div>
+      </div>  
     </div>  
   );  
 };  
