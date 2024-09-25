@@ -30,7 +30,7 @@ const useAuthUserAccount = () => {
   const logoutMutation = useMutation({
     ...getLogoutMutationOptions(),
     onSuccess() {
-      router.replace(routes.login);
+      router.push(routes.login);
       appCache.del(ACCESS_TOKEN.name);
       appCache.del(REFRESH_TOKEN.name);
 
