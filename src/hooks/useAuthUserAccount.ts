@@ -29,17 +29,18 @@ const useAuthUserAccount = () => {
 
   const logoutMutation = useMutation({
     ...getLogoutMutationOptions(),
-    onSuccess() {
-      router.push(routes.login);
-      appCache.del(ACCESS_TOKEN.name);
-      appCache.del(REFRESH_TOKEN.name);
+    onSuccess: async () => {
+      try {
+        appCache.del(ACCESS_TOKEN.name);
+        appCache.del(REFRESH_TOKEN.name);
+        await router.push(routes.login);
 
-      queryClient.removeQueries();
-    },
-    onError(error) {
-      toast.error(
+        queryClient.removeQueries();
+      } catch(error) {
+        toast.error(
         getApiErrorMessage(error, "Failed to logout. Please try again."),
       );
+      }
     },
   });
 

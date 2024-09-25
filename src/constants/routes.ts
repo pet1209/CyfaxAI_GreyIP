@@ -60,8 +60,11 @@ export const unAuthenticatedRoutes = [
   routes.login,
   routes.signup,
   routes.forgotPassword,
-  routes.contactUs,
+  routes.contactUs
+];
+export const publicRoutes = [
+  routes.home, 
+  routes.publicReportResults(""),
   routes.result,
   routes.prices
 ];
-export const publicRoutes = [routes.home, routes.publicReportResults("")];

@@ -32,7 +32,7 @@ const useDetailReport = () => {
     ...getDetailReportQueryOptions({
       domain: domain || undefined,
     }),
-    enabled: !!data && !!domain,
+    enabled: !!data,
   });
 
   const getRolesQuery = useQuery({

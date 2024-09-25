@@ -157,7 +157,7 @@ export const getDetailReportQueryOptions = ({
     queryFn: () =>
       cyfaxApiClient
         .post<DetailReportAPIResponse>("/detail_report/", {
-          domain,
+          domain: domain || undefined,
         })
         .then((res) => res.data),
   };
