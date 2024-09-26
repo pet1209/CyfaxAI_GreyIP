@@ -22,43 +22,35 @@ const CurrentRisk = () => {
     localStorage.removeItem("isLoggedOut");
   } 
   useEffect(() => {  
-    if (localStorage.getItem("isLoggedOut") === "true") {  
-      console.log("Logged out!!!!!!!")
-      clearSession();  
-      location.reload();
-    }  
-  }, []);
-  useEffect(() => {  
     const fetchToken = async () => {  
       try {  
         const tokens = await getAuthTokenOnClient();  
         if (tokens && typeof tokens === 'object' && 'accessToken' in tokens && tokens.accessToken) {  
-          console.log('tokens', tokens)  
+          console.log('Tokens fetched successfully:', tokens);  
           setAccessToken(tokens.accessToken as string);  
         } else {  
-          console.log('tokens!', tokens)  
+          console.log('Invalid or missing tokens');  
           setAccessToken(null);  
-          location.reload()  
         }  
       } catch (error) {  
         console.error("Error fetching access token:", error);  
         setAccessToken(null);  
-        location.reload();  
       }  
     };  
-  
+
     fetchToken();  
-    
+
     const handleStorageChange = () => {  
       if (localStorage.getItem("isLoggedOut") === "true") {  
-        fetchToken();   
+        console.log('Storage change detected, re-fetching token');  
+        fetchToken();  
+        // Consider redirecting to login page if the token is not valid  
       }   
-    }; 
+    };   
 
     window.addEventListener("storage", handleStorageChange);  
-    return () => window.removeEventListener("storage", handleStorageChange);   
-  
-  }, []);
+    return () => window.removeEventListener("storage", handleStorageChange);  
+  }, []); 
   
   const { getDetailReportQuery, isOpenDomainModal, data } = useDetailReport();  
 
