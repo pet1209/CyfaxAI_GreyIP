@@ -21,7 +21,6 @@ const Home = () => {
         }),
     });
     const data = publicReportQuery.data?.data;
-    console.log(data)
     const credential_items: Array<CredentialItem> = (data?.combolist_result?.employee_credential_leak?.credential_items || [])  
     .filter((item): item is CredentialItem => item.source === "COMBOLIST" || item.source === "TELEGRAM");
     

@@ -17,7 +17,6 @@ const UserManagement = () => {
   const [maxPage, setMaxPage] = useState(0); 
   const { selectedValue, rowType, setSelectedValue } = useSelectedValue();  
   const [searchTerm, setSearchTerm] = useState(selectedValue || '');  
-  console.log('asdfasdfsad', searchTerm)
   const [selectedOption, setSelectedOption] = useState('ORG name');  
   useEffect(() => {  
     if (selectedValue) {  
@@ -84,8 +83,7 @@ const UserManagement = () => {
       if (!response.ok) {  
         throw new Error('Network response was not ok');  
       }  
-      const data = await response.json();  
-      console.log('Filtered users:', data.data);  
+      const data = await response.json();   
       queryClient.setQueryData(["get-users"], data.data || []);  
     } catch (error) {  
       console.error('Error fetching filtered users', error);  

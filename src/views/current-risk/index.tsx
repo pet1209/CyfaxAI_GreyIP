@@ -21,15 +21,9 @@ const CurrentRisk = () => {
       try {  
         const tokens = await getAuthTokenOnClient();  
         if (tokens && typeof tokens === 'object' && 'accessToken' in tokens && tokens.accessToken) {  
-          console.log('tokens', tokens)
           setAccessToken(tokens.accessToken as string);  
-          console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
-          alert('ddd')
         } else {  
-          console.log(tokens)
           setAccessToken(null);  
-          console.log("dddddddddddddddddddddddddddddddd")
-          alert('eee')
           location.reload()
         }  
       } catch (error) {  
@@ -41,7 +35,6 @@ const CurrentRisk = () => {
   }, []);  
   
   const { getDetailReportQuery, isOpenDomainModal, data } = useDetailReport();  
-  console.log('adsf', data)
 
   const { data: account } = useAuthUserAccount();  
 

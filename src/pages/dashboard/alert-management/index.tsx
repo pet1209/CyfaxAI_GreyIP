@@ -73,7 +73,6 @@ const AlertManagement = () => {
       }  
   
       const data = await response.json();  
-      console.log('Filtered alerts:', data.data);  
       queryClient.setQueryData(["get-alerts"], data.data || []);  
     } catch (error) {  
       console.error('Error fetching filtered alerts:', error);  

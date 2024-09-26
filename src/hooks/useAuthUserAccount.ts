@@ -31,11 +31,9 @@ const useAuthUserAccount = () => {
     ...getLogoutMutationOptions(),  
     onSuccess: async () => {  
       try {  
-        console.log('Logging out...');  
         clearSession();  
         broadcastLogout();  
         await router.push(routes.login);  
-        console.log("Logged out successfully");  
       } catch (error) {  
         console.error("Error during logout:", error);  
         toast.error(getApiErrorMessage(error, "Failed to logout. Please try again."));  
@@ -44,7 +42,6 @@ const useAuthUserAccount = () => {
   });  
   
   const clearSession = () => {  
-    console.log("Clearing session");  
     appCache.del(ACCESS_TOKEN.name);  
     appCache.del(REFRESH_TOKEN.name);  
     document.cookie = `${ACCESS_TOKEN.name}=; Max-Age=0; path=/;`;  
@@ -75,7 +72,6 @@ const useAuthUserAccount = () => {
   }, [router]);
 
   const broadcastLogout = () => {  
-    console.log("Broadcasting logout");  
     localStorage.setItem("logout", Date.now().toString());  
   };  
 

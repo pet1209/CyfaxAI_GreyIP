@@ -22,7 +22,6 @@ const validationSchema = z.object({
 });
 
 const Login = () => {
-  console.log('login 1')
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -35,7 +34,6 @@ const Login = () => {
     },
     onSuccess: async () => {  
       try {  
-        console.log('login 2')
         await router.push(routes.dashboard);  
         
         await queryClient.cancelQueries();  

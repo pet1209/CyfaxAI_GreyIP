@@ -56,7 +56,6 @@ const AlertManagementTable: React.FC<AlertsManagementTableProps> = ({ alerts: in
       return capitalizeWords(alert.group_name);  
     }  
   };  
-  console.log(alerts)
 
   return (  
     <>  

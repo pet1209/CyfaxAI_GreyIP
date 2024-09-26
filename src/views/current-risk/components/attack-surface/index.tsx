@@ -30,7 +30,6 @@ const AttackSurface = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);  
   const { data: userAccount } = useAuthUserAccount();
   const roleName = userAccount?.role_name;
-  console.log(roleName)
   const { data } = useDetailReport();  
   const [selectedTab, setSelectedTab] = useState<keyof typeof routes>(  
     "company_exposed_ports"  

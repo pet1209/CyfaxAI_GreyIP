@@ -34,7 +34,6 @@ const Login = () => {
     },
     onSuccess: async () => {  
       try {  
-        console.log('aaaaaaaaaa')
         await router.push(routes.dashboard);  
         
         await queryClient.cancelQueries();  

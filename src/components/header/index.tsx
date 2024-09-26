@@ -29,9 +29,7 @@ const Header = () => {
         const tokens = await getAuthTokenOnClient();  
         if (tokens && typeof tokens === 'object' && 'accessToken' in tokens) {  
           setAccessToken(tokens.accessToken as string);  
-          console.log("tokens!", tokens)
         } else {  
-          console.log("?????????????")
           setAccessToken(null);  
         }  
       } catch (error) {  

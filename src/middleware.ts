@@ -12,15 +12,11 @@ export async function middleware(req: NextRequest) {
   const accessToken = req.cookies.get(ACCESS_TOKEN.name)?.value;  
   const refreshToken = req.cookies.get(REFRESH_TOKEN.name)?.value;  
 
-  console.log(`Middleware active at path: ${pathname}`);  
-  console.log(`AccessToken: ${accessToken} RefreshToken: ${refreshToken}`);  
-
   if (isUnAuthenticatedRoute(pathname) && (accessToken || refreshToken)) {  
     return redirectTo(routes.dashboard, req);  
   }  
 
   if (isAuthenticatedRoute(pathname) && !accessToken && !refreshToken) {
-    console.log("No valid tokens found. Redirecting to login.");  
     return redirectTo(routes.login, req);  
   }  
 

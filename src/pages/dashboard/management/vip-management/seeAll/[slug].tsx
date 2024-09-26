@@ -30,8 +30,6 @@ const LeakedCredentials = () => {
     setCurrentPage(1);  
   };  
 
-  console.log('Data in [slug].tsx:', data);  
-
   return (  
     <>  
       <div className="p-4 font-mulish xl:p-5">  

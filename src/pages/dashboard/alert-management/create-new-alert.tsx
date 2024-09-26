@@ -109,8 +109,6 @@ const AlertType = () => {
                 requestBody.teams_webhook = teamsWebhook;  
             }  
     
-            console.log(requestBody);  
-    
             const tokens = await getAuthTokenOnClient();  
     
             try {  
