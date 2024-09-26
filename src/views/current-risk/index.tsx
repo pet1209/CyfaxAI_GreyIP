@@ -54,7 +54,7 @@ const CurrentRisk = () => {
     window.addEventListener("storage", handleStorageChange);  
     return () => window.removeEventListener("storage", handleStorageChange);  
   }, []);
-  console.log
+  console.log("also here!!!!!!!!!!!!!!")
   
   const { getDetailReportQuery, isOpenDomainModal, data } = useDetailReport();  
 
