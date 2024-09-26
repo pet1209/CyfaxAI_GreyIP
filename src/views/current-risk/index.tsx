@@ -48,9 +48,9 @@ const CurrentRisk = () => {
 
   useEffect(() => {  
     if (accessToken === null) {  
-      location.reload()
+      router.push('login')
     }  
-  }, [accessToken]);
+  }, [accessToken, router]);
   
   const { getDetailReportQuery, isOpenDomainModal, data } = useDetailReport();  
 
