@@ -42,8 +42,8 @@ const useAuthUserAccount = () => {
   });  
   
   const broadcastLogout = () => {  
-    localStorage.setItem("isLoggedOut", Date.now().toString());  
-  };  
+    localStorage.setItem("isLoggedOut", "true");  
+};  
   
   const clearSession = () => {  
     appCache.del(ACCESS_TOKEN.name);  
@@ -60,7 +60,7 @@ const useAuthUserAccount = () => {
   
   useEffect(() => {  
     const handleStorage = (event: StorageEvent) => {  
-      if (event.key === "isLoggedOut") {  
+      if (event.key === "isLoggedOut" && event.newValue === "true") {  
         clearSession();  
         router.push(routes.login);  
       }  

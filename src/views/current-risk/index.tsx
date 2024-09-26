@@ -50,12 +50,10 @@ const CurrentRisk = () => {
     fetchToken();  
     
     const handleStorageChange = () => {  
-      fetchToken();  
-    };  
-    
-    if (!accessToken) {  
-      fetchToken();  
-    }  
+      if (localStorage.getItem("isLoggedOut") === "true") {  
+        fetchToken();   
+      }   
+    }; 
 
     window.addEventListener("storage", handleStorageChange);  
     return () => window.removeEventListener("storage", handleStorageChange);   
