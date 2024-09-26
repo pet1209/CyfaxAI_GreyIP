@@ -12,19 +12,23 @@ import useAuthUserAccount from "@/hooks/useAuthUserAccount";
 import SearchBar from "@/components/search-bar";  
 import SearchDialog from "@/components/search-dialog";  
 import { getAuthTokenOnClient } from "@/lib/utils";   
-
+import { useRouter } from "next/router";  
+import routes from "@/constants/routes";  
 
 const CurrentRisk = () => {  
+  const router = useRouter();  
   const [accessToken, setAccessToken] = useState<string | null>(null);  
   useEffect(() => {  
     const fetchToken = async () => {  
       try {  
         const tokens = await getAuthTokenOnClient();  
         if (tokens && typeof tokens === 'object' && 'accessToken' in tokens && tokens.accessToken) {  
+          console.log('tokens', tokens)
           setAccessToken(tokens.accessToken as string);  
         } else {  
+          console.log('tokens!', tokens)
           setAccessToken(null);  
-          location.reload()
+          await router.push(routes.login);
         }  
       } catch (error) {  
         console.error("Error fetching access token:", error);  

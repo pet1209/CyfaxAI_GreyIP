@@ -59,10 +59,10 @@ const useAuthUserAccount = () => {
   }, [getAuthTokensQuery.data?.access_token, setAccessToken]);  
 
   useEffect(() => {  
-    const handleStorage = (event: StorageEvent) => {  
+    const handleStorage = async (event: StorageEvent) => {  
       if (event.key === "logout") {  
         clearSession();  
-        router.push(routes.login);  
+        await router.push(routes.login);  
       }  
     };  
   
