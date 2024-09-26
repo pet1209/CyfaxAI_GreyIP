@@ -51,19 +51,17 @@ const useAuthUserAccount = () => {
     setAccessToken(getAuthTokensQuery.data?.access_token || null);  
   }, [getAuthTokensQuery.data?.access_token, setAccessToken]);  
 
+  const handleStorage = (event: StorageEvent) => {  
+    if (event.key === "logout") {  
+      console.log("Logout event received");  
+      clearSession();  
+      router.push(routes.login);  
+    }  
+  };  
   useEffect(() => {  
-    const handleStorage = (event: StorageEvent) => {  
-      if (event.key === "logout") {  
-        console.log("Logout event received in tab, current pathname:", router.pathname);  
-        clearSession();  
-        if (router.pathname !== routes.login) {  
-          router.push(routes.login);  
-        }  
-      }  
-    };  
     window.addEventListener("storage", handleStorage);  
     return () => window.removeEventListener("storage", handleStorage);  
-  }, [router]); 
+  }, [router]);
 
   const clearSession = () => {  
     console.log("Clearing session");  
