@@ -21,6 +21,7 @@ const CurrentRisk = () => {
   const clearSession = () => {
     localStorage.removeItem("isLoggedOut");
   } 
+  console.log("here!!!!!!!!!!!!!!!")
   useEffect(() => {  
     const fetchToken = async () => {  
       try {  

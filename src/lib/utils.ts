@@ -247,6 +247,11 @@ function isStringRoute(route: string | ((slug: string) => string)): route is str
 }  
 
 export const isAuthenticatedRoute = (pathname: string) => {  
+  console.log("pathname", pathname === routes.home && publicRoutes.includes(routes.home)  
+  ? false  
+  : !!authenticatedRoutes  
+      .filter(isStringRoute) 
+      .find((route) => route.startsWith(pathname)))
   return pathname === routes.home && publicRoutes.includes(routes.home)  
     ? false  
     : !!authenticatedRoutes  
