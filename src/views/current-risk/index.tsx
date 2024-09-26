@@ -14,15 +14,17 @@ import SearchDialog from "@/components/search-dialog";
 import { getAuthTokenOnClient } from "@/lib/utils";   
 import { useRouter } from "next/router";  
 import routes from "@/constants/routes";  
+import useAuthStore from "@/stores/authStore";  
 
 const CurrentRisk = () => {  
-  const router = useRouter();  
+  const { isLoggedOut } = useAuthStore();
   const [accessToken, setAccessToken] = useState<string | null>(null); 
   const clearSession = () => {
     localStorage.removeItem("isLoggedOut");
   } 
   console.log("here!!!!!!!!!!!!!!!")
   useEffect(() => {  
+    console.log('isLoggedOut', isLoggedOut)
     const fetchToken = async () => {  
       try {  
         console.log("--------------------------")
@@ -41,19 +43,10 @@ const CurrentRisk = () => {
         location.reload();  
       }  
     };  
-    console.log("running--------")
-  
-    fetchToken();  
-  
-    const handleStorageChange = () => {  
-      if (localStorage.getItem("isLoggedOut") === "true") {  
-        fetchToken();  
-      }  
-    };  
-  
-    window.addEventListener("storage", handleStorageChange);  
-    return () => window.removeEventListener("storage", handleStorageChange);  
-  }, []);
+    if (isLoggedOut) {  
+      fetchToken();  
+    }  
+  }, [isLoggedOut]);
   console.log("also here!!!!!!!!!!!!!!")
   
   const { getDetailReportQuery, isOpenDomainModal, data } = useDetailReport();  

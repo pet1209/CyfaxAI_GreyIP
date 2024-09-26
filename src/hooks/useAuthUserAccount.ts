@@ -12,10 +12,12 @@ import { atom, useAtom } from "jotai";
 import { useRouter } from "next/router";  
 import { useEffect } from "react";  
 import { toast } from "react-toastify";  
+import useAuthStore from "@/stores/authStore";
 
 const accessTokenAtom = atom<null | string>(null);  
 
 const useAuthUserAccount = () => {  
+  const {setIsLoggedOut} = useAuthStore()
   const router = useRouter();  
   const queryClient = useQueryClient();  
   const [accessToken, setAccessToken] = useAtom(accessTokenAtom);  
@@ -42,7 +44,7 @@ const useAuthUserAccount = () => {
   });  
   
   const broadcastLogout = () => {  
-    localStorage.setItem("isLoggedOut", "true");  
+    setIsLoggedOut(true);
 };  
   
   const clearSession = () => {  
@@ -52,7 +54,7 @@ const useAuthUserAccount = () => {
     document.cookie = `${ACCESS_TOKEN.name}=; Max-Age=0; path=/;`;  
     document.cookie = `${REFRESH_TOKEN.name}=; Max-Age=0; path=/;`;  
     
-    localStorage.setItem("isLoggedOut", "true");  // Mark as logged out in localStorage  
+    setIsLoggedOut(true);
     
     setAccessToken(null);  
     queryClient.removeQueries();  
