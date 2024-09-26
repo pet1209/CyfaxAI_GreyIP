@@ -18,32 +18,36 @@ import routes from "@/constants/routes";
 const CurrentRisk = () => {  
   const router = useRouter();  
   const [accessToken, setAccessToken] = useState<string | null>(null);  
-  const fetchToken = async () => {  
-    try {  
-      const tokens = await getAuthTokenOnClient();  
-      if (tokens && typeof tokens === 'object' && 'accessToken' in tokens && tokens.accessToken) {  
-        console.log('tokens', tokens)
-        setAccessToken(tokens.accessToken as string);  
-      } else {  
-        console.log('tokens!', tokens)
+  console.log("accessToken", accessToken)
+  useEffect(() => {  
+    const fetchToken = async () => {  
+      try {  
+        const tokens = await getAuthTokenOnClient();  
+        if (tokens && typeof tokens === 'object' && 'accessToken' in tokens && tokens.accessToken) {  
+          console.log('tokens', tokens)  
+          setAccessToken(tokens.accessToken as string);  
+        } else {  
+          console.log('tokens!', tokens)  
+          setAccessToken(null);  
+          location.reload()  
+        }  
+      } catch (error) {  
+        console.error("Error fetching access token:", error);  
         setAccessToken(null);  
-        location.reload()
+        location.reload();  
       }  
-    } catch (error) {  
-      console.error("Error fetching access token:", error);  
-      setAccessToken(null);  
-      location.reload()
-    }  
-  };  
-
-  useEffect(()=>{
-    fetchToken();
-    const handleStorageChange=()=>{
-      fetchToken();
-    };
-    window.addEventListener("storage", handleStorageChange);
-    return ()=>window.removeEventListener("storage", handleStorageChange);
-  }, [])
+    };  
+  
+    fetchToken();  
+    
+    const handleStorageChange = () => {  
+      fetchToken();  
+    };  
+    
+    window.addEventListener("storage", handleStorageChange);  
+    return () => window.removeEventListener("storage", handleStorageChange);   
+  
+  }, [accessToken]);
   
   const { getDetailReportQuery, isOpenDomainModal, data } = useDetailReport();  
 
