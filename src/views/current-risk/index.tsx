@@ -23,8 +23,9 @@ const CurrentRisk = () => {
   } 
   useEffect(() => {  
     if (localStorage.getItem("isLoggedOut") === "true") {  
+      console.log("Logged out!!!!!!!")
       clearSession();  
-      router.push(routes.login);  
+      location.reload();
     }  
   }, []);
   useEffect(() => {  
