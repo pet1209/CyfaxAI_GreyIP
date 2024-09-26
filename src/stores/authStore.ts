@@ -1,15 +1,15 @@
-import * as zustandModule from 'zustand';  
-
-const create = zustandModule.create;  
+import { createStore, useStore } from 'zustand';
 
 interface AuthState {  
   isLoggedOut: boolean;  
   setIsLoggedOut: (status: boolean) => void;  
 }  
 
-const useAuthStore = create<AuthState>((set) => ({  
+const useAuthStore = createStore<AuthState>((set) => ({  
   isLoggedOut: false,  
   setIsLoggedOut: (status) => set({ isLoggedOut: status }),  
 }));  
 
-export default useAuthStore;
+const useAuth = () => useStore(useAuthStore);  
+
+export default useAuth;
