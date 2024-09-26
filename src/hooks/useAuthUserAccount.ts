@@ -31,18 +31,27 @@ const useAuthUserAccount = () => {
     ...getLogoutMutationOptions(),  
     onSuccess: async () => {  
       try {  
+        console.log('Logging out...');  
         clearSession();  
         broadcastLogout();  
         await router.push(routes.login);  
-        console.log("logged out!!!!!!!!!!")
+        console.log("Logged out successfully");  
       } catch (error) {  
         console.error("Error during logout:", error);  
-        toast.error(  
-          getApiErrorMessage(error, "Failed to logout. Please try again.")  
-        );  
+        toast.error(getApiErrorMessage(error, "Failed to logout. Please try again."));  
       }  
     },  
   });  
+  
+  const clearSession = () => {  
+    console.log("Clearing session");  
+    appCache.del(ACCESS_TOKEN.name);  
+    appCache.del(REFRESH_TOKEN.name);  
+    document.cookie = `${ACCESS_TOKEN.name}=; Max-Age=0; path=/;`;  
+    document.cookie = `${REFRESH_TOKEN.name}=; Max-Age=0; path=/;`;  
+    setAccessToken(null);  
+    queryClient.removeQueries();  
+  }; 
 
   const getAuthTokensQuery = useQuery({  
     ...getAuthTokensQueryOptions(),  
@@ -63,17 +72,7 @@ const useAuthUserAccount = () => {
     window.addEventListener("storage", handleStorage);  
   
     return () => window.removeEventListener("storage", handleStorage);  
-  }, []);
-
-  const clearSession = () => {  
-    console.log("Clearing session");  
-    appCache.del(ACCESS_TOKEN.name);  
-    appCache.del(REFRESH_TOKEN.name);  
-    document.cookie = `${ACCESS_TOKEN.name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;  
-    document.cookie = `${REFRESH_TOKEN.name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;  
-    setAccessToken(null);  
-    queryClient.removeQueries();  
-  };  
+  }, [router]);
 
   const broadcastLogout = () => {  
     console.log("Broadcasting logout");  

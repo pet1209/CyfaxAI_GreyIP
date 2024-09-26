@@ -34,8 +34,16 @@ export default async function handler(
     ]);
     res.status(200).json({ accessToken });
   } catch (error: any) {
-    res
-      .status(error?.response?.status || 500)
-      .json({ message: getApiErrorMessage(error), accessToken: null });
+    console.error("Error refreshing token:", error);  
+
+    res.setHeader("Set-Cookie", [  
+      cookie.serialize(ACCESS_TOKEN.name, "", { expires: new Date(0), path: '/' }),  
+      cookie.serialize(REFRESH_TOKEN.name, "", { expires: new Date(0), path: '/' }),  
+    ]);  
+
+    return res.status(error?.response?.status || 500).json({  
+      message: getApiErrorMessage(error),  
+      accessToken: null,  
+    });  
   }
 }
