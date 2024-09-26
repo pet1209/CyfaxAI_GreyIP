@@ -25,6 +25,7 @@ const CurrentRisk = () => {
   useEffect(() => {  
     const fetchToken = async () => {  
       try {  
+        console.log("--------------------------")
         const tokens = await getAuthTokenOnClient();  
         if (tokens && typeof tokens === 'object' && 'accessToken' in tokens && tokens.accessToken) {  
           console.log('tokens', tokens);  
@@ -40,6 +41,7 @@ const CurrentRisk = () => {
         location.reload();  
       }  
     };  
+    console.log("running--------")
   
     fetchToken();  
   
@@ -52,6 +54,7 @@ const CurrentRisk = () => {
     window.addEventListener("storage", handleStorageChange);  
     return () => window.removeEventListener("storage", handleStorageChange);  
   }, []);
+  console.log
   
   const { getDetailReportQuery, isOpenDomainModal, data } = useDetailReport();  
 
