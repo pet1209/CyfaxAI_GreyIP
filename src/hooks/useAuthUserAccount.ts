@@ -41,15 +41,36 @@ const useAuthUserAccount = () => {
     },  
   });  
   
+  const broadcastLogout = () => {  
+    localStorage.setItem("isLoggedOut", Date.now().toString());  
+  };  
+  
   const clearSession = () => {  
     appCache.del(ACCESS_TOKEN.name);  
     appCache.del(REFRESH_TOKEN.name);  
+  
     document.cookie = `${ACCESS_TOKEN.name}=; Max-Age=0; path=/;`;  
     document.cookie = `${REFRESH_TOKEN.name}=; Max-Age=0; path=/;`;  
+    
+    localStorage.setItem("isLoggedOut", "true");  // Mark as logged out in localStorage  
+    
     setAccessToken(null);  
     queryClient.removeQueries();  
-  }; 
-
+  };  
+  
+  useEffect(() => {  
+    const handleStorage = (event: StorageEvent) => {  
+      if (event.key === "isLoggedOut") {  
+        clearSession();  
+        router.push(routes.login);  
+      }  
+    };  
+    
+    window.addEventListener("storage", handleStorage);  
+  
+    return () => window.removeEventListener("storage", handleStorage);  
+  }, []);
+  
   const getAuthTokensQuery = useQuery({  
     ...getAuthTokensQueryOptions(),  
   });  
@@ -57,23 +78,6 @@ const useAuthUserAccount = () => {
   useEffect(() => {  
     setAccessToken(getAuthTokensQuery.data?.access_token || null);  
   }, [getAuthTokensQuery.data?.access_token, setAccessToken]);  
-
-  useEffect(() => {  
-    const handleStorage = async (event: StorageEvent) => {  
-      if (event.key === "logout") {  
-        clearSession();  
-        await router.push(routes.login);  
-      }  
-    };  
-  
-    window.addEventListener("storage", handleStorage);  
-  
-    return () => window.removeEventListener("storage", handleStorage);  
-  }, [router]);
-
-  const broadcastLogout = () => {  
-    localStorage.setItem("logout", Date.now().toString());  
-  };  
 
   const queryData = authUserAccountQuery.data?.data;  
 

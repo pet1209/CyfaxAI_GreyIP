@@ -17,7 +17,16 @@ import routes from "@/constants/routes";
 
 const CurrentRisk = () => {  
   const router = useRouter();  
-  const [accessToken, setAccessToken] = useState<string | null>(null);  
+  const [accessToken, setAccessToken] = useState<string | null>(null); 
+  const clearSession = () => {
+    localStorage.removeItem("isLoggedOut");
+  } 
+  useEffect(() => {  
+    if (localStorage.getItem("isLoggedOut") === "true") {  
+      clearSession();  
+      router.push(routes.login);  
+    }  
+  }, []);
   useEffect(() => {  
     const fetchToken = async () => {  
       try {  
@@ -28,10 +37,12 @@ const CurrentRisk = () => {
         } else {  
           console.log('tokens!', tokens)  
           setAccessToken(null);  
+          location.reload()  
         }  
       } catch (error) {  
         console.error("Error fetching access token:", error);  
         setAccessToken(null);  
+        location.reload();  
       }  
     };  
   
@@ -41,16 +52,14 @@ const CurrentRisk = () => {
       fetchToken();  
     };  
     
+    if (!accessToken) {  
+      fetchToken();  
+    }  
+
     window.addEventListener("storage", handleStorageChange);  
     return () => window.removeEventListener("storage", handleStorageChange);   
   
   }, []);
-
-  useEffect(() => {  
-    if (accessToken === null) {  
-      router.push('login')
-    }  
-  }, [accessToken, router]);
   
   const { getDetailReportQuery, isOpenDomainModal, data } = useDetailReport();  
 
