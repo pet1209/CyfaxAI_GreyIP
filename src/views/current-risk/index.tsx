@@ -47,7 +47,7 @@ const CurrentRisk = () => {
     window.addEventListener("storage", handleStorageChange);  
     return () => window.removeEventListener("storage", handleStorageChange);   
   
-  }, [accessToken]);
+  }, []);
   
   const { getDetailReportQuery, isOpenDomainModal, data } = useDetailReport();  
 
