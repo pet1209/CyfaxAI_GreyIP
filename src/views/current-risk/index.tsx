@@ -1,4 +1,4 @@
-import React from "react";  
+import React, {useState, useEffect} from "react";  
 import Spinner from "@/components/ui/spinner";  
 import { getApiErrorMessage } from "@/lib/utils";  
 import AssessmentReport from "@/views/current-risk/components/assessment-report";  
@@ -10,9 +10,34 @@ import VulnerabilitiesServices from "@/views/current-risk/components/vulnerabili
 import useDetailReport from "@/views/current-risk/hooks/useDetailReport";  
 import useAuthUserAccount from "@/hooks/useAuthUserAccount";  
 import SearchBar from "@/components/search-bar";  
-import SearchDialog from "@/components/search-dialog";   
+import SearchDialog from "@/components/search-dialog";  
+import { getAuthTokenOnClient } from "@/lib/utils";   
+
 
 const CurrentRisk = () => {  
+  const [accessToken, setAccessToken] = useState<string | null>(null);  
+  useEffect(() => {  
+    const fetchToken = async () => {  
+      try {  
+        const tokens = await getAuthTokenOnClient();  
+        if (tokens && typeof tokens === 'object' && 'accessToken' in tokens) {  
+          setAccessToken(tokens.accessToken as string);  
+          console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
+          alert('ddd')
+        } else {  
+          setAccessToken(null);  
+          console.log("dddddddddddddddddddddddddddddddd")
+          alert('eee')
+          location.reload()
+        }  
+      } catch (error) {  
+        console.error("Error fetching access token:", error);  
+      }  
+    };  
+
+    fetchToken();  
+  }, []);  
+  
   const { getDetailReportQuery, isOpenDomainModal, data } = useDetailReport();  
   console.log('adsf', data)
 
