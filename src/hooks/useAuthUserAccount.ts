@@ -34,6 +34,7 @@ const useAuthUserAccount = () => {
         clearSession();  
         broadcastLogout();  
         await router.push(routes.login);  
+        console.log("logged out!!!!!!!!!!")
       } catch (error) {  
         console.error("Error during logout:", error);  
         toast.error(  
@@ -51,17 +52,18 @@ const useAuthUserAccount = () => {
     setAccessToken(getAuthTokensQuery.data?.access_token || null);  
   }, [getAuthTokensQuery.data?.access_token, setAccessToken]);  
 
-  const handleStorage = (event: StorageEvent) => {  
-    if (event.key === "logout") {  
-      console.log("Logout event received");  
-      clearSession();  
-      router.push(routes.login);  
-    }  
-  };  
   useEffect(() => {  
+    const handleStorage = (event: StorageEvent) => {  
+      if (event.key === "logout") {  
+        clearSession();  
+        router.push(routes.login);  
+      }  
+    };  
+  
     window.addEventListener("storage", handleStorage);  
+  
     return () => window.removeEventListener("storage", handleStorage);  
-  }, [router]);
+  }, []);
 
   const clearSession = () => {  
     console.log("Clearing session");  

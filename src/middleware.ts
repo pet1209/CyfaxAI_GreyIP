@@ -7,20 +7,20 @@ const redirectTo = (url: string, req: NextRequest) => {
   return NextResponse.redirect(new URL(url, req.url));
 };
 
-export async function middleware(req: NextRequest) {
-  const { pathname } = req.nextUrl;
-  const accessToken = req.cookies.get(ACCESS_TOKEN.name)?.value;
-  const refreshToken = req.cookies.get(REFRESH_TOKEN.name)?.value;
+export async function middleware(req: NextRequest) {  
+  const { pathname } = req.nextUrl;  
+  const accessToken = req.cookies.get(ACCESS_TOKEN.name)?.value;  
+  const refreshToken = req.cookies.get(REFRESH_TOKEN.name)?.value;  
 
-  if (isUnAuthenticatedRoute(pathname) && (accessToken || refreshToken)) {
-    return redirectTo(routes.dashboard, req);
-  }
+  if (isUnAuthenticatedRoute(pathname) && (accessToken || refreshToken)) {  
+    return redirectTo(routes.dashboard, req);  
+  }  
 
-  if (isAuthenticatedRoute(pathname) && !refreshToken) {
-    return redirectTo(routes.login, req);
-  }
+  if (isAuthenticatedRoute(pathname) && !accessToken && !refreshToken) {  
+    return redirectTo(routes.login, req); 
+  }  
 
-  return NextResponse.next();
+  return NextResponse.next();  
 }
 export const config = {
   matcher: [
