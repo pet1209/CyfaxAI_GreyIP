@@ -18,7 +18,6 @@ import routes from "@/constants/routes";
 const CurrentRisk = () => {  
   const router = useRouter();  
   const [accessToken, setAccessToken] = useState<string | null>(null);  
-  console.log("accessToken", accessToken)
   useEffect(() => {  
     const fetchToken = async () => {  
       try {  
@@ -29,12 +28,10 @@ const CurrentRisk = () => {
         } else {  
           console.log('tokens!', tokens)  
           setAccessToken(null);  
-          location.reload()  
         }  
       } catch (error) {  
         console.error("Error fetching access token:", error);  
         setAccessToken(null);  
-        location.reload();  
       }  
     };  
   
@@ -48,6 +45,12 @@ const CurrentRisk = () => {
     return () => window.removeEventListener("storage", handleStorageChange);   
   
   }, []);
+
+  useEffect(() => {  
+    if (accessToken === null) {  
+      location.reload()
+    }  
+  }, [accessToken]);
   
   const { getDetailReportQuery, isOpenDomainModal, data } = useDetailReport();  
 
