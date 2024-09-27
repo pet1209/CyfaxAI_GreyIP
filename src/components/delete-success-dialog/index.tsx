@@ -36,7 +36,7 @@ const DeleteSuccess = ({ onCloseConfirm, option }: ConfirmDeletionProps) => {
                 </label>  
                 <div className="mt-8">  
                     <button  
-                    className="h-11 rounded-md bg-accent px-8 font-medium text-white duration-300 enabled:hover:opacity-80 disabled:opacity-50"  
+                    className="h-11 rounded-md bg-[#720072] px-8 font-medium text-white duration-300 enabled:hover:opacity-80 disabled:opacity-50"  
                     onClick={onCloseConfirm}  
                     >  
                     <FormattedMessage id="ok" />  

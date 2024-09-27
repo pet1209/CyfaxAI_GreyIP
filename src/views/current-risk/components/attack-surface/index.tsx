@@ -229,7 +229,7 @@ const AttackSurface = () => {
                     <FormattedMessage id={tab.title} />  
                   </h3>  
                   <Link href={routePath} passHref>  
-                    <button className="text-sm font-medium text-accent duration-300 hover:opacity-90 lg:text-xl lg:font-medium">  
+                    <button className="text-sm font-medium text-[#720072] duration-300 hover:opacity-90 lg:text-xl lg:font-medium">  
                       <FormattedMessage id="seeAll" />  
                     </button>  
                   </Link>  
@@ -262,15 +262,15 @@ const TriggerBox = forwardRef<HTMLButtonElement, TriggrrBoxProps>(
         {...props}  
         ref={ref}  
         className={cn(  
-          "rounded-lg border border-black/50 group p-2.5 hover:bg-accent/5 sm:rounded-xl sm:px-2.5 sm:py-4 flex flex-col justify-between items-center min-h-[100px] lg:min-h-[115px] gap-5",  
-          "data-[state=active]:bg-accent/10",  
+          "rounded-lg border border-black/50 group p-2.5 hover:bg-[#720072]/5 sm:rounded-xl sm:px-2.5 sm:py-4 flex flex-col justify-between items-center min-h-[100px] lg:min-h-[115px] gap-5",  
+          "data-[state=active]:bg-[#720072]/10",  
           props.className  
         )}  
       >  
         <p className="mx-auto max-w-[115px] text-center text-xs/[150%] font-medium tracking-[-0.3px] group-last:max-w-[105px]">  
           <FormattedMessage id={title} />  
         </p>  
-        <p className="text-center font-medium text-accent">{value}</p>  
+        <p className="text-center font-medium text-[#720072]">{value}</p>  
       </button>  
     );  
   }  

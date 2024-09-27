@@ -63,13 +63,13 @@ const SecurityFindings = () => {
           </div>
 
           <Chart />
-          {/* <div className="size-[130px] rounded-full bg-accent/20 sm:size-[185px]"></div> */}
+          {/* <div className="size-[130px] rounded-full bg-[#720072]/20 sm:size-[185px]"></div> */}
         </div>
 
         <p className="mt-7 text-center text-xs/[150%]">
           <a
             href="#"
-            className="pointer-events-none text-accent underline underline-offset-2 opacity-40"
+            className="pointer-events-none text-[#720072] underline underline-offset-2 opacity-40"
           >
             <FormattedMessage id="clickHere" />
           </a>{" "}

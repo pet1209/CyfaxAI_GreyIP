@@ -33,13 +33,13 @@ const ChooseOption = ({ onClose, onRemove, onDelete }: ChooseOptionProps) => {
                     </DialogHeader>  
                     <div className="mt-3.5 flex justify-center">  
                         <button  
-                            className="mr-2 h-11 w-32 rounded-md bg-accent px-8 font-medium text-white duration-300 enabled:hover:opacity-80 disabled:opacity-50"  
+                            className="mr-2 h-11 w-32 rounded-md bg-[#720072] px-8 font-medium text-white duration-300 enabled:hover:opacity-80 disabled:opacity-50"  
                             onClick={onRemove}
                         >  
                             <FormattedMessage id="remove" />  
                         </button>  
                         <button  
-                            className="h-11 w-32 rounded-md bg-accent px-8 font-medium text-white duration-300 enabled:hover:opacity-80 disabled:opacity-50"  
+                            className="h-11 w-32 rounded-md bg-[#720072] px-8 font-medium text-white duration-300 enabled:hover:opacity-80 disabled:opacity-50"  
                             onClick={onDelete} 
                         >  
                             <FormattedMessage id="delete" />  

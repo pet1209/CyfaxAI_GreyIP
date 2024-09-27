@@ -137,7 +137,7 @@ const AddToGroup = ({ onClose, user, onGroupAdded }: ChooseOptionProps) => {
                 </div>  
                 <div className="flex justify-center">  
                 <button  
-                    className="mr-2 h-11 w-32 rounded-md bg-accent px-4 font-medium text-white duration-300 enabled:hover:opacity-80 disabled:opacity-50"  
+                    className="mr-2 h-11 w-32 rounded-md bg-[#720072] px-4 font-medium text-white duration-300 enabled:hover:opacity-80 disabled:opacity-50"  
                     onClick={handleAddGroup}  
                 >  
                     <FormattedMessage id="addGroup" />  

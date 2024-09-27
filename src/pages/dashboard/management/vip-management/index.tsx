@@ -243,7 +243,7 @@ const FormikDomainInput: React.FC<FormikDomainInputProps> = ({ name, groupKind, 
         {label && <label className="inline-block text-sm font-medium md:text-base lg:text-xl"><FormattedMessage id={label} /></label>}  
         <button   
           onClick={handleSeeAllClick}  
-          className="text-sm font-medium text-accent duration-300 hover:opacity-90 lg:text-xl lg:font-semibold"  
+          className="text-sm font-medium text-[#720072] duration-300 hover:opacity-90 lg:text-xl lg:font-semibold"  
         >  
           <FormattedMessage id="seeAll" />  
         </button>  

@@ -34,7 +34,7 @@ const Results = () => {
   if (publicReportQuery.isLoading) {
     return (
       <div className="flex w-full flex-col items-center justify-center gap-12 px-5 py-20">
-        <Spinner className="w-8 text-accent" />
+        <Spinner className="w-8 text-[#720072]" />
         <p className="text-black/70 lg:text-xl">
           Please wait. This process may take more than 1 minute.
         </p>
@@ -78,11 +78,11 @@ const Results = () => {
           <span className="text-[#000000]">
             <FormattedMessage id="resultPageHeroTitle" />
           </span>
-          <span className="ml-3 text-accent">{domain}</span>
+          <span className="ml-3 text-[#720072]">{domain}</span>
         </h1>
         {isZeroFindings && (
           <p
-            className="animate-shake mx-auto mt-3 max-w-[700px] rounded-xl border-2 border-accent bg-accent/5 p-3 py-4 text-center"
+            className="animate-shake mx-auto mt-3 max-w-[700px] rounded-xl border-2 border-accent bg-[#720072]/5 p-3 py-4 text-center"
             dangerouslySetInnerHTML={{
               __html: intl.formatMessage({ id: "zeroFindings" }),
             }}
@@ -200,7 +200,7 @@ const Results = () => {
         </table>
 
         <Modal>
-          <button className="my-5 flex h-12 items-center justify-center gap-x-1 rounded-lg bg-accent px-6 duration-200 hover:bg-[#a83aa3] lg:h-[56px] lg:gap-x-1.5">
+          <button className="my-5 flex h-12 items-center justify-center gap-x-1 rounded-lg bg-[#720072] px-6 duration-200 hover:bg-[#a83aa3] lg:h-[56px] lg:gap-x-1.5">
             <HiMiniUser className="text-2xl text-white" />
             <p className="font-mulish text-base font-semibold leading-[19px] text-white lg:text-xl lg:leading-[24px]">
               <FormattedMessage id={"ctaButton"} />

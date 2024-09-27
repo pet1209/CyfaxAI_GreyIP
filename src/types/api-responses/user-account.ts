@@ -4,6 +4,7 @@ export type AuthUserAccount = {
   email: string;
   last_login: string;
   date_joined: string;
+  created_at: string;
   full_name: string;
   phone: string;
   role:string;

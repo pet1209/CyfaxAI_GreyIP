@@ -63,7 +63,7 @@ const AssessmentReport = () => {
                   });
                 }}
                 className={cn(
-                  "flex h-12 w-full items-center justify-center gap-x-2 rounded-md bg-accent px-5 text-[11px] font-medium text-white max-md:tracking-[0.3px] sm:text-base/[150%] md:gap-x-5 md:rounded-lg md:px-[34px] md:font-semibold",
+                  "flex h-12 w-full items-center justify-center gap-x-2 rounded-md bg-[#720072] px-5 text-[11px] font-medium text-white max-md:tracking-[0.3px] sm:text-base/[150%] md:gap-x-5 md:rounded-lg md:px-[34px] md:font-semibold",
                   !pdfReport?.file_path &&
                     "disabled:opacity-60 cursor-not-allowed",
                 )}
@@ -86,7 +86,7 @@ const AssessmentReport = () => {
             <div>
               <button
                 disabled
-                className="flex h-12 w-full items-center justify-center gap-x-2 rounded-md bg-accent px-5 disabled:cursor-not-allowed disabled:opacity-60 md:gap-x-5 md:rounded-lg md:px-[34px]"
+                className="flex h-12 w-full items-center justify-center gap-x-2 rounded-md bg-[#720072] px-5 disabled:cursor-not-allowed disabled:opacity-60 md:gap-x-5 md:rounded-lg md:px-[34px]"
               >
                 <span className="shrink-0 text-[10px] font-medium text-white max-md:tracking-[0.3px] sm:text-base/[150%] md:font-semibold">
                   <FormattedMessage id="downloadReport" />

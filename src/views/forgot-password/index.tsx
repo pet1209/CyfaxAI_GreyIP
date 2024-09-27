@@ -42,7 +42,7 @@ const ForgotPassword = () => {
       <div className="mx-auto max-w-[642px]">  
         <Link  
           href={routes.login}  
-          className="mb-8 mt-4 flex justify-end text-sm text-accent underline-offset-4 duration-300 hover:opacity-90 max-md:font-medium md:underline"  
+          className="mb-8 mt-4 flex justify-end text-sm text-[#720072] underline-offset-4 duration-300 hover:opacity-90 max-md:font-medium md:underline"  
         >  
           <ArrowLeft className='mr-2 size-5' />  
           <FormattedMessage id="goBack" />  
@@ -70,7 +70,7 @@ const ForgotPassword = () => {
             <IconSms className="absolute left-6 top-1/2 max-w-6 -translate-y-1/2 text-black/60 max-md:hidden" />  
           </div>  
           <button   
-            className="h-[56px] w-full rounded-[10px] bg-accent text-center font-semibold text-white duration-300 hover:opacity-90 md:h-[75px] md:rounded-[15px] md:text-xl"  
+            className="h-[56px] w-full rounded-[10px] bg-[#720072] text-center font-semibold text-white duration-300 hover:opacity-90 md:h-[75px] md:rounded-[15px] md:text-xl"  
             type="submit"  
           >  
             <FormattedMessage id="sendALink" />  

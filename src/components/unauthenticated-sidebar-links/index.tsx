@@ -18,7 +18,7 @@ const UnauthenticatedSidebarLinks = () => {
     <div>
       <Link
         href={hasAuth ? routes.dashboard : routes.login}
-        className="mt-[22px] flex h-12 w-full items-center rounded-md bg-accent px-3 font-mulish text-white"
+        className="mt-[22px] flex h-12 w-full items-center rounded-md bg-[#720072] px-3 font-mulish text-white"
         onClick={closeMenu}
       >
         {hasAuth ? (

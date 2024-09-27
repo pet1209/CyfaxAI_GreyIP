@@ -32,7 +32,7 @@ const SecurityFindings = () => {
                 <LeakedPieChart /> 
             </div>
 
-            {/* <div className="size-[130px] rounded-full bg-accent/20 sm:size-[185px]"></div> */}
+            {/* <div className="size-[130px] rounded-full bg-[#720072]/20 sm:size-[185px]"></div> */}
         </div>
 
     </div>

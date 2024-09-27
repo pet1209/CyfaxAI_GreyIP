@@ -220,7 +220,7 @@ const CreateUser = ({ onClose, onUserCreate }: UpdateProfileProps) => {
                     <div className="mt-3.5 flex justify-end">  
                         <button  
                             disabled={!isFormFilled()} 
-                            className="h-11 rounded-md bg-accent px-8 font-medium text-white duration-300 enabled:hover:opacity-80 disabled:opacity-50"  
+                            className="h-11 rounded-md bg-[#720072] px-8 font-medium text-white duration-300 enabled:hover:opacity-80 disabled:opacity-50"  
                         >  
                             <FormattedMessage id="createUserButton" />  
                         </button>  

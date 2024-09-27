@@ -7,6 +7,8 @@ import { PaginationComponent } from '@/components/common/pagination';
 import SearchBar from "@/components/search-bar";  
 import SearchDialog from "@/components/search-dialog"; 
 import useAuthUserAccount from "@/hooks/useAuthUserAccount";  
+import Link from "next/link";  
+import routes from "@/constants/routes";  
 
 const LeakedCredentials = () => {  
   const { isOpenDomainModal, data } = useDetailReport();  
@@ -58,11 +60,13 @@ const LeakedCredentials = () => {
       <div className="p-4 font-mulish xl:p-5">  
         <div className="mb-6 flex items-center justify-between space-x-3 rounded-lg lg:mr-5">  
           <SearchBar />  
-          <button  
-            className="h-11 rounded-md bg-accent px-8 font-medium text-white duration-300 enabled:hover:opacity-80 disabled:opacity-50"  
-          >  
-            <FormattedMessage id="selfAttest" />  
-          </button>  
+          <Link href={routes.selfAttestation}>
+            <button  
+              className="h-11 rounded-md bg-[#720072] px-8 font-medium text-white duration-300 enabled:hover:opacity-80 disabled:opacity-50"  
+            >  
+              <FormattedMessage id="selfAttest" />  
+            </button>  
+          </Link>
         </div> 
         <h2 className="text-sm font-semibold sm:text-2xl/[120%]">  
           <FormattedMessage id="leakedCredentialsTableTitle" />   

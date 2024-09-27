@@ -405,7 +405,7 @@ const OrgManagement = () => {
             <div className="mt-8 flex justify-end">
               <button  
                   type="submit"  
-                  className="h-14 w-40 rounded-lg bg-accent px-8 text-base font-semibold text-white duration-300 hover:opacity-90 sm:w-48 md:text-lg lg:text-xl"  
+                  className="h-14 w-40 rounded-lg bg-[#720072] px-8 text-base font-semibold text-white duration-300 hover:opacity-90 sm:w-48 md:text-lg lg:text-xl"  
                   disabled={isSubmitting}  
               >  
                   {isSubmitting ? (  

@@ -147,7 +147,7 @@ const UpdateProfile = ({ onClose, user, onUserUpdate }: UpdateProfileProps) => {
               />  
               <div className="mt-3.5 flex justify-end">  
                   <button  
-                  className="h-11 rounded-md bg-accent px-8 font-medium text-white duration-300 enabled:hover:opacity-80 disabled:opacity-50"  
+                  className="h-11 rounded-md bg-[#720072] px-8 font-medium text-white duration-300 enabled:hover:opacity-80 disabled:opacity-50"  
                   type="submit" 
                   disabled={isButtonDisabled} 
                   >  

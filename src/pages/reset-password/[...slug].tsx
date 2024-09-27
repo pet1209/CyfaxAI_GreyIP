@@ -73,7 +73,7 @@ const ResetPassword = () => {
       <div className="mt-6 w-full max-w-[643px] font-inter sm:mt-20 lg:mt-[104px]">
         <Link  
           href={routes.login}  
-          className="mt-4 flex justify-start text-sm text-accent underline-offset-4 duration-300 hover:opacity-90 max-md:font-medium md:underline"  
+          className="mt-4 flex justify-start text-sm text-[#720072] underline-offset-4 duration-300 hover:opacity-90 max-md:font-medium md:underline"  
         >  
           <ArrowLeft className='mr-2 size-5' />  
           <FormattedMessage id="goBack" />  
@@ -130,7 +130,7 @@ const ResetPassword = () => {
               </div>
               <button
                 type="submit"
-                className="mt-10 h-[56px] w-full rounded-[10px] bg-accent text-center font-semibold text-white duration-300 hover:opacity-90 md:h-[75px] md:rounded-[15px] md:text-xl"
+                className="mt-10 h-[56px] w-full rounded-[10px] bg-[#720072] text-center font-semibold text-white duration-300 hover:opacity-90 md:h-[75px] md:rounded-[15px] md:text-xl"
                 disabled={isSubmitting}
               >
                 <FormattedMessage id={isSubmitting ? "pleaseWait" : "confirm"} />

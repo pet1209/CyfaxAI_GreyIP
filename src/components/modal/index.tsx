@@ -106,7 +106,7 @@ const Modal = ({ children }: { children: ReactNode }) => {
                 <button
                   disabled={requestReportMutation.isPending}
                   type="submit"
-                  className="flex w-24 flex-none flex-row items-center justify-center gap-x-1 bg-accent font-mulish text-sm font-medium text-white disabled:opacity-50 md:w-32 md:gap-x-2 lg:h-[60px] lg:w-[150px] lg:text-xl"
+                  className="flex w-24 flex-none flex-row items-center justify-center gap-x-1 bg-[#720072] font-mulish text-sm font-medium text-white disabled:opacity-50 md:w-32 md:gap-x-2 lg:h-[60px] lg:w-[150px] lg:text-xl"
                 >
                   {requestReportMutation.isPending ? (
                     "Please wait.."

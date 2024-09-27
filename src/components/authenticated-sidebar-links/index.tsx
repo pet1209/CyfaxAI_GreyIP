@@ -201,8 +201,8 @@ const MenuItem = ({ menuItem }: { menuItem: SidebarNavigationMenuItem }) => {
         }}
         href={menuItem.url}
         className={cn(
-          "py-3 w-full items-center rounded-md px-3 hover:bg-accent font-mulish gap-4 duration-300 flex text-white relative",
-          isActiveMenu && "bg-accent",
+          "py-3 w-full items-center rounded-md px-3 hover:bg-[#720072] font-mulish gap-4 duration-300 flex text-white relative",
+          isActiveMenu && "bg-[#720072]",
           hasSubMenu && "pr-12",
         )}
       >
